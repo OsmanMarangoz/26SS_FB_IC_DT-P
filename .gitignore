@@ -6,6 +6,7 @@
 !/ros2_ws/
 !/lerobot_ws/
 !.gitignore
+!README_INSTALL_LE_ROBOT.md
 
 # Innerhalb ros2_ws nur src behalten (kein build/install/log/.venv)
 /ros2_ws/*

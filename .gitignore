@@ -1,0 +1,23 @@
+# Alles ignorieren ...
+/*
+/.*
+
+# ... außer diese beiden:
+!/ros2_ws/
+!/lerobot_ws/
+!.gitignore
+
+# Innerhalb ros2_ws nur src behalten (kein build/install/log/.venv)
+/ros2_ws/*
+!/ros2_ws/src/
+
+# Innerhalb src nur dein Package
+/ros2_ws/src/*
+!/ros2_ws/src/xbox_servo_teleop/
+
+# In beiden: Build-/Cache-Müll raus
+**/build/
+**/install/
+**/log/
+**/__pycache__/
+**/.venv/

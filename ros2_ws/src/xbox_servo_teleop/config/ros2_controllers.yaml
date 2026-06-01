@@ -1,0 +1,54 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    # Bestehender Trajectory-Controller (fuer geplante Bewegungen / MoveIt)
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    # NEU: Position-Controller fuer MoveIt Servo (Realtime TCP-Kontrolle)
+    arm_servo_controller:
+      type: position_controllers/JointGroupPositionController
+
+    # Bestehender Greifer-Controller
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    joint_state_broadcaster:
+      type: state_publisher/JointStateBroadcaster
+
+# --- arm_controller (Trajectory, fuer MoveIt Planung) ---
+arm_controller:
+  ros__parameters:
+    joints:
+      - joint_basis_arm1
+      - joint_arm1_arm2
+      - joint_arm2_arm3
+      - joint_arm3_greifer
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+# --- arm_servo_controller (Position, fuer Xbox Servo) ---
+arm_servo_controller:
+  ros__parameters:
+    joints:
+      - joint_basis_arm1
+      - joint_arm1_arm2
+      - joint_arm2_arm3
+      - joint_arm3_greifer
+
+# --- gripper_controller ---
+gripper_controller:
+  ros__parameters:
+    joints:
+      - joint_greifer_finger1
+      - joint_greifer_finger2
+      - joint_greifer_finger3
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity

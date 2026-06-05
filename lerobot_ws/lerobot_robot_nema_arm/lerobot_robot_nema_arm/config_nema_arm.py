@@ -35,13 +35,18 @@ class NemaArmConfig(RobotConfig):
     ])
 
     # ── Kamera ────────────────────────────────────────────────────────────
-    # RTSP URL der reCamera 2002
+    # camera_type: "auto" erkennt automatisch USB (/dev/video0) oder RTSP
+    #              "usb"  erzwingt Fischertechnik USB-Kamera
+    #              "rtsp" erzwingt reCamera
+    cam_type: str = "auto"
+    cam_usb_device: str = "/dev/video0"
+    cam_usb_index: int = 0
     cam_rtsp_url: str = "rtsp://admin:admin@192.168.188.193:554/live"
-    cam_width: int = 1920
-    cam_height: int = 1080
+    cam_width: int = 640
+    cam_height: int = 480
     cam_fps: int = 30
     use_camera: bool = True  # auf False setzen um ohne Kamera zu testen
 
     # ── Timing ────────────────────────────────────────────────────────────
-    connection_timeout_s: float = 10.0
+    connection_timeout_s: float = 30.0
     action_duration_ms: int = 100

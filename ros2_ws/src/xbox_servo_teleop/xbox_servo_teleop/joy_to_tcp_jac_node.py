@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 """
 joy_to_tcp_jac_node.py
-Xbox Controller -> TCP-Velocity-Teleoperation (Weg B: Jacobian / Damped Least Squares)
+Xbox Controller -> TCP-Velocity-Teleoperation (with Jacobian / Damped Least Squares)
 
-Idee (wie MoveIt Servo, aber selbst gerechnet):
+would ike to use MoveIt Servo node but cannot be used, because we don't have a standard ros2 controller.
+implemntation:
   Stick -> gewuenschte TCP-Geschwindigkeit (v)
         -> geometrische Jacobi-Matrix J aus Live-TF
         -> Gelenk-Geschwindigkeit  q_dot = J^T (J J^T + lambda^2 I)^-1 v   (DLS)
         -> integrieren zu Zielwinkeln
         -> /servo_joint_target (JointState) -> stm32_serial_node (Live-Stream)
-
-KEIN compute_ik (keine -31 Fehler), KEIN ros2_control.
-stm32_serial_node + Unity-Pfad bleiben unveraendert.
 
 Steuerung:
   LB (halten)     = Deadman
@@ -62,8 +60,9 @@ JOINT_LIMITS_FALLBACK = {
 }
 
 # ── Tuning-Parameter ───────────────────────────────────────────────
+# tune these parameters if you want smoother motion. have not done extensive testing, but in general you can try changing all of them.
 UPDATE_RATE_HZ = 100.0     # Steuerfrequenz (Hz) -- ruhig hoeher, da kein IK-Call
-LINEAR_SPEED   = 0.25     # m/s TCP-Geschwindigkeit bei Stickausschlag
+LINEAR_SPEED   = 0.15     # m/s TCP-Geschwindigkeit bei Stickausschlag
 DEADZONE       = 0.10     # Stick-Totzone
 DLS_LAMBDA     = 0.05     # Daempfung (groesser = stabiler nahe Singularitaet,
 MAX_JOINT_STEP = 0.25     # rad: max Gelenkbewegung pro Tick (Sicherheits-Clamp)

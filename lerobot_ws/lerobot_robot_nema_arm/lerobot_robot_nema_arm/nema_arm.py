@@ -42,9 +42,13 @@ class NemaArm(Robot):
         self._received_first_js = False
 
         # Kamera initialisieren (nur wenn use_camera=True)
+        # Auto-Erkennung zwischen USB (Fischertechnik) und RTSP (reCamera)
         if config.use_camera:
             self.cameras = {
                 "cam_top": ReCamera(ReCameraConfig(
+                    camera_type=config.cam_type,
+                    usb_device=config.cam_usb_device,
+                    usb_index=config.cam_usb_index,
                     rtsp_url=config.cam_rtsp_url,
                     width=config.cam_width,
                     height=config.cam_height,

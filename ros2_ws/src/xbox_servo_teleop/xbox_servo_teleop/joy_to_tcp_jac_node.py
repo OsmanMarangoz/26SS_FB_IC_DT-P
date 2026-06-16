@@ -95,6 +95,7 @@ class JoyToTcpJac(Node):
 
         self.q_target = None        # interner Zielzustand (rad), wird integriert
         self.initialized = False
+        self.current_v = np.zeros(3)  # current TCP velocity for smoothing
 
         # URDF-abgeleitete Kinematik-Infos pro Gelenk
         self.joint_axis = {}        # name -> np.array(3) lokale Achse
@@ -257,16 +258,20 @@ class JoyToTcpJac(Node):
         # Stick -> gewuenschte TCP-Geschwindigkeit (world frame)
         ly = self._raw_axis(AXIS_LEFTY)
         lx = self._raw_axis(AXIS_LEFTX)
-        if abs(ly) >= abs(lx):
-            vx, vy = self._sign(ly), 0.0
-        else:
-            vx, vy = 0.0, self._sign(lx)
-        vz = self._sign(self._raw_axis(AXIS_RIGHTY))
+        rz = self._raw_axis(AXIS_RIGHTY)
 
-        if vx == 0.0 and vy == 0.0 and vz == 0.0:
+        # Proportional speed and allow multi-axis (diagonal) movement
+        target_v = np.array([ly, lx, rz]) * LINEAR_SPEED   # m/s
+
+        # Simple low-pass filter for smoothing
+        alpha = 0.15
+        self.current_v = alpha * target_v + (1.0 - alpha) * self.current_v
+
+        if np.allclose(self.current_v, 0.0, atol=1e-5):
+            self.current_v = np.zeros(3)
             return
 
-        v = np.array([vx, vy, vz]) * LINEAR_SPEED   # m/s
+        v = self.current_v
 
         J = self._build_jacobian()
         if J is None:

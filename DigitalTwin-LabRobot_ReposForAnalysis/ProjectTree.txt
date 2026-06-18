@@ -1,0 +1,2453 @@
+This Directory exists just for the purpose of Research and does not contain overall functionality!
+
+This Directory
+├───ros2_ws
+│   ├───build
+│   │   ├───my_robot_interfaces
+│   │   │   ├───.cmake
+│   │   │   │   └───api
+│   │   │   │       └───v1
+│   │   │   │           ├───query
+│   │   │   │           │   └───client-colcon-cmake
+│   │   │   │           └───reply
+│   │   │   ├───ament_cmake_core
+│   │   │   │   └───stamps
+│   │   │   ├───ament_cmake_environment_hooks
+│   │   │   ├───ament_cmake_export_dependencies
+│   │   │   ├───ament_cmake_export_include_directories
+│   │   │   ├───ament_cmake_export_libraries
+│   │   │   ├───ament_cmake_export_targets
+│   │   │   ├───ament_cmake_index
+│   │   │   │   └───share
+│   │   │   │       └───ament_index
+│   │   │   │           └───resource_index
+│   │   │   │               ├───packages
+│   │   │   │               ├───package_run_dependencies
+│   │   │   │               ├───parent_prefix_path
+│   │   │   │               └───rosidl_interfaces
+│   │   │   ├───ament_cmake_package_templates
+│   │   │   ├───ament_cmake_python
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       ├───my_robot_interfaces
+│   │   │   │       └───my_robot_interfaces.egg-info
+│   │   │   ├───ament_cmake_uninstall_target
+│   │   │   ├───CMakeFiles
+│   │   │   │   ├───3.28.3
+│   │   │   │   │   ├───CompilerIdC
+│   │   │   │   │   │   └───tmp
+│   │   │   │   │   └───CompilerIdCXX
+│   │   │   │   │       └───tmp
+│   │   │   │   ├───ament_cmake_python_build_my_robot_interfaces_egg.dir
+│   │   │   │   ├───ament_cmake_python_copy_my_robot_interfaces.dir
+│   │   │   │   ├───CMakeScratch
+│   │   │   │   ├───Export
+│   │   │   │   │   └───2e613bf5b6cd6d39c0624a561a808b9a
+│   │   │   │   ├───my_robot_interfaces.dir
+│   │   │   │   ├───my_robot_interfaces_s__rosidl_typesupport_c.dir
+│   │   │   │   │   └───rosidl_generator_py
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   ├───my_robot_interfaces_s__rosidl_typesupport_fastrtps_c.dir
+│   │   │   │   │   └───rosidl_generator_py
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   ├───my_robot_interfaces_s__rosidl_typesupport_introspection_c.dir
+│   │   │   │   │   └───rosidl_generator_py
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   ├───my_robot_interfaces_uninstall.dir
+│   │   │   │   ├───my_robot_interfaces__cpp.dir
+│   │   │   │   ├───my_robot_interfaces__rosidl_generator_c.dir
+│   │   │   │   │   └───rosidl_generator_c
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   │           └───msg
+│   │   │   │   │               └───detail
+│   │   │   │   ├───my_robot_interfaces__rosidl_generator_py.dir
+│   │   │   │   │   └───rosidl_generator_py
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   │           └───msg
+│   │   │   │   ├───my_robot_interfaces__rosidl_generator_type_description.dir
+│   │   │   │   ├───my_robot_interfaces__rosidl_typesupport_c.dir
+│   │   │   │   │   └───rosidl_typesupport_c
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   │           └───msg
+│   │   │   │   ├───my_robot_interfaces__rosidl_typesupport_cpp.dir
+│   │   │   │   │   └───rosidl_typesupport_cpp
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   │           └───msg
+│   │   │   │   ├───my_robot_interfaces__rosidl_typesupport_fastrtps_c.dir
+│   │   │   │   │   └───rosidl_typesupport_fastrtps_c
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   │           └───msg
+│   │   │   │   │               └───detail
+│   │   │   │   ├───my_robot_interfaces__rosidl_typesupport_fastrtps_cpp.dir
+│   │   │   │   │   └───rosidl_typesupport_fastrtps_cpp
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   │           └───msg
+│   │   │   │   │               └───detail
+│   │   │   │   │                   └───dds_fastrtps
+│   │   │   │   ├───my_robot_interfaces__rosidl_typesupport_introspection_c.dir
+│   │   │   │   │   └───rosidl_typesupport_introspection_c
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   │           └───msg
+│   │   │   │   │               └───detail
+│   │   │   │   ├───my_robot_interfaces__rosidl_typesupport_introspection_cpp.dir
+│   │   │   │   │   └───rosidl_typesupport_introspection_cpp
+│   │   │   │   │       └───my_robot_interfaces
+│   │   │   │   │           └───msg
+│   │   │   │   │               └───detail
+│   │   │   │   ├───pkgRedirects
+│   │   │   │   └───uninstall.dir
+│   │   │   ├───my_robot_interfaces__py
+│   │   │   │   └───CMakeFiles
+│   │   │   │       └───my_robot_interfaces__py.dir
+│   │   │   ├───rosidl_adapter
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   ├───rosidl_cmake
+│   │   │   ├───rosidl_generator_c
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   │           └───detail
+│   │   │   ├───rosidl_generator_cpp
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   │           └───detail
+│   │   │   ├───rosidl_generator_py
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   ├───rosidl_generator_type_description
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   ├───rosidl_typesupport_c
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   ├───rosidl_typesupport_cpp
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   ├───rosidl_typesupport_fastrtps_c
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   │           └───detail
+│   │   │   ├───rosidl_typesupport_fastrtps_cpp
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   │           └───detail
+│   │   │   │               └───dds_fastrtps
+│   │   │   ├───rosidl_typesupport_introspection_c
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───msg
+│   │   │   │           └───detail
+│   │   │   └───rosidl_typesupport_introspection_cpp
+│   │   │       └───my_robot_interfaces
+│   │   │           └───msg
+│   │   │               └───detail
+│   │   ├───roboterarm_config
+│   │   │   ├───.cmake
+│   │   │   │   └───api
+│   │   │   │       └───v1
+│   │   │   │           ├───query
+│   │   │   │           │   └───client-colcon-cmake
+│   │   │   │           └───reply
+│   │   │   ├───ament_cmake_core
+│   │   │   │   └───stamps
+│   │   │   ├───ament_cmake_environment_hooks
+│   │   │   ├───ament_cmake_index
+│   │   │   │   └───share
+│   │   │   │       └───ament_index
+│   │   │   │           └───resource_index
+│   │   │   │               ├───packages
+│   │   │   │               ├───package_run_dependencies
+│   │   │   │               └───parent_prefix_path
+│   │   │   ├───ament_cmake_package_templates
+│   │   │   ├───ament_cmake_uninstall_target
+│   │   │   └───CMakeFiles
+│   │   │       ├───3.28.3
+│   │   │       │   ├───CompilerIdC
+│   │   │       │   │   └───tmp
+│   │   │       │   └───CompilerIdCXX
+│   │   │       │       └───tmp
+│   │   │       ├───CMakeScratch
+│   │   │       ├───pkgRedirects
+│   │   │       ├───roboterarm_config_uninstall.dir
+│   │   │       └───uninstall.dir
+│   │   ├───roboterarm_description
+│   │   │   ├───.cmake
+│   │   │   │   └───api
+│   │   │   │       └───v1
+│   │   │   │           ├───query
+│   │   │   │           │   └───client-colcon-cmake
+│   │   │   │           └───reply
+│   │   │   ├───ament_cmake_core
+│   │   │   │   └───stamps
+│   │   │   ├───ament_cmake_environment_hooks
+│   │   │   ├───ament_cmake_index
+│   │   │   │   └───share
+│   │   │   │       └───ament_index
+│   │   │   │           └───resource_index
+│   │   │   │               ├───packages
+│   │   │   │               ├───package_run_dependencies
+│   │   │   │               └───parent_prefix_path
+│   │   │   ├───ament_cmake_package_templates
+│   │   │   ├───ament_cmake_uninstall_target
+│   │   │   └───CMakeFiles
+│   │   │       ├───3.28.3
+│   │   │       │   ├───CompilerIdC
+│   │   │       │   │   └───tmp
+│   │   │       │   └───CompilerIdCXX
+│   │   │       │       └───tmp
+│   │   │       ├───CMakeScratch
+│   │   │       ├───pkgRedirects
+│   │   │       ├───roboterarm_description_uninstall.dir
+│   │   │       └───uninstall.dir
+│   │   └───robot_middleware
+│   │       ├───build
+│   │       │   └───lib
+│   │       │       └───robot_middleware
+│   │       ├───prefix_override
+│   │       │   └───__pycache__
+│   │       └───robot_middleware.egg-info
+│   ├───install
+│   │   ├───my_robot_interfaces
+│   │   │   ├───include
+│   │   │   │   └───my_robot_interfaces
+│   │   │   │       └───my_robot_interfaces
+│   │   │   │           └───msg
+│   │   │   │               └───detail
+│   │   │   │                   └───dds_fastrtps
+│   │   │   ├───lib
+│   │   │   │   └───python3.12
+│   │   │   │       └───site-packages
+│   │   │   │           ├───my_robot_interfaces
+│   │   │   │           │   ├───msg
+│   │   │   │           │   │   └───__pycache__
+│   │   │   │           │   └───__pycache__
+│   │   │   │           └───my_robot_interfaces-0.0.1-py3.12.egg-info
+│   │   │   └───share
+│   │   │       ├───ament_index
+│   │   │       │   └───resource_index
+│   │   │       │       ├───packages
+│   │   │       │       ├───package_run_dependencies
+│   │   │       │       ├───parent_prefix_path
+│   │   │       │       └───rosidl_interfaces
+│   │   │       ├───colcon-core
+│   │   │       │   └───packages
+│   │   │       └───my_robot_interfaces
+│   │   │           ├───cmake
+│   │   │           ├───environment
+│   │   │           ├───hook
+│   │   │           └───msg
+│   │   ├───roboterarm_config
+│   │   │   ├───lib
+│   │   │   │   └───roboterarm_config
+│   │   │   └───share
+│   │   │       ├───ament_index
+│   │   │       │   └───resource_index
+│   │   │       │       ├───packages
+│   │   │       │       ├───package_run_dependencies
+│   │   │       │       └───parent_prefix_path
+│   │   │       ├───colcon-core
+│   │   │       │   └───packages
+│   │   │       └───roboterarm_config
+│   │   │           ├───cmake
+│   │   │           ├───config
+│   │   │           ├───environment
+│   │   │           ├───hook
+│   │   │           └───launch
+│   │   │               └───__pycache__
+│   │   ├───roboterarm_description
+│   │   │   └───share
+│   │   │       ├───ament_index
+│   │   │       │   └───resource_index
+│   │   │       │       ├───packages
+│   │   │       │       ├───package_run_dependencies
+│   │   │       │       └───parent_prefix_path
+│   │   │       ├───colcon-core
+│   │   │       │   └───packages
+│   │   │       └───roboterarm_description
+│   │   │           ├───cmake
+│   │   │           ├───environment
+│   │   │           ├───hook
+│   │   │           ├───obj
+│   │   │           └───urdf
+│   │   └───robot_middleware
+│   │       ├───lib
+│   │       │   ├───python3.12
+│   │       │   │   └───site-packages
+│   │       │   │       ├───robot_middleware
+│   │       │   │       │   └───__pycache__
+│   │       │   │       └───robot_middleware-0.0.1-py3.12.egg-info
+│   │       │   └───robot_middleware
+│   │       └───share
+│   │           ├───ament_index
+│   │           │   └───resource_index
+│   │           │       └───packages
+│   │           ├───colcon-core
+│   │           │   └───packages
+│   │           └───robot_middleware
+│   │               ├───hook
+│   │               └───launch
+│   ├───log
+│   │   ├───build_2026-02-23_19-05-53
+│   │   │   └───my_robot_interfaces
+│   │   ├───build_2026-02-23_19-08-08
+│   │   │   ├───my_robot_interfaces
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-02-23_19-10-14
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-02-23_19-12-47
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-03-05_15-56-56
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-05_16-40-00
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-05_17-37-45
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-05_19-06-13
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-05_19-14-16
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-05_20-54-59
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-05_21-08-35
+│   │   │   ├───roboterarm_config
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-05_21-15-48
+│   │   │   ├───roboterarm_config
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-06_16-54-34
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_17-54-27
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_18-31-36
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_18-56-21
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_19-11-27
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_19-14-09
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_19-27-00
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_19-33-28
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_20-06-37
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_20-16-07
+│   │   │   ├───roboterarm_config
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-06_20-20-57
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_20-33-28
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_20-47-48
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_20-50-06
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_20-55-28
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_21-00-10
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-06_21-02-42
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_19-38-31
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_19-40-47
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_19-41-49
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_19-44-47
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_19-48-57
+│   │   │   └───my_robot_interfaces
+│   │   ├───build_2026-03-07_19-57-48
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_20-05-10
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_20-15-56
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_20-28-39
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_20-52-19
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_21-03-33
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_21-16-59
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_21-25-33
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_21-30-49
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_21-55-32
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_21-56-12
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_22-00-48
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_22-38-39
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_22-45-46
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_22-49-59
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_23-01-35
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_23-13-13
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_23-14-50
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_23-20-59
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_23-23-50
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_23-25-10
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-07_23-54-11
+│   │   │   ├───roboterarm_config
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-07_23-57-48
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-08_00-18-48
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-08_00-20-22
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-08_00-23-53
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-08_00-26-10
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-08_00-29-24
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_13-57-58
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_13-58-27
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_14-02-09
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_14-07-47
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_14-09-31
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_14-11-48
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_14-14-44
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_14-16-15
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_17-20-35
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_21-44-34
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_21-52-22
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_22-42-12
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_22-50-53
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-09_23-20-21
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-10_00-04-22
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-25_14-00-24
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-03-25_14-03-29
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-25_14-09-58
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-25_14-23-49
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-03-26_19-33-12
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-26_19-35-13
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-03-26_19-39-43
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-04-04_15-21-34
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-04-04_16-58-12
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-04_17-44-47
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-04_18-06-37
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-04_20-12-11
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-04_20-54-46
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-04_21-22-44
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-04_21-48-29
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-04_22-24-41
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-04_22-46-59
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-04_23-38-57
+│   │   │   └───roboterarm_description
+│   │   ├───build_2026-04-05_00-10-32
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_00-32-31
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_04-11-23
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_05-25-24
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_05-53-43
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_06-32-31
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_07-01-36
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_07-14-48
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_07-36-16
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_07-53-14
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-05_08-02-03
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_14-14-37
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_14-16-52
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_14-18-34
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_14-23-38
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_14-57-56
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_15-07-03
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_15-24-56
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_15-57-05
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_16-05-56
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_19-08-36
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_19-11-48
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_19-17-57
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_20-12-45
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_20-49-07
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_20-55-44
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_21-07-28
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_21-08-02
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_21-12-41
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_21-14-24
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_21-18-59
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_21-21-56
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_21-23-03
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_21-25-03
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_21-26-02
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_21-29-31
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_21-32-39
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_22-05-09
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_22-12-26
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-09_22-53-40
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-09_23-00-15
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_00-22-57
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-10_00-26-15
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_00-33-26
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_00-36-57
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_00-49-26
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_00-50-54
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_00-53-10
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_00-58-07
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_01-00-56
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_01-12-58
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_01-18-29
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_18-56-46
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-10_18-59-12
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_19-00-10
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_19-20-11
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_19-40-28
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_19-45-51
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_20-12-10
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_20-35-05
+│   │   │   └───roboterarm_config
+│   │   ├───build_2026-04-10_20-35-38
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_21-00-55
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-10_21-14-38
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-13_22-54-54
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-13_23-07-35
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-13_23-13-13
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-13_23-16-02
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-13_23-21-49
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-13_23-46-54
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-14_02-21-14
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-14_02-51-48
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-14_03-26-27
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-14_07-09-26
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-14_07-18-35
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-14_08-23-34
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-14_09-09-25
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───build_2026-04-14_09-32-07
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   ├───latest
+│   │   │   ├───my_robot_interfaces
+│   │   │   ├───roboterarm_config
+│   │   │   ├───roboterarm_description
+│   │   │   └───robot_middleware
+│   │   └───latest_build
+│   │       ├───my_robot_interfaces
+│   │       ├───roboterarm_config
+│   │       ├───roboterarm_description
+│   │       └───robot_middleware
+│   └───src
+│       ├───my_robot_interfaces
+│       │   ├───include
+│       │   │   └───my_robot_interfaces
+│       │   ├───msg
+│       │   └───src
+│       ├───roboterarm_config
+│       │   ├───config
+│       │   ├───launch
+│       │   └───scripts
+│       ├───roboterarm_description
+│       │   ├───obj
+│       │   └───urdf
+│       └───robot_middleware
+│           ├───launch
+│           ├───resource
+│           ├───robot_middleware
+│           └───test
+├───STM32F4
+│   ├───.settings
+│   ├───.vscode
+│   ├───build
+│   │   └───Debug
+│   │       ├───.cache
+│   │       │   └───clangd
+│   │       │       └───index
+│   │       ├───.cmake
+│   │       │   └───api
+│   │       │       └───v1
+│   │       │           ├───query
+│   │       │           │   └───client-vscode
+│   │       │           └───reply
+│   │       ├───cmake
+│   │       │   └───stm32cubemx
+│   │       │       └───CMakeFiles
+│   │       │           └───STM32_Drivers.dir
+│   │       │               └───__
+│   │       │                   └───__
+│   │       │                       ├───Core
+│   │       │                       │   └───Src
+│   │       │                       └───Drivers
+│   │       │                           └───STM32F4xx_HAL_Driver
+│   │       │                               └───Src
+│   │       └───CMakeFiles
+│   │           ├───4.2.3
+│   │           │   ├───CompilerIdASM
+│   │           │   ├───CompilerIdC
+│   │           │   │   └───tmp
+│   │           │   └───CompilerIdCXX
+│   │           │       └───tmp
+│   │           ├───pkgRedirects
+│   │           └───STM32F4.dir
+│   │               └───Core
+│   │                   └───Src
+│   │                       ├───display
+│   │                       └───motor
+│   ├───cmake
+│   │   └───stm32cubemx
+│   ├───Core
+│   │   ├───Inc
+│   │   │   ├───display
+│   │   │   └───motor
+│   │   ├───Src
+│   │   │   ├───display
+│   │   │   └───motor
+│   │   └───Startup
+│   └───Drivers
+│       ├───CMSIS
+│       │   ├───Device
+│       │   │   └───ST
+│       │   │       └───STM32F4xx
+│       │   │           ├───Include
+│       │   │           └───Source
+│       │   │               └───Templates
+│       │   └───Include
+│       └───STM32F4xx_HAL_Driver
+│           ├───Inc
+│           │   └───Legacy
+│           └───Src
+└───WebGlTest
+    ├───.vs
+    │   ├───WebGl Test
+    │   │   ├───copilot-chat
+    │   │   │   └───78c62929
+    │   │   │       └───sessions
+    │   │   ├───CopilotIndices
+    │   │   │   ├───17.14.1518.61961
+    │   │   │   └───17.14.1584.41681
+    │   │   ├───FileContentIndex
+    │   │   └───v17
+    │   └───WebGlTest
+    │       ├───copilot-chat
+    │       │   └───78c62929
+    │       │       └───sessions
+    │       ├───CopilotIndices
+    │       │   └───17.14.1584.41681
+    │       ├───FileContentIndex
+    │       └───v17
+    ├───.vscode
+    ├───Assets
+    │   ├───3D
+    │   │   ├───Material
+    │   │   ├───Models
+    │   │   └───Roboterarm_inkl_Origins
+    │   │       └───urdf
+    │   │           ├───Materials
+    │   │           └───meshes
+    │   │               └───stl
+    │   ├───Animations
+    │   ├───com.IvanMurzak
+    │   │   └───AI Game Dev Installer
+    │   │       └───Tests
+    │   │           └───Files
+    │   │               └───Correct
+    │   ├───Editor
+    │   ├───Resources
+    │   ├───Roboterarm
+    │   ├───Roboterarm_inkl_Origins
+    │   │   └───urdf
+    │   │       ├───Materials
+    │   │       └───meshes
+    │   │           └───stl
+    │   ├───Roboterarm_mit_obj
+    │   │   └───urdf
+    │   │       ├───Materials
+    │   │       └───obj
+    │   ├───Scenes
+    │   ├───Scripts
+    │   ├───StreamingAssets
+    │   ├───TextMesh Pro
+    │   │   ├───Fonts
+    │   │   ├───Resources
+    │   │   │   ├───Fonts & Materials
+    │   │   │   ├───Sprite Assets
+    │   │   │   └───Style Sheets
+    │   │   ├───Shaders
+    │   │   └───Sprites
+    │   └───_Recovery
+    ├───Library
+    │   ├───APIUpdater
+    │   │   └───ConfigurationCache
+    │   ├───Artifacts
+    │   │   ├───00
+    │   │   ├───01
+    │   │   ├───02
+    │   │   ├───03
+    │   │   ├───04
+    │   │   ├───05
+    │   │   ├───06
+    │   │   ├───07
+    │   │   ├───08
+    │   │   ├───09
+    │   │   ├───0a
+    │   │   ├───0b
+    │   │   ├───0c
+    │   │   ├───0d
+    │   │   ├───0e
+    │   │   ├───0f
+    │   │   ├───10
+    │   │   ├───11
+    │   │   ├───12
+    │   │   ├───13
+    │   │   ├───14
+    │   │   ├───15
+    │   │   ├───16
+    │   │   ├───17
+    │   │   ├───18
+    │   │   ├───19
+    │   │   ├───1a
+    │   │   ├───1b
+    │   │   ├───1c
+    │   │   ├───1d
+    │   │   ├───1e
+    │   │   ├───1f
+    │   │   ├───20
+    │   │   ├───21
+    │   │   ├───22
+    │   │   ├───23
+    │   │   ├───24
+    │   │   ├───25
+    │   │   ├───26
+    │   │   ├───27
+    │   │   ├───28
+    │   │   ├───29
+    │   │   ├───2a
+    │   │   ├───2b
+    │   │   ├───2c
+    │   │   ├───2d
+    │   │   ├───2e
+    │   │   ├───2f
+    │   │   ├───30
+    │   │   ├───31
+    │   │   ├───32
+    │   │   ├───33
+    │   │   ├───34
+    │   │   ├───35
+    │   │   ├───36
+    │   │   ├───37
+    │   │   ├───38
+    │   │   ├───39
+    │   │   ├───3a
+    │   │   ├───3b
+    │   │   ├───3c
+    │   │   ├───3d
+    │   │   ├───3e
+    │   │   ├───3f
+    │   │   ├───40
+    │   │   ├───41
+    │   │   ├───42
+    │   │   ├───43
+    │   │   ├───44
+    │   │   ├───45
+    │   │   ├───46
+    │   │   ├───47
+    │   │   ├───48
+    │   │   ├───49
+    │   │   ├───4a
+    │   │   ├───4b
+    │   │   ├───4c
+    │   │   ├───4d
+    │   │   ├───4e
+    │   │   ├───4f
+    │   │   ├───50
+    │   │   ├───51
+    │   │   ├───52
+    │   │   ├───53
+    │   │   ├───54
+    │   │   ├───55
+    │   │   ├───56
+    │   │   ├───57
+    │   │   ├───58
+    │   │   ├───59
+    │   │   ├───5a
+    │   │   ├───5b
+    │   │   ├───5c
+    │   │   ├───5d
+    │   │   ├───5e
+    │   │   ├───5f
+    │   │   ├───60
+    │   │   ├───61
+    │   │   ├───62
+    │   │   ├───63
+    │   │   ├───64
+    │   │   ├───65
+    │   │   ├───66
+    │   │   ├───67
+    │   │   ├───68
+    │   │   ├───69
+    │   │   ├───6a
+    │   │   ├───6b
+    │   │   ├───6c
+    │   │   ├───6d
+    │   │   ├───6e
+    │   │   ├───6f
+    │   │   ├───70
+    │   │   ├───71
+    │   │   ├───72
+    │   │   ├───73
+    │   │   ├───74
+    │   │   ├───75
+    │   │   ├───76
+    │   │   ├───77
+    │   │   ├───78
+    │   │   ├───79
+    │   │   ├───7a
+    │   │   ├───7b
+    │   │   ├───7c
+    │   │   ├───7d
+    │   │   ├───7e
+    │   │   ├───7f
+    │   │   ├───80
+    │   │   ├───81
+    │   │   ├───82
+    │   │   ├───83
+    │   │   ├───84
+    │   │   ├───85
+    │   │   ├───86
+    │   │   ├───87
+    │   │   ├───88
+    │   │   ├───89
+    │   │   ├───8a
+    │   │   ├───8b
+    │   │   ├───8c
+    │   │   ├───8d
+    │   │   ├───8e
+    │   │   ├───8f
+    │   │   ├───90
+    │   │   ├───91
+    │   │   ├───92
+    │   │   ├───93
+    │   │   ├───94
+    │   │   ├───95
+    │   │   ├───96
+    │   │   ├───97
+    │   │   ├───98
+    │   │   ├───99
+    │   │   ├───9a
+    │   │   ├───9b
+    │   │   ├───9c
+    │   │   ├───9d
+    │   │   ├───9e
+    │   │   ├───9f
+    │   │   ├───a0
+    │   │   ├───a1
+    │   │   ├───a2
+    │   │   ├───a3
+    │   │   ├───a4
+    │   │   ├───a5
+    │   │   ├───a6
+    │   │   ├───a7
+    │   │   ├───a8
+    │   │   ├───a9
+    │   │   ├───aa
+    │   │   ├───ab
+    │   │   ├───ac
+    │   │   ├───ad
+    │   │   ├───ae
+    │   │   ├───af
+    │   │   ├───b0
+    │   │   ├───b1
+    │   │   ├───b2
+    │   │   ├───b3
+    │   │   ├───b4
+    │   │   ├───b5
+    │   │   ├───b6
+    │   │   ├───b7
+    │   │   ├───b8
+    │   │   ├───b9
+    │   │   ├───ba
+    │   │   ├───bb
+    │   │   ├───bc
+    │   │   ├───bd
+    │   │   ├───be
+    │   │   ├───bf
+    │   │   ├───c0
+    │   │   ├───c1
+    │   │   ├───c2
+    │   │   ├───c3
+    │   │   ├───c4
+    │   │   ├───c5
+    │   │   ├───c6
+    │   │   ├───c7
+    │   │   ├───c8
+    │   │   ├───c9
+    │   │   ├───ca
+    │   │   ├───cb
+    │   │   ├───cc
+    │   │   ├───cd
+    │   │   ├───ce
+    │   │   ├───cf
+    │   │   ├───d0
+    │   │   ├───d1
+    │   │   ├───d2
+    │   │   ├───d3
+    │   │   ├───d4
+    │   │   ├───d5
+    │   │   ├───d6
+    │   │   ├───d7
+    │   │   ├───d8
+    │   │   ├───d9
+    │   │   ├───da
+    │   │   ├───db
+    │   │   ├───dc
+    │   │   ├───dd
+    │   │   ├───de
+    │   │   ├───df
+    │   │   ├───e0
+    │   │   ├───e1
+    │   │   ├───e2
+    │   │   ├───e3
+    │   │   ├───e4
+    │   │   ├───e5
+    │   │   ├───e6
+    │   │   ├───e7
+    │   │   ├───e8
+    │   │   ├───e9
+    │   │   ├───ea
+    │   │   ├───eb
+    │   │   ├───ec
+    │   │   ├───ed
+    │   │   ├───ee
+    │   │   ├───ef
+    │   │   ├───f0
+    │   │   ├───f1
+    │   │   ├───f2
+    │   │   ├───f3
+    │   │   ├───f4
+    │   │   ├───f5
+    │   │   ├───f6
+    │   │   ├───f7
+    │   │   ├───f8
+    │   │   ├───f9
+    │   │   ├───fa
+    │   │   ├───fb
+    │   │   ├───fc
+    │   │   ├───fd
+    │   │   ├───fe
+    │   │   └───ff
+    │   ├───Bee
+    │   │   ├───artifacts
+    │   │   │   ├───1900b0aE.dag
+    │   │   │   ├───2000b0aE.dag
+    │   │   │   └───mvdfrm
+    │   │   └───CachedNodeOutput
+    │   ├───BuildInstructions
+    │   ├───BuildPlayerData
+    │   │   ├───Editor
+    │   │   └───Player
+    │   ├───BuildProfiles
+    │   ├───InputSystem
+    │   ├───mcp-server
+    │   │   └───win-x64
+    │   ├───PackageCache
+    │   │   ├───com.ivanmurzak.unity.mcp@e2667103ef2c
+    │   │   │   ├───Editor
+    │   │   │   │   ├───Gizmos
+    │   │   │   │   │   └───ai-agents
+    │   │   │   │   ├───Scripts
+    │   │   │   │   │   ├───API
+    │   │   │   │   │   │   ├───Prompt
+    │   │   │   │   │   │   ├───Resource
+    │   │   │   │   │   │   ├───SystemTool
+    │   │   │   │   │   │   └───Tool
+    │   │   │   │   │   │       └───Tests
+    │   │   │   │   │   ├───Extensions
+    │   │   │   │   │   ├───Services
+    │   │   │   │   │   ├───Skills
+    │   │   │   │   │   ├───UI
+    │   │   │   │   │   │   ├───AiAgentConfigurators
+    │   │   │   │   │   │   │   └───Impl
+    │   │   │   │   │   │   ├───Components
+    │   │   │   │   │   │   ├───Controls
+    │   │   │   │   │   │   ├───Overlay
+    │   │   │   │   │   │   ├───Utils
+    │   │   │   │   │   │   └───Window
+    │   │   │   │   │   └───Utils
+    │   │   │   │   │       └───AiAgentConfig
+    │   │   │   │   └───UI
+    │   │   │   │       ├───uss
+    │   │   │   │       │   └───common
+    │   │   │   │       └───uxml
+    │   │   │   │           └───agents
+    │   │   │   │               └───elements
+    │   │   │   ├───Plugins
+    │   │   │   │   ├───com.IvanMurzak.McpPlugin
+    │   │   │   │   │   └───netstandard2.1
+    │   │   │   │   └───com.IvanMurzak.ReflectorNet
+    │   │   │   ├───Runtime
+    │   │   │   │   ├───Converter
+    │   │   │   │   │   ├───Json
+    │   │   │   │   │   │   ├───Structures
+    │   │   │   │   │   │   └───Types
+    │   │   │   │   │   └───Reflection
+    │   │   │   │   │       ├───Asset
+    │   │   │   │   │       │   └───Impl
+    │   │   │   │   │       ├───Base
+    │   │   │   │   │       ├───Component
+    │   │   │   │   │       │   └───Impl
+    │   │   │   │   │       └───Struct
+    │   │   │   │   ├───Data
+    │   │   │   │   ├───Extensions
+    │   │   │   │   ├───Logger
+    │   │   │   │   ├───Unity
+    │   │   │   │   │   ├───Logs
+    │   │   │   │   │   └───Serialization
+    │   │   │   │   └───Utils
+    │   │   │   ├───TestFiles
+    │   │   │   │   └───Scripts
+    │   │   │   └───Tests
+    │   │   │       ├───Editor
+    │   │   │       │   ├───Environment
+    │   │   │       │   ├───JsonConverters
+    │   │   │       │   ├───Project
+    │   │   │       │   ├───ReflectionConverter
+    │   │   │       │   ├───RefTypes
+    │   │   │       │   ├───Skills
+    │   │   │       │   ├───Tool
+    │   │   │       │   │   ├───Assets
+    │   │   │       │   │   ├───Console
+    │   │   │       │   │   ├───GameObject
+    │   │   │       │   │   ├───Object
+    │   │   │       │   │   ├───Screenshot
+    │   │   │       │   │   ├───Script
+    │   │   │       │   │   ├───Tool
+    │   │   │       │   │   └───Type
+    │   │   │       │   ├───UI
+    │   │   │       │   └───Utils
+    │   │   │       │       └───Executor
+    │   │   │       │           └───Core
+    │   │   │       └───Runtime
+    │   │   ├───com.unity.collab-proxy@1e5e48aff19d
+    │   │   │   ├───Documentation~
+    │   │   │   │   └───images
+    │   │   │   ├───Editor
+    │   │   │   │   ├───AssetMenu
+    │   │   │   │   │   └───Dialogs
+    │   │   │   │   ├───AssetOverlays
+    │   │   │   │   │   └───Cache
+    │   │   │   │   ├───Assets
+    │   │   │   │   │   ├───Images
+    │   │   │   │   │   ├───Layouts
+    │   │   │   │   │   └───Styles
+    │   │   │   │   ├───AssetsUtils
+    │   │   │   │   │   └───Processor
+    │   │   │   │   ├───CloudDrive
+    │   │   │   │   │   ├───CreateWorkspace
+    │   │   │   │   │   ├───ShareWorkspace
+    │   │   │   │   │   ├───Welcome
+    │   │   │   │   │   └───Workspaces
+    │   │   │   │   │       ├───DirectoryContent
+    │   │   │   │   │       ├───DragAndDrop
+    │   │   │   │   │       └───Tree
+    │   │   │   │   ├───Configuration
+    │   │   │   │   │   ├───CloudEdition
+    │   │   │   │   │   │   └───Welcome
+    │   │   │   │   │   └───TeamEdition
+    │   │   │   │   ├───Developer
+    │   │   │   │   │   └───UpdateReport
+    │   │   │   │   ├───Entities
+    │   │   │   │   ├───Gluon
+    │   │   │   │   │   └───UpdateReport
+    │   │   │   │   ├───Hub
+    │   │   │   │   │   └───Operations
+    │   │   │   │   ├───Inspector
+    │   │   │   │   ├───SceneView
+    │   │   │   │   ├───Settings
+    │   │   │   │   ├───StatusBar
+    │   │   │   │   ├───Tool
+    │   │   │   │   ├───Toolbar
+    │   │   │   │   ├───UI
+    │   │   │   │   │   ├───Avatar
+    │   │   │   │   │   ├───Errors
+    │   │   │   │   │   ├───Progress
+    │   │   │   │   │   ├───Tree
+    │   │   │   │   │   ├───UIElements
+    │   │   │   │   │   └───UndoRedo
+    │   │   │   │   ├───UVCSToolbar
+    │   │   │   │   │   ├───Headless
+    │   │   │   │   │   └───PopupWindow
+    │   │   │   │   │       ├───BranchesList
+    │   │   │   │   │       └───Operations
+    │   │   │   │   ├───Views
+    │   │   │   │   │   ├───Branch
+    │   │   │   │   │   │   └───Dialogs
+    │   │   │   │   │   ├───BrowseRepository
+    │   │   │   │   │   ├───Changesets
+    │   │   │   │   │   │   └───Dialogs
+    │   │   │   │   │   ├───CreateWorkspace
+    │   │   │   │   │   │   └───Dialogs
+    │   │   │   │   │   ├───Diff
+    │   │   │   │   │   │   └───Dialogs
+    │   │   │   │   │   ├───History
+    │   │   │   │   │   ├───Labels
+    │   │   │   │   │   │   └───Dialogs
+    │   │   │   │   │   ├───Locks
+    │   │   │   │   │   ├───Merge
+    │   │   │   │   │   │   ├───Developer
+    │   │   │   │   │   │   │   └───DirectoryConflicts
+    │   │   │   │   │   │   └───Gluon
+    │   │   │   │   │   ├───PendingChanges
+    │   │   │   │   │   │   ├───Changelists
+    │   │   │   │   │   │   ├───Dialogs
+    │   │   │   │   │   │   └───PendingMergeLinks
+    │   │   │   │   │   ├───Shelves
+    │   │   │   │   │   └───Welcome
+    │   │   │   │   ├───WebApi
+    │   │   │   │   └───_Deprecated
+    │   │   │   │       ├───CollabMigration
+    │   │   │   │       ├───Settings
+    │   │   │   │       ├───UI
+    │   │   │   │       └───WebApi
+    │   │   │   └───Lib
+    │   │   │       └───Editor
+    │   │   │           └───Localization
+    │   │   ├───com.unity.editorcoroutines@7d48783e7b8c
+    │   │   │   ├───Documentation~
+    │   │   │   └───Editor
+    │   │   ├───com.unity.ext.nunit@031a54704bff
+    │   │   │   ├───Documentation~
+    │   │   │   └───net40
+    │   │   │       └───unity-custom
+    │   │   ├───com.unity.feature.development@767aadbc6eb7
+    │   │   ├───com.unity.ide.rider@1f60b3138684
+    │   │   │   ├───Documentation~
+    │   │   │   │   └───images
+    │   │   │   └───Rider
+    │   │   │       └───Editor
+    │   │   │           ├───PostProcessors
+    │   │   │           ├───ProjectGeneration
+    │   │   │           ├───Properties
+    │   │   │           ├───UnitTesting
+    │   │   │           └───Util
+    │   │   ├───com.unity.ide.visualstudio@74aa435fc4bb
+    │   │   │   ├───Documentation~
+    │   │   │   │   └───Images
+    │   │   │   └───Editor
+    │   │   │       ├───COMIntegration
+    │   │   │       │   ├───COMIntegration~
+    │   │   │       │   └───Release
+    │   │   │       ├───Messaging
+    │   │   │       ├───ProjectGeneration
+    │   │   │       ├───Testing
+    │   │   │       └───VSWhere
+    │   │   ├───com.unity.inputsystem@be6c4fd0abf5
+    │   │   │   ├───DocCodeSamples.Tests
+    │   │   │   ├───Documentation~
+    │   │   │   │   ├───.vscode
+    │   │   │   │   └───Images
+    │   │   │   ├───InputSystem
+    │   │   │   │   ├───Actions
+    │   │   │   │   │   ├───Composites
+    │   │   │   │   │   └───Interactions
+    │   │   │   │   ├───Controls
+    │   │   │   │   │   └───Processors
+    │   │   │   │   ├───Devices
+    │   │   │   │   │   ├───Commands
+    │   │   │   │   │   ├───Haptics
+    │   │   │   │   │   ├───Precompiled
+    │   │   │   │   │   └───Remote
+    │   │   │   │   ├───Editor
+    │   │   │   │   │   ├───Analytics
+    │   │   │   │   │   ├───AssetEditor
+    │   │   │   │   │   │   └───PackageResources
+    │   │   │   │   │   │       ├───personal
+    │   │   │   │   │   │       └───pro
+    │   │   │   │   │   ├───AssetImporter
+    │   │   │   │   │   ├───BuildPipeline
+    │   │   │   │   │   ├───ControlPicker
+    │   │   │   │   │   │   └───Layouts
+    │   │   │   │   │   ├───Debugger
+    │   │   │   │   │   ├───DeviceSimulator
+    │   │   │   │   │   ├───Icons
+    │   │   │   │   │   ├───Internal
+    │   │   │   │   │   │   └───AdvancedDropdown
+    │   │   │   │   │   ├───ProjectWideActions
+    │   │   │   │   │   ├───PropertyDrawers
+    │   │   │   │   │   ├───Settings
+    │   │   │   │   │   └───UITKAssetEditor
+    │   │   │   │   │       ├───Commands
+    │   │   │   │   │       ├───PackageResources
+    │   │   │   │   │       └───Views
+    │   │   │   │   ├───Events
+    │   │   │   │   ├───Plugins
+    │   │   │   │   │   ├───Android
+    │   │   │   │   │   ├───DualShock
+    │   │   │   │   │   ├───EnhancedTouch
+    │   │   │   │   │   ├───HID
+    │   │   │   │   │   ├───InputForUI
+    │   │   │   │   │   ├───iOS
+    │   │   │   │   │   ├───Linux
+    │   │   │   │   │   ├───OnScreen
+    │   │   │   │   │   ├───OSX
+    │   │   │   │   │   ├───PlayerInput
+    │   │   │   │   │   ├───Steam
+    │   │   │   │   │   ├───Switch
+    │   │   │   │   │   ├───UI
+    │   │   │   │   │   ├───UnityRemote
+    │   │   │   │   │   ├───Users
+    │   │   │   │   │   ├───WebGL
+    │   │   │   │   │   ├───XInput
+    │   │   │   │   │   └───XR
+    │   │   │   │   │       ├───Controls
+    │   │   │   │   │       ├───Devices
+    │   │   │   │   │       └───Haptics
+    │   │   │   │   ├───State
+    │   │   │   │   └───Utilities
+    │   │   │   │       └───Observables
+    │   │   │   ├───Samples~
+    │   │   │   │   ├───CustomComposite
+    │   │   │   │   ├───CustomDevice
+    │   │   │   │   ├───CustomDeviceUsages
+    │   │   │   │   ├───GamepadMouseCursor
+    │   │   │   │   ├───IMEInput
+    │   │   │   │   ├───InGameHints
+    │   │   │   │   ├───InputDeviceTester
+    │   │   │   │   ├───InputRecorder
+    │   │   │   │   ├───LightbarAndRumble
+    │   │   │   │   ├───OnScreenControls
+    │   │   │   │   ├───ProjectWideActions
+    │   │   │   │   ├───RebindingUI
+    │   │   │   │   │   └───Icons
+    │   │   │   │   ├───SimpleDemo
+    │   │   │   │   ├───SimpleMultiplayer
+    │   │   │   │   ├───TouchSamples
+    │   │   │   │   ├───UIvsGameInput
+    │   │   │   │   ├───UnityRemote
+    │   │   │   │   └───Visualizers
+    │   │   │   └───Tests
+    │   │   │       ├───IntegrationTests
+    │   │   │       └───TestFixture
+    │   │   ├───com.unity.multiplayer.center@f3fb577b3546
+    │   │   │   ├───Common
+    │   │   │   ├───Documentation~
+    │   │   │   ├───Editor
+    │   │   │   │   ├───Analytics
+    │   │   │   │   ├───Features
+    │   │   │   │   ├───MultiplayerCenterWindow
+    │   │   │   │   │   └───UI
+    │   │   │   │   │       ├───Icons
+    │   │   │   │   │       └───RecommendationView
+    │   │   │   │   ├───OnBoarding
+    │   │   │   │   ├───Questionnaire
+    │   │   │   │   └───Recommendations
+    │   │   │   ├───Samples~
+    │   │   │   │   └───Example
+    │   │   │   └───Tests
+    │   │   │       ├───Editor
+    │   │   │       └───Runtime
+    │   │   ├───com.unity.performance.profile-analyzer@a68e7bc84997
+    │   │   │   ├───Documentation~
+    │   │   │   │   └───images
+    │   │   │   ├───Editor
+    │   │   │   └───Tests
+    │   │   │       └───Editor
+    │   │   ├───com.unity.settings-manager@41738c275190
+    │   │   │   ├───Content
+    │   │   │   ├───Documentation~
+    │   │   │   │   └───images
+    │   │   │   ├───Editor
+    │   │   │   ├───Samples~
+    │   │   │   │   ├───MultipleProjectSettingFiles
+    │   │   │   │   └───PackageWithProjectAndUserSettings
+    │   │   │   └───Tests
+    │   │   │       └───Editor
+    │   │   ├───com.unity.test-framework@d97b7cd61ded
+    │   │   │   ├───Documentation~
+    │   │   │   ├───Samples~
+    │   │   │   │   ├───10_LongRunningTests
+    │   │   │   │   │   └───PlayModeTests_10
+    │   │   │   │   ├───10_LongRunningTests_Solution
+    │   │   │   │   │   └───PlayModeTests_10s
+    │   │   │   │   ├───11_SceneBasedTests
+    │   │   │   │   │   └───EditModeTests_11
+    │   │   │   │   ├───11_SceneBasedTests_Solution
+    │   │   │   │   │   └───EditModeTests_11s
+    │   │   │   │   ├───12_BuildSetupCleanup
+    │   │   │   │   │   └───PlayModeTests_12
+    │   │   │   │   ├───12_BuildSetupCleanup_Solution
+    │   │   │   │   │   └───PlayModeTests_12s
+    │   │   │   │   ├───13_DomainReload
+    │   │   │   │   │   └───Tests_13
+    │   │   │   │   ├───13_DomainReload_Solution
+    │   │   │   │   │   └───Tests_13s
+    │   │   │   │   ├───14_PreserveTestState
+    │   │   │   │   │   └───Tests_14
+    │   │   │   │   ├───14_PreserveTestState_Solution
+    │   │   │   │   │   └───Tests_14s
+    │   │   │   │   ├───15_TestCases
+    │   │   │   │   │   ├───MyGame_15
+    │   │   │   │   │   └───Tests_15
+    │   │   │   │   ├───15_TestCases_Solution
+    │   │   │   │   │   ├───MyGame_15s
+    │   │   │   │   │   └───Tests_15s
+    │   │   │   │   ├───16_CustomAttributes
+    │   │   │   │   │   ├───MyGame_16
+    │   │   │   │   │   └───Tests_16
+    │   │   │   │   ├───16_CustomAttributes_Solution
+    │   │   │   │   │   ├───MyGame_16s
+    │   │   │   │   │   └───Tests_16s
+    │   │   │   │   ├───17_RunningTestsProgrammatically
+    │   │   │   │   │   ├───MyGame_17
+    │   │   │   │   │   └───Tests_17
+    │   │   │   │   ├───17_RunningTestsProgrammatically_Solution
+    │   │   │   │   │   ├───MyGame_17s
+    │   │   │   │   │   └───Tests_17s
+    │   │   │   │   ├───1_RunningTest_Project
+    │   │   │   │   │   └───MyExercise_1
+    │   │   │   │   ├───1_RunningTest_Project_Solution
+    │   │   │   │   │   ├───MyExercise_1s
+    │   │   │   │   │   └───Tests_1s
+    │   │   │   │   ├───2_ActArrangeAssert
+    │   │   │   │   │   ├───MyExercise_2
+    │   │   │   │   │   └───Tests_2
+    │   │   │   │   ├───2_ActArrangeAssert_Solution
+    │   │   │   │   │   ├───MyExercise_2s
+    │   │   │   │   │   └───Tests_2s
+    │   │   │   │   ├───3_SemanticTestAssertion
+    │   │   │   │   │   ├───MyExercise_3
+    │   │   │   │   │   └───Tests_3
+    │   │   │   │   ├───3_SemanticTestAssertion_Solution
+    │   │   │   │   │   ├───MyExercise_3s
+    │   │   │   │   │   └───Tests_3s
+    │   │   │   │   ├───4_CustomComparison
+    │   │   │   │   │   ├───MyExercise_4
+    │   │   │   │   │   └───Tests_4
+    │   │   │   │   ├───4_CustomComparison_Solution
+    │   │   │   │   │   ├───MyExercise_4s
+    │   │   │   │   │   └───Tests_4s
+    │   │   │   │   ├───5_AssertingLogs
+    │   │   │   │   │   ├───MyExercise_5
+    │   │   │   │   │   └───Tests_5
+    │   │   │   │   ├───5_AssertingLogs_Solution
+    │   │   │   │   │   ├───MyExercise_5s
+    │   │   │   │   │   └───Tests_5s
+    │   │   │   │   ├───6_SetUpTearDown
+    │   │   │   │   │   ├───MyExercise_6
+    │   │   │   │   │   └───Tests_6
+    │   │   │   │   ├───6_SetUpTearDown_Solution
+    │   │   │   │   │   ├───MyExercise_6s
+    │   │   │   │   │   └───Tests_6s
+    │   │   │   │   ├───7_PlayModeTests
+    │   │   │   │   ├───7_PlayModeTests_Solution
+    │   │   │   │   │   └───PlayModeTests_7
+    │   │   │   │   ├───8_PlayModeTests_InPlayer
+    │   │   │   │   │   └───PlayModeTests_8
+    │   │   │   │   ├───9_UnityTestAttribute
+    │   │   │   │   │   └───PlayModeTests_9
+    │   │   │   │   └───9_UnityTestAttribute_Solution
+    │   │   │   │       └───PlayModeTests_9s
+    │   │   │   ├───Tests
+    │   │   │   │   └───TestNewCustomAssembly
+    │   │   │   ├───UnityEditor.TestRunner
+    │   │   │   │   ├───Api
+    │   │   │   │   │   └───Analytics
+    │   │   │   │   ├───CommandLineParser
+    │   │   │   │   ├───CommandLineTest
+    │   │   │   │   ├───GUI
+    │   │   │   │   │   ├───Controls
+    │   │   │   │   │   ├───TestAssets
+    │   │   │   │   │   ├───TestListBuilder
+    │   │   │   │   │   ├───TestListTreeView
+    │   │   │   │   │   └───Views
+    │   │   │   │   ├───NUnitExtension
+    │   │   │   │   │   └───Attributes
+    │   │   │   │   ├───TestLaunchers
+    │   │   │   │   │   ├───Helpers
+    │   │   │   │   │   └───PlatformSetup
+    │   │   │   │   ├───TestRun
+    │   │   │   │   │   ├───Data
+    │   │   │   │   │   └───Tasks
+    │   │   │   │   │       ├───Events
+    │   │   │   │   │       ├───Platform
+    │   │   │   │   │       ├───Player
+    │   │   │   │   │       └───Scene
+    │   │   │   │   ├───TestRunner
+    │   │   │   │   │   ├───Callbacks
+    │   │   │   │   │   ├───Messages
+    │   │   │   │   │   └───Utils
+    │   │   │   │   ├───TestSettings
+    │   │   │   │   └───UnityTestProtocol
+    │   │   │   │       ├───Data
+    │   │   │   │       └───Messages
+    │   │   │   └───UnityEngine.TestRunner
+    │   │   │       ├───Assertions
+    │   │   │       │   └───LogScope
+    │   │   │       ├───NUnitExtensions
+    │   │   │       │   ├───Attributes
+    │   │   │       │   ├───Commands
+    │   │   │       │   ├───Filters
+    │   │   │       │   └───Runner
+    │   │   │       ├───TestRunner
+    │   │   │       │   ├───Callbacks
+    │   │   │       │   ├───Messages
+    │   │   │       │   └───RemoteHelpers
+    │   │   │       ├───UnityTestProtocol
+    │   │   │       └───Utils
+    │   │   │           ├───AssemblyProvider
+    │   │   │           └───MonoBehaviourTest
+    │   │   ├───com.unity.testtools.codecoverage@205a02cbcb39
+    │   │   │   ├───Documentation~
+    │   │   │   │   └───images
+    │   │   │   │       ├───coverage_recording
+    │   │   │   │       ├───coverage_testrunner
+    │   │   │   │       ├───quickguide
+    │   │   │   │       └───using_coverage
+    │   │   │   ├───Editor
+    │   │   │   │   ├───Analytics
+    │   │   │   │   ├───CommandLineParser
+    │   │   │   │   ├───Compatibility
+    │   │   │   │   ├───CoverageFormats
+    │   │   │   │   │   └───OpenCover
+    │   │   │   │   │       ├───Model
+    │   │   │   │   │       └───Mono.Reflection
+    │   │   │   │   ├───CoverageStats
+    │   │   │   │   ├───CoverageWindow
+    │   │   │   │   ├───Events
+    │   │   │   │   ├───Filtering
+    │   │   │   │   ├───Icons
+    │   │   │   │   ├───Logging
+    │   │   │   │   ├───Replacing
+    │   │   │   │   ├───ReportGenerator
+    │   │   │   │   └───Utils
+    │   │   │   ├───lib
+    │   │   │   │   └───ReportGenerator
+    │   │   │   └───Samples~
+    │   │   │       └───Tutorial
+    │   │   │           └───Asteroids
+    │   │   │               ├───Prefabs
+    │   │   │               │   ├───FX
+    │   │   │               │   ├───UI
+    │   │   │               │   └───Weapons
+    │   │   │               ├───Resources
+    │   │   │               ├───Scenes
+    │   │   │               ├───Scripts
+    │   │   │               │   ├───Animation
+    │   │   │               │   ├───Controllers
+    │   │   │               │   ├───FX
+    │   │   │               │   ├───Managers
+    │   │   │               │   ├───UI
+    │   │   │               │   └───Weapons
+    │   │   │               ├───Tests
+    │   │   │               └───Visuals
+    │   │   │                   ├───Animation
+    │   │   │                   │   ├───Ship
+    │   │   │                   │   └───UI
+    │   │   │                   │       └───Lives
+    │   │   │                   ├───Materials
+    │   │   │                   │   └───FX
+    │   │   │                   ├───Models
+    │   │   │                   │   └───Materials
+    │   │   │                   ├───Sprites
+    │   │   │                   ├───Textures
+    │   │   │                   │   └───FX
+    │   │   │                   └───UI
+    │   │   │                       └───Fonts
+    │   │   ├───com.unity.timeline@6b9e48457ddb
+    │   │   │   ├───DocCodeExamples
+    │   │   │   ├───Documentation~
+    │   │   │   │   └───images
+    │   │   │   ├───Editor
+    │   │   │   │   ├───Actions
+    │   │   │   │   │   └───Menus
+    │   │   │   │   ├───Activation
+    │   │   │   │   ├───Analytics
+    │   │   │   │   ├───Animation
+    │   │   │   │   ├───Attributes
+    │   │   │   │   ├───Audio
+    │   │   │   │   ├───ControlTrack
+    │   │   │   │   ├───CustomEditors
+    │   │   │   │   ├───Extensions
+    │   │   │   │   ├───inspectors
+    │   │   │   │   │   ├───ClipInspector
+    │   │   │   │   │   └───CurvesOwner
+    │   │   │   │   ├───Items
+    │   │   │   │   ├───Localization
+    │   │   │   │   ├───Manipulators
+    │   │   │   │   │   ├───AddDelete
+    │   │   │   │   │   ├───Cursors
+    │   │   │   │   │   ├───Move
+    │   │   │   │   │   ├───Sequence
+    │   │   │   │   │   ├───Trim
+    │   │   │   │   │   └───Utils
+    │   │   │   │   ├───Playables
+    │   │   │   │   ├───Properties
+    │   │   │   │   ├───Recording
+    │   │   │   │   ├───Samples
+    │   │   │   │   ├───Signals
+    │   │   │   │   │   └───TreeView
+    │   │   │   │   ├───State
+    │   │   │   │   ├───StyleSheets
+    │   │   │   │   │   ├───Extensions
+    │   │   │   │   │   ├───Images
+    │   │   │   │   │   │   ├───DarkSkin
+    │   │   │   │   │   │   ├───Icons
+    │   │   │   │   │   │   ├───LightSkin
+    │   │   │   │   │   │   └───Shared
+    │   │   │   │   │   └───res
+    │   │   │   │   ├───treeview
+    │   │   │   │   │   ├───Drawers
+    │   │   │   │   │   │   └───Layers
+    │   │   │   │   │   ├───ItemGui
+    │   │   │   │   │   ├───Snapping
+    │   │   │   │   │   └───TrackGui
+    │   │   │   │   ├───Undo
+    │   │   │   │   ├───Utilities
+    │   │   │   │   │   └───Scopes
+    │   │   │   │   └───Window
+    │   │   │   │       ├───Modes
+    │   │   │   │       └───ViewModel
+    │   │   │   ├───Runtime
+    │   │   │   │   ├───Activation
+    │   │   │   │   ├───Animation
+    │   │   │   │   ├───AssetUpgrade
+    │   │   │   │   ├───Attributes
+    │   │   │   │   ├───Audio
+    │   │   │   │   ├───Control
+    │   │   │   │   ├───Evaluation
+    │   │   │   │   ├───Events
+    │   │   │   │   │   └───Signals
+    │   │   │   │   ├───Extensions
+    │   │   │   │   ├───Playables
+    │   │   │   │   ├───Properties
+    │   │   │   │   ├───Scripting
+    │   │   │   │   └───Utilities
+    │   │   │   └───Samples~
+    │   │   │       ├───Customization
+    │   │   │       │   ├───Annotation
+    │   │   │       │   │   └───Editor
+    │   │   │       │   │       ├───Resources
+    │   │   │       │   │       │   ├───dark
+    │   │   │       │   │       │   └───light
+    │   │   │       │   │       └───Stylesheets
+    │   │   │       │   │           └───Extensions
+    │   │   │       │   ├───Demo
+    │   │   │       │   │   ├───Animation
+    │   │   │       │   │   ├───Scenes
+    │   │   │       │   │   ├───Timelines
+    │   │   │       │   │   └───Videos
+    │   │   │       │   ├───Text
+    │   │   │       │   │   └───Editor
+    │   │   │       │   ├───TimeDilation
+    │   │   │       │   ├───Tween
+    │   │   │       │   │   └───Editor
+    │   │   │       │   ├───Utilities
+    │   │   │       │   │   └───Editor
+    │   │   │       │   └───Video
+    │   │   │       │       └───Editor
+    │   │   │       └───GameplaySequenceDemo
+    │   │   │           ├───Animation
+    │   │   │           ├───Audio
+    │   │   │           ├───Character
+    │   │   │           │   ├───Materials
+    │   │   │           │   ├───Models
+    │   │   │           │   │   └───Materials
+    │   │   │           │   └───Textures
+    │   │   │           ├───Info
+    │   │   │           │   ├───Icons
+    │   │   │           │   └───Scripts
+    │   │   │           │       └───Editor
+    │   │   │           ├───Materials
+    │   │   │           ├───Particles
+    │   │   │           │   ├───Goop Effects
+    │   │   │           │   │   ├───Materials
+    │   │   │           │   │   └───Textures
+    │   │   │           │   └───Misc Effects
+    │   │   │           │       ├───Materials
+    │   │   │           │       └───Textures
+    │   │   │           ├───Prefabs
+    │   │   │           ├───Scenes
+    │   │   │           │   └───GameplaySequence
+    │   │   │           ├───Shaders
+    │   │   │           ├───Textures
+    │   │   │           └───Timelines
+    │   │   ├───com.unity.ugui@7056cb05de4c
+    │   │   │   ├───Documentation~
+    │   │   │   │   ├───images
+    │   │   │   │   └───TextMeshPro
+    │   │   │   ├───Editor
+    │   │   │   │   ├───TMP
+    │   │   │   │   │   ├───HDRP
+    │   │   │   │   │   └───PropertyDrawers
+    │   │   │   │   └───UGUI
+    │   │   │   │       ├───EventSystem
+    │   │   │   │       ├───Properties
+    │   │   │   │       └───UI
+    │   │   │   │           └───PropertyDrawers
+    │   │   │   ├───Editor Resources
+    │   │   │   │   ├───Gizmos
+    │   │   │   │   ├───Shaders
+    │   │   │   │   └───Textures
+    │   │   │   ├───Package Resources
+    │   │   │   ├───Runtime
+    │   │   │   │   ├───TMP
+    │   │   │   │   └───UGUI
+    │   │   │   │       ├───EventSystem
+    │   │   │   │       │   ├───EventData
+    │   │   │   │       │   ├───InputModules
+    │   │   │   │       │   ├───Raycasters
+    │   │   │   │       │   └───UIElements
+    │   │   │   │       ├───Properties
+    │   │   │   │       └───UI
+    │   │   │   │           ├───Animation
+    │   │   │   │           └───Core
+    │   │   │   │               ├───Culling
+    │   │   │   │               ├───Layout
+    │   │   │   │               ├───MaterialModifiers
+    │   │   │   │               ├───SpecializedCollections
+    │   │   │   │               ├───Utility
+    │   │   │   │               └───VertexModifiers
+    │   │   │   └───Tests
+    │   │   │       ├───Editor
+    │   │   │       │   ├───TMP
+    │   │   │       │   └───UGUI
+    │   │   │       │       ├───Canvas
+    │   │   │       │       ├───CanvasRenderer
+    │   │   │       │       ├───Dropdown
+    │   │   │       │       ├───EventSystem
+    │   │   │       │       ├───InputField
+    │   │   │       │       ├───RectMask2D
+    │   │   │       │       ├───Slider
+    │   │   │       │       ├───Text
+    │   │   │       │       ├───UI
+    │   │   │       │       │   └───PropertyDrawers
+    │   │   │       │       └───UnityEvent
+    │   │   │       └───Runtime
+    │   │   │           ├───TMP
+    │   │   │           └───UGUI
+    │   │   │               ├───Button
+    │   │   │               ├───Canvas
+    │   │   │               ├───CanvasRenderer
+    │   │   │               ├───Dropdown
+    │   │   │               ├───EventSystem
+    │   │   │               │   └───InputModuleTests
+    │   │   │               ├───Graphic
+    │   │   │               ├───Image
+    │   │   │               ├───InputField
+    │   │   │               ├───Layout
+    │   │   │               ├───LayoutGroup
+    │   │   │               ├───MaskClipping
+    │   │   │               ├───NestedLayout
+    │   │   │               ├───ScrollBar
+    │   │   │               ├───ScrollRect
+    │   │   │               ├───Slider
+    │   │   │               ├───TextEditor
+    │   │   │               ├───Toggle
+    │   │   │               └───Util
+    │   │   ├───com.unity.visualscripting@b4d700247d4b
+    │   │   │   ├───DocCodeExamples
+    │   │   │   ├───Documentation~
+    │   │   │   │   ├───images
+    │   │   │   │   └───snippets
+    │   │   │   │       ├───custom-c-nodes
+    │   │   │   │       ├───custom-events
+    │   │   │   │       ├───input-manager
+    │   │   │   │       └───input-system
+    │   │   │   ├───Editor
+    │   │   │   │   ├───SettingsProvider
+    │   │   │   │   │   └───ProjectSettings
+    │   │   │   │   ├───VisualScripting.Core
+    │   │   │   │   │   ├───Analysis
+    │   │   │   │   │   ├───Analytics
+    │   │   │   │   │   ├───Assignment
+    │   │   │   │   │   ├───Canvases
+    │   │   │   │   │   ├───Context
+    │   │   │   │   │   ├───Debugging
+    │   │   │   │   │   ├───Decorators
+    │   │   │   │   │   ├───Dependencies
+    │   │   │   │   │   │   ├───Assemblies
+    │   │   │   │   │   │   │   ├───WINARM64
+    │   │   │   │   │   │   │   └───WINx64
+    │   │   │   │   │   │   ├───DotNetZip
+    │   │   │   │   │   │   ├───ReorderableList
+    │   │   │   │   │   │   │   ├───ElementAdderMenu
+    │   │   │   │   │   │   │   └───Internal
+    │   │   │   │   │   │   ├───SQLite
+    │   │   │   │   │   │   └───YamlDotNet
+    │   │   │   │   │   ├───Description
+    │   │   │   │   │   ├───Descriptors
+    │   │   │   │   │   ├───Documentation
+    │   │   │   │   │   ├───EditorAssetResources
+    │   │   │   │   │   ├───Exceptions
+    │   │   │   │   │   ├───Graph
+    │   │   │   │   │   ├───IconMap
+    │   │   │   │   │   ├───Inspection
+    │   │   │   │   │   │   ├───Other
+    │   │   │   │   │   │   ├───Primitives
+    │   │   │   │   │   │   ├───Reflection
+    │   │   │   │   │   │   ├───Root
+    │   │   │   │   │   │   ├───Special
+    │   │   │   │   │   │   └───Unity
+    │   │   │   │   │   ├───Interface
+    │   │   │   │   │   │   ├───Annotations
+    │   │   │   │   │   │   ├───Colors
+    │   │   │   │   │   │   ├───DragAndDrop
+    │   │   │   │   │   │   ├───Dropdowns
+    │   │   │   │   │   │   ├───Fonts
+    │   │   │   │   │   │   ├───Fuzzy
+    │   │   │   │   │   │   ├───Icons
+    │   │   │   │   │   │   └───Licenses
+    │   │   │   │   │   ├───Meta
+    │   │   │   │   │   ├───Platforms
+    │   │   │   │   │   ├───Plugin
+    │   │   │   │   │   │   ├───Acknowledgements
+    │   │   │   │   │   │   ├───Changelogs
+    │   │   │   │   │   │   │   ├───LegacyLudiqCore
+    │   │   │   │   │   │   │   └───LegacyLudiqGraphs
+    │   │   │   │   │   │   └───Migrations
+    │   │   │   │   │   ├───Plugins
+    │   │   │   │   │   ├───Product
+    │   │   │   │   │   ├───Products
+    │   │   │   │   │   ├───Properties
+    │   │   │   │   │   ├───Reflection
+    │   │   │   │   │   ├───ResourceProviders
+    │   │   │   │   │   ├───Serialization
+    │   │   │   │   │   ├───SerializedProperties
+    │   │   │   │   │   ├───Threading
+    │   │   │   │   │   ├───Utilities
+    │   │   │   │   │   ├───Variables
+    │   │   │   │   │   ├───Widgets
+    │   │   │   │   │   │   ├───Groups
+    │   │   │   │   │   │   ├───Nodes
+    │   │   │   │   │   │   └───StickyNote
+    │   │   │   │   │   └───Windows
+    │   │   │   │   │       ├───AboutWindow
+    │   │   │   │   │       ├───BackupWindow
+    │   │   │   │   │       ├───ConfigurationPanel
+    │   │   │   │   │       ├───GenerateDocumentationWindow
+    │   │   │   │   │       ├───GeneratePropertyProvidersWindow
+    │   │   │   │   │       ├───Sidebars
+    │   │   │   │   │       └───UpdateWizard
+    │   │   │   │   ├───VisualScripting.Flow
+    │   │   │   │   │   ├───Acknowledgements
+    │   │   │   │   │   ├───Analytics
+    │   │   │   │   │   ├───Connections
+    │   │   │   │   │   ├───Description
+    │   │   │   │   │   ├───Events
+    │   │   │   │   │   ├───Framework
+    │   │   │   │   │   │   ├───Codebase
+    │   │   │   │   │   │   ├───Control
+    │   │   │   │   │   │   ├───Nesting
+    │   │   │   │   │   │   ├───Time
+    │   │   │   │   │   │   └───Variables
+    │   │   │   │   │   │       └───Obsolete
+    │   │   │   │   │   ├───Invocations
+    │   │   │   │   │   ├───Linker
+    │   │   │   │   │   ├───Options
+    │   │   │   │   │   ├───Plugin
+    │   │   │   │   │   │   ├───Changelogs
+    │   │   │   │   │   │   └───Migrations
+    │   │   │   │   │   ├───Ports
+    │   │   │   │   │   ├───Properties
+    │   │   │   │   │   └───Units
+    │   │   │   │   ├───VisualScripting.Shared
+    │   │   │   │   │   └───EditorAssetResources
+    │   │   │   │   └───VisualScripting.State
+    │   │   │   │       ├───Analytics
+    │   │   │   │       ├───Description
+    │   │   │   │       ├───Flow
+    │   │   │   │       ├───Graph
+    │   │   │   │       ├───Plugin
+    │   │   │   │       │   ├───Changelogs
+    │   │   │   │       │   └───Migrations
+    │   │   │   │       ├───Properties
+    │   │   │   │       ├───States
+    │   │   │   │       └───Transitions
+    │   │   │   ├───Graphics
+    │   │   │   └───Runtime
+    │   │   │       ├───VisualScripting.Core
+    │   │   │       │   ├───Attributes
+    │   │   │       │   ├───Cloning
+    │   │   │       │   │   └───Cloners
+    │   │   │       │   ├───Collections
+    │   │   │       │   ├───Connections
+    │   │   │       │   ├───Decorators
+    │   │   │       │   ├───Dependencies
+    │   │   │       │   │   ├───AssemblyQualifiedNameParser
+    │   │   │       │   │   └───FullSerializer
+    │   │   │       │   │       ├───Converters
+    │   │   │       │   │       │   └───Unity
+    │   │   │       │   │       ├───Internal
+    │   │   │       │   │       └───Reflection
+    │   │   │       │   ├───EditorBinding
+    │   │   │       │   │   └───Inspector
+    │   │   │       │   ├───Ensure
+    │   │   │       │   │   └───Extensions
+    │   │   │       │   ├───Events
+    │   │   │       │   ├───Exceptions
+    │   │   │       │   ├───Graphs
+    │   │   │       │   ├───Groups
+    │   │   │       │   ├───Input
+    │   │   │       │   ├───Listeners
+    │   │   │       │   │   ├───MonoBehaviour
+    │   │   │       │   │   ├───UI
+    │   │   │       │   │   └───UIInterfaces
+    │   │   │       │   ├───Machines
+    │   │   │       │   ├───Macros
+    │   │   │       │   ├───Platforms
+    │   │   │       │   ├───Pooling
+    │   │   │       │   ├───Profiling
+    │   │   │       │   ├───Properties
+    │   │   │       │   ├───Reflection
+    │   │   │       │   │   ├───Operators
+    │   │   │       │   │   └───Optimization
+    │   │   │       │   ├───Serialization
+    │   │   │       │   │   └───Converters
+    │   │   │       │   ├───SerializedProperties
+    │   │   │       │   ├───StickyNote
+    │   │   │       │   ├───Unity
+    │   │   │       │   ├───Utilities
+    │   │   │       │   └───Variables
+    │   │   │       ├───VisualScripting.Flow
+    │   │   │       │   ├───Connections
+    │   │   │       │   ├───Dependencies
+    │   │   │       │   │   └───NCalc
+    │   │   │       │   ├───EditorBinding
+    │   │   │       │   ├───Framework
+    │   │   │       │   │   ├───Codebase
+    │   │   │       │   │   ├───Collections
+    │   │   │       │   │   │   ├───Dictionaries
+    │   │   │       │   │   │   └───Lists
+    │   │   │       │   │   ├───Control
+    │   │   │       │   │   ├───Events
+    │   │   │       │   │   │   ├───Animation
+    │   │   │       │   │   │   ├───Application
+    │   │   │       │   │   │   ├───Editor
+    │   │   │       │   │   │   ├───GUI
+    │   │   │       │   │   │   ├───Hierarchy
+    │   │   │       │   │   │   ├───Input
+    │   │   │       │   │   │   │   └───InputSystem
+    │   │   │       │   │   │   ├───Lifecycle
+    │   │   │       │   │   │   ├───Navigation
+    │   │   │       │   │   │   ├───Physics
+    │   │   │       │   │   │   ├───Physics2D
+    │   │   │       │   │   │   ├───Rendering
+    │   │   │       │   │   │   └───Time
+    │   │   │       │   │   ├───Graph
+    │   │   │       │   │   ├───Logic
+    │   │   │       │   │   ├───Math
+    │   │   │       │   │   │   ├───Generic
+    │   │   │       │   │   │   ├───Scalar
+    │   │   │       │   │   │   ├───Vector2
+    │   │   │       │   │   │   ├───Vector3
+    │   │   │       │   │   │   └───Vector4
+    │   │   │       │   │   ├───Nesting
+    │   │   │       │   │   ├───Nulls
+    │   │   │       │   │   ├───Time
+    │   │   │       │   │   └───Variables
+    │   │   │       │   │       └───Obsolete
+    │   │   │       │   ├───Ports
+    │   │   │       │   └───Properties
+    │   │   │       └───VisualScripting.State
+    │   │   │           ├───Framework
+    │   │   │           │   └───Graph
+    │   │   │           ├───Properties
+    │   │   │           └───Units
+    │   │   ├───extensions.unity.playerprefsex@2038356f0c05
+    │   │   │   ├───Runtime
+    │   │   │   │   └───Scripts
+    │   │   │   │       ├───EncryptedVariables
+    │   │   │   │       ├───Utils
+    │   │   │   │       └───Variables
+    │   │   │   └───Tests
+    │   │   │       ├───Editor
+    │   │   │       └───Runtime
+    │   │   ├───org.nuget.microsoft.aspnetcore.connections.abstractions@feefeddaed85
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.aspnetcore.http.connections.client@812fbeff852f
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.aspnetcore.http.connections.common@f8a0c918171b
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.aspnetcore.signalr.client.core@287a6cf12702
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.aspnetcore.signalr.client@35aa971a7968
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.aspnetcore.signalr.common@999bc614832a
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.aspnetcore.signalr.protocols.json@d87bfdf0d432
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.bcl.asyncinterfaces@a8b41f16539e
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.bcl.memory@a9025fd5ee48
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.bcl.timeprovider@aa4d9a6bf320
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.codeanalysis.analyzers@bcf103d84432
+    │   │   │   └───analyzers
+    │   │   │       └───dotnet
+    │   │   │           └───cs
+    │   │   ├───org.nuget.microsoft.codeanalysis.common@34ebd91b67de
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.codeanalysis.csharp@db8bc9eda0cd
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.extensions.caching.abstractions@8fc8d18834db
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.extensions.configuration.abstractions@383429394415
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.extensions.dependencyinjection.abstractions@fee2b3618c56
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.extensions.dependencyinjection@3e7acfd079dd
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.extensions.diagnostics.abstractions@070ef718d01b
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.extensions.features@c39959e905b1
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.extensions.fileproviders.abstractions@6dfc2275c5b9
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.extensions.hosting.abstractions@5b961991add3
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.extensions.logging.abstractions@18bd7e0fc865
+    │   │   │   ├───analyzers
+    │   │   │   │   └───dotnet
+    │   │   │   │       └───roslyn4.0
+    │   │   │   │           └───cs
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.microsoft.extensions.logging@e4bbef2e615c
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.extensions.options@40864b2cec51
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.microsoft.extensions.primitives@5233ca91e215
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.r3@c98887a6d128
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.system.buffers@4462a8bca019
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.collections.immutable@1cb871d2ec81
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.componentmodel.annotations@852d9dc7d0d6
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   ├───org.nuget.system.diagnostics.diagnosticsource@a3292c942ff2
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.io.pipelines@6fb3978a1eb8
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.memory@021614a181ed
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.net.serversentevents@d4266c93808e
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.numerics.vectors@6cbe0e354ad7
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.reflection.metadata@935d07b34e5e
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.runtime.compilerservices.unsafe@eab393a78e5c
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.text.encoding.codepages@cd3f9f70f07b
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.text.encodings.web@9b78704b2c61
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.text.json@4fbd98a0949f
+    │   │   │   ├───analyzers
+    │   │   │   │   └───dotnet
+    │   │   │   │       └───roslyn4.0
+    │   │   │   │           └───cs
+    │   │   │   └───lib
+    │   │   │       └───netstandard2.0
+    │   │   ├───org.nuget.system.threading.channels@999c60a196d4
+    │   │   │   └───lib
+    │   │   │       ├───netstandard2.0
+    │   │   │       └───netstandard2.1
+    │   │   └───org.nuget.system.threading.tasks.extensions@c44cc8a9f45b
+    │   │       └───lib
+    │   │           └───netstandard2.0
+    │   ├───PackageManager
+    │   ├───PlayerDataCache
+    │   │   └───WebGL
+    │   │       └───Data
+    │   │           └───Resources
+    │   ├───ScriptAssemblies
+    │   ├───Search
+    │   ├───ShaderCache
+    │   │   ├───builtin
+    │   │   │   └───unity_builtin_extra0000
+    │   │   │       └───00
+    │   │   └───shader
+    │   │       ├───ProfileAnalyzerShader493b
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_Bitmap-Custom-Atlas48bb
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_Bitmap-Mobile1e3b
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_Bitmap128e
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF Internal Editor9c44
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF Overlaydd89
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF SSD14eb
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF-Mobile Maskingbc1e
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF-Mobile Overlaya02a
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF-Mobile SSDc8d1
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF-Mobile-2-Pass0178
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF-Mobilefe39
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF-Surface-Mobile8518
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF-Surfacef7ad
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       ├───TMP_SDF68e6
+    │   │       │   ├───00
+    │   │       │   └───01
+    │   │       └───TMP_Spritecf81
+    │   │           ├───00
+    │   │           └───01
+    │   ├───SplashScreenCache
+    │   │   └───77
+    │   ├───StateCache
+    │   │   ├───LayerSettings
+    │   │   │   └───9e
+    │   │   ├───MainStageHierarchy
+    │   │   │   ├───4d
+    │   │   │   ├───8f
+    │   │   │   └───ee
+    │   │   ├───PrefabStageHierarchy
+    │   │   │   ├───30
+    │   │   │   ├───88
+    │   │   │   ├───ab
+    │   │   │   └───bf
+    │   │   └───SceneView
+    │   │       ├───47
+    │   │       ├───66
+    │   │       ├───8b
+    │   │       └───8c
+    │   ├───TempArtifacts
+    │   │   ├───Extra
+    │   │   └───Primary
+    │   └───UIElements
+    │       └───EditorWindows
+    ├───Logs
+    ├───obj
+    │   └───Debug
+    │       └───TempPE
+    ├───Packages
+    ├───ProjectSettings
+    │   └───Packages
+    │       └───com.unity.testtools.codecoverage
+    ├───SKILLS
+    │   ├───assets-copy
+    │   ├───assets-create-folder
+    │   ├───assets-delete
+    │   ├───assets-find
+    │   ├───assets-find-built-in
+    │   ├───assets-get-data
+    │   ├───assets-material-create
+    │   ├───assets-modify
+    │   ├───assets-move
+    │   ├───assets-prefab-close
+    │   ├───assets-prefab-create
+    │   ├───assets-prefab-instantiate
+    │   ├───assets-prefab-open
+    │   ├───assets-prefab-save
+    │   ├───assets-refresh
+    │   ├───assets-shader-get-data
+    │   ├───assets-shader-list-all
+    │   ├───console-clear-logs
+    │   ├───console-get-logs
+    │   ├───editor-application-get-state
+    │   ├───editor-application-set-state
+    │   ├───editor-selection-get
+    │   ├───editor-selection-set
+    │   ├───gameobject-component-add
+    │   ├───gameobject-component-destroy
+    │   ├───gameobject-component-get
+    │   ├───gameobject-component-list-all
+    │   ├───gameobject-component-modify
+    │   ├───gameobject-create
+    │   ├───gameobject-destroy
+    │   ├───gameobject-duplicate
+    │   ├───gameobject-find
+    │   ├───gameobject-modify
+    │   ├───gameobject-set-parent
+    │   ├───object-get-data
+    │   ├───object-modify
+    │   ├───package-add
+    │   ├───package-list
+    │   ├───package-remove
+    │   ├───package-search
+    │   ├───ping
+    │   ├───reflection-method-call
+    │   ├───reflection-method-find
+    │   ├───scene-create
+    │   ├───scene-get-data
+    │   ├───scene-list-opened
+    │   ├───scene-open
+    │   ├───scene-save
+    │   ├───scene-set-active
+    │   ├───scene-unload
+    │   ├───screenshot-camera
+    │   ├───screenshot-game-view
+    │   ├───screenshot-scene-view
+    │   ├───script-delete
+    │   ├───script-execute
+    │   ├───script-read
+    │   ├───script-update-or-create
+    │   ├───tests-run
+    │   ├───tool-list
+    │   ├───tool-set-enabled-state
+    │   ├───type-get-json-schema
+    │   ├───unity-editor
+    │   ├───unity-initial-setup
+    │   ├───unity-skill-create
+    │   └───unity-skill-generate
+    ├───Temp
+    │   ├───mcp-server
+    │   ├───ProcessJobs
+    │   └───__Backupscenes
+    ├───UserSettings
+    │   └───Layouts
+    └───WebGLBuild
+        ├───Build
+        └───TemplateData

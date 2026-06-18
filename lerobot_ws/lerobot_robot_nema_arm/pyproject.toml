@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lerobot_robot_nema_arm"
+version = "0.1.0"
+description = "LeRobot Robot plugin for the 4-DOF NEMA stepper arm with STM32 controller"
+requires-python = ">=3.10"
+dependencies = ["lerobot"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lerobot_robot_nema_arm*"]

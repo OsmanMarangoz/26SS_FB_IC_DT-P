@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: lerobot_robot_nema_arm
+Version: 0.1.0
+Summary: LeRobot Robot plugin for the 4-DOF NEMA stepper arm with STM32 controller
+Requires-Python: >=3.10
+Requires-Dist: lerobot

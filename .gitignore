@@ -1,24 +1,32 @@
-# Alles ignorieren ...
-/*
-/.*
+# Python virtual environments
+.venv/
 
-# ... außer diese beiden:
-!/ros2_ws/
-!/lerobot_ws/
-!.gitignore
-!README.md
-
-# Innerhalb ros2_ws nur src behalten (kein build/install/log/.venv)
-/ros2_ws/*
-!/ros2_ws/src/
-
-# Innerhalb src nur dein Package
-/ros2_ws/src/*
-!/ros2_ws/src/xbox_servo_teleop/
-
-# In beiden: Build-/Cache-Müll raus
+# ROS2 colcon build artifacts
 **/build/
 **/install/
 **/log/
+
+# Python cache
 **/__pycache__/
-**/.venv/
+**/*.egg-info/
+**/*.pyc
+
+# STM32 compiled output (keep source, ignore compiled binary)
+DigitalTwin-LabRobot_ReposForAnalysis/STM32F4/build/
+
+# Large non-code files
+Documentary/
+Documentary.zip
+*.avi
+*.pdf
+*.odt
+dokumente/
+wifi/
+models/
+
+# Claude local memory
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db

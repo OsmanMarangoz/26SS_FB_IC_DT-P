@@ -11,8 +11,10 @@
 **/*.egg-info/
 **/*.pyc
 
+
+
 # STM32 compiled output (keep source, ignore compiled binary)
-DigitalTwin-LabRobot_ReposForAnalysis/STM32F4/build/
+DigitalTwin-LabRobot_ReposForAnalysis/STM32F4/
 
 # Large non-code files
 Documentary/

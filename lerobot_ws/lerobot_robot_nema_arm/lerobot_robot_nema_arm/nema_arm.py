@@ -18,7 +18,7 @@ from typing import Any
 from lerobot.robots import Robot
 
 from .config_nema_arm import NemaArmConfig
-from .recamera import ReCamera, ReCameraConfig
+from .ros2_camera import ROS2Camera, ROS2CameraConfig
 
 
 class NemaArm(Robot):
@@ -41,19 +41,19 @@ class NemaArm(Robot):
         self._js_lock = threading.Lock()
         self._received_first_js = False
 
-        # Kamera initialisieren (nur wenn use_camera=True)
-        # Auto-Erkennung zwischen USB (Fischertechnik) und RTSP (reCamera)
+        # Kameras initialisieren (nur wenn use_camera=True)
+        # Jede Kamera ist ein Unity-Render, das via rosbridge als
+        # sensor_msgs/Image auf einem ROS2-Topic ankommt. Beliebig viele
+        # möglich — eine ROS2Camera pro Eintrag in config.cameras.
         if config.use_camera:
             self.cameras = {
-                "cam_top": ReCamera(ReCameraConfig(
-                    camera_type=config.cam_type,
-                    usb_device=config.cam_usb_device,
-                    usb_index=config.cam_usb_index,
-                    rtsp_url=config.cam_rtsp_url,
+                name: ROS2Camera(ROS2CameraConfig(
+                    image_topic=topic,
                     width=config.cam_width,
                     height=config.cam_height,
                     fps=config.cam_fps,
                 ))
+                for name, topic in config.cameras.items()
             }
         else:
             self.cameras = {}
@@ -70,7 +70,8 @@ class NemaArm(Robot):
         for j in self.config.finger_joints:
             features[f"{j}.pos"] = float
         if self.config.use_camera:
-            features["cam_top"] = (self.config.cam_height, self.config.cam_width, 3)
+            for cam_name in self.cameras:
+                features[cam_name] = (self.config.cam_height, self.config.cam_width, 3)
         return features
 
     @property

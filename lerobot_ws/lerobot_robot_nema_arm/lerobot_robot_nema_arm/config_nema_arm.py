@@ -34,14 +34,15 @@ class NemaArmConfig(RobotConfig):
         "joint_greifer_finger3",
     ])
 
-    # ── Kamera ────────────────────────────────────────────────────────────
-    # camera_type: "auto" erkennt automatisch USB (/dev/video0) oder RTSP
-    #              "usb"  erzwingt Fischertechnik USB-Kamera
-    #              "rtsp" erzwingt reCamera
-    cam_type: str = "auto"
-    cam_usb_device: str = "/dev/video0"
-    cam_usb_index: int = 0
-    cam_rtsp_url: str = "rtsp://admin:admin@192.168.188.193:554/live"
+    # ── Kameras (Unity → rosbridge → ROS2 sensor_msgs/Image) ──────────────
+    # name → ROS2 Image-Topic. Beliebig viele Kameras möglich; jeder Eintrag
+    # wird automatisch zu observation_features[name] und in der Aufnahme als
+    # eigener Video-Stream gespeichert. Topics müssen den Unity-Publishern
+    # entsprechen. Encoding bevorzugt "rgb8".
+    cameras: dict = field(default_factory=lambda: {
+        "cam_top":  "/unity/camera_top/image_raw",
+        "cam_side": "/unity/camera_side/image_raw",
+    })
     cam_width: int = 640
     cam_height: int = 480
     cam_fps: int = 30

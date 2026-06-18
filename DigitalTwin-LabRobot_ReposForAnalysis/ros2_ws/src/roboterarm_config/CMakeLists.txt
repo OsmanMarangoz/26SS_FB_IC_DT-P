@@ -18,5 +18,10 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(PROGRAMS scripts/joint_states_relay.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME joint_states_relay
+)
+
 install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
 install(FILES .setup_assistant DESTINATION share/${PROJECT_NAME})

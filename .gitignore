@@ -16,6 +16,9 @@
 # STM32 compiled output (keep source, ignore compiled binary)
 DigitalTwin-LabRobot_ReposForAnalysis/STM32F4/
 
+# WebGL build output
+DigitalTwin-LabRobot_ReposForAnalysis/WebGlTest/
+
 # Large non-code files
 Documentary/
 Documentary.zip

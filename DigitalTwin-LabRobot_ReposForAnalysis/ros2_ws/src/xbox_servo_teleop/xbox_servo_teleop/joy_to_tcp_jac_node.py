@@ -61,11 +61,11 @@ JOINT_LIMITS_FALLBACK = {
 
 # ── Tuning-Parameter ───────────────────────────────────────────────
 # tune these parameters if you want smoother motion. have not done extensive testing, but in general you can try changing all of them.
-UPDATE_RATE_HZ = 100.0     # Steuerfrequenz (Hz) -- ruhig hoeher, da kein IK-Call
-LINEAR_SPEED   = 0.15     # m/s TCP-Geschwindigkeit bei Stickausschlag
-DEADZONE       = 0.10     # Stick-Totzone
-DLS_LAMBDA     = 0.05     # Daempfung (groesser = stabiler nahe Singularitaet,
-MAX_JOINT_STEP = 0.25     # rad: max Gelenkbewegung pro Tick (Sicherheits-Clamp)
+UPDATE_RATE_HZ = 50.0     # Steuerfrequenz (Hz) -- ruhig hoeher, da kein IK-Call
+LINEAR_SPEED   = 0.2     # m/s TCP-Geschwindigkeit bei Stickausschlag
+DEADZONE       = 0.08     # Stick-Totzone
+DLS_LAMBDA     = 0.05   # Daempfung (groesser = stabiler nahe Singularitaet,
+MAX_JOINT_STEP = 0.10     # rad: max Gelenkbewegung pro Tick (Sicherheits-Clamp)
 
 
 def rot_from_quat(x, y, z, w):

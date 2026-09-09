@@ -16,8 +16,22 @@
 # STM32 compiled output (keep source, ignore compiled binary)
 DigitalTwin-LabRobot_ReposForAnalysis/STM32F4/
 
-# WebGL build output
-DigitalTwin-LabRobot_ReposForAnalysis/WebGlTest/
+# Unity project source/content, but not generated artifacts
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/Library/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/Logs/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/Temp/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/obj/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/Build/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/Builds/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/UserSettings/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/MemoryCaptures/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/.vs/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/.vscode/
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/*.csproj
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/*.sln
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/*.slnx
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/UpgradeLog.htm
+DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin/WebGLBuild/
 
 # Large non-code files
 Documentary/

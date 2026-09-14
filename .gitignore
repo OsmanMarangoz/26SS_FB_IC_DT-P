@@ -6,6 +6,7 @@
 !/ros2_ws/
 !/lerobot_ws/
 !.gitignore
+!.venv/
 !README.md
 
 # Ignore build and cache junk inside tracked workspaces

@@ -2,19 +2,23 @@
 /*
 /.*
 
-# Keep only the folders we actually want in git
+# Keep only the folders/files we actually want in git
 !/ros2_ws/
 !/lerobot_ws/
 !.gitignore
-!.venv/
 !README.md
+!/requirements.txt
+
+# Explicitly ignore virtual environments
+.venv/
+venv/
+env/
 
 # Ignore build and cache junk inside tracked workspaces
 **/build/
 **/install/
 **/log/
 **/__pycache__/
-**/.venv/
 **/*.egg-info/
 **/*.pyc
 

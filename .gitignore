@@ -1,25 +1,26 @@
-# Python virtual environments
-.venv/
+# Ignore everything by default
+/*
+/.*
 
-# ROS2 colcon build artifacts
+# Keep only the folders we actually want in git
+!/ros2_ws/
+!/lerobot_ws/
+!.gitignore
+!README.md
+
+# Ignore build and cache junk inside tracked workspaces
 **/build/
 **/install/
 **/log/
-
-# Python cache
 **/__pycache__/
+**/.venv/
 **/*.egg-info/
 **/*.pyc
 
+# Exclude the analysis repo completely
+DigitalTwin-LabRobot_ReposForAnalysis/
 
-
-# STM32 compiled output (keep source, ignore compiled binary)
-DigitalTwin-LabRobot_ReposForAnalysis/STM32F4/
-
-# WebGL build output
-DigitalTwin-LabRobot_ReposForAnalysis/DigitalTwin
-
-# Large non-code files
+# Optional project-specific excludes
 Documentary/
 Documentary.zip
 *.avi

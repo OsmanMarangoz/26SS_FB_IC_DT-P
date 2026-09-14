@@ -1,12 +1,15 @@
+
 """
 unity_twin.launch.py — Lean launch for the standalone Unity Digital Twin.
 
 No MoveIt, no stm32_serial_node, no ros2_control.
-Unity is the hardware: subscribes to /servo_joint_target, publishes /joint_states.
+Unity is the hardware: subscribes to /servo_joint_target and /joint_states,
+publishes /joint_states, and sends TCP targets on /robot_cmd.
 
 Starts:
   1. rosbridge_server       — WebSocket bridge to Unity (port 9090)
-  2. robot_state_publisher  — /robot_description + /tf from /joint_states
+    2. robot_middleware       — /robot_cmd -> IK -> interpolated /joint_states
+    3. robot_state_publisher  — /robot_description + /tf from /joint_states
                                Reads URDF directly — no moveit_configs_utils.
 
 The world->Basis TF is already in the URDF as joint_world_basis (fixed),
@@ -20,6 +23,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
+from launch.actions import TimerAction
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import AnyLaunchDescriptionSource
 from launch_ros.actions import Node
@@ -55,7 +59,16 @@ def generate_launch_description():
         output="screen",
     )
 
-    # 3. robot_state_publisher — reads from relay topic (VOLATILE, compatible)
+    # 3. TCP target bridge: /robot_cmd -> IK -> interpolated /joint_states.
+    #    This is the path used when the Unity TCP ball is released.
+    middleware_node = Node(
+        package="robot_middleware",
+        executable="robot_middleware_node",
+        name="robot_middleware_node",
+        output="screen",
+    )
+
+    # 4. robot_state_publisher — reads from relay topic (VOLATILE, compatible)
     rsp_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
@@ -65,7 +78,7 @@ def generate_launch_description():
         output="screen",
     )
 
-    # 4. Static TF: world -> Basis (explicit, avoids startup race with RSP)
+    # 5. Static TF: world -> Basis (explicit, avoids startup race with RSP)
     world_tf_node = Node(
         package="tf2_ros",
         executable="static_transform_publisher",
@@ -74,8 +87,10 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        rosbridge_launch,
         relay_node,
+        middleware_node,
         rsp_node,
         world_tf_node,
+        # Give the ROS publishers/subscriber time to register before Unity connects.
+        TimerAction(period=1.0, actions=[rosbridge_launch]),
     ])

@@ -117,9 +117,6 @@ lark==1.1.9
 launchpadlib==1.11.0
 lazr.restfulclient==0.14.6
 lazr.uri==1.0.6
-# Editable install with no version control (lerobot==0.5.2)
--e /home/osman-marangoz/Documents/Projekt/DigtialTwin/lerobot_ws/lerobot
--e git+https://github.com/OsmanMarangoz/26SS_FB_IC_DT-P.git@d96a7c3f2c891cf79e43ce014455983ddb6f6413#egg=lerobot_robot_nema_arm&subdirectory=lerobot_ws/lerobot_robot_nema_arm
 Levenshtein==0.25.1
 libvirt-python==10.0.0
 louis==3.29.0

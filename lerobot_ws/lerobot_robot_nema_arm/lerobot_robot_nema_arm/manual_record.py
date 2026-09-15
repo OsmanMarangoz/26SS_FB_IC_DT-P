@@ -5,19 +5,33 @@ Funktioniert headless (kein Display nötig) — liest Tasten direkt aus dem
 SSH-Terminal. LeRobot beobachtet passiv: eure Unity/Xbox-Pipeline steuert
 den Arm, dieses Script nimmt Beobachtung + Aktion auf.
 
+Modes:
+    --mode twin   Unity Digital Twin (Standard). Kamera: ROS2Camera
+                  (sensor_msgs/Image via rosbridge). Kein physischer Arm nötig.
+    --mode real   Physischer Arm. Kamera: ReCamera (USB/RTSP).
+                  Kein Unity/rosbridge nötig.
+
 Tasten während der Aufnahme:
     s   = Episode STARTEN (Aufnahme beginnt)
     e   = Episode BEENDEN und speichern
     r   = aktuelle Episode VERWERFEN (neu aufnehmen)
     q   = alles beenden und zu HuggingFace hochladen
 
-Start:
+Start (twin mode):
     source /opt/ros/jazzy/setup.bash
     source ~/ros2_ws/install/setup.bash
     source ~/lerobot_ws/.venv/bin/activate
 
     HF_USER=pixelouie
-    python3 manual_record.py --repo_id=${HF_USER}/nema_test_v3 --fps=15
+    python3 manual_record.py --mode twin --repo_id=${HF_USER}/nema_test_v3 --fps=15
+
+Start (real mode):
+    source /opt/ros/jazzy/setup.bash
+    source ~/ros2_ws/install/setup.bash
+    source ~/lerobot_ws/.venv/bin/activate
+
+    HF_USER=pixelouie
+    python3 manual_record.py --mode real --repo_id=${HF_USER}/nema_real_v1 --fps=15
 """
 
 import argparse
@@ -67,18 +81,40 @@ class KeyReader:
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="LeRobot Datenaufnahme — Unity Twin oder physischer Arm"
+    )
     parser.add_argument("--repo_id", required=True, help="z.B. pixelouie/nema_test_v3")
     parser.add_argument("--fps", type=int, default=15)
     parser.add_argument("--task", default="Move arm left to right")
+    parser.add_argument(
+        "--mode", choices=["twin", "real"], default="twin",
+        help="twin = Unity Digital Twin (ROS2Camera), "
+             "real = physischer Arm (ReCamera). Default: twin"
+    )
     parser.add_argument("--no_camera", action="store_true", help="ohne Kamera testen")
     parser.add_argument("--no_push", action="store_true", help="nicht zu HuggingFace hochladen")
     args = parser.parse_args()
 
     # ── Robot + Teleop verbinden ────────────────────────────────────────────
-    banner("VERBINDE ROBOT + TELEOP...", CYAN)
-    robot = NemaArm(NemaArmConfig(use_camera=not args.no_camera))
+    banner(f"VERBINDE ROBOT + TELEOP (mode={args.mode})...", CYAN)
+
+    robot_config = NemaArmConfig(
+        mode=args.mode,
+        use_camera=not args.no_camera,
+    )
+    robot = NemaArm(robot_config)
     teleop = UnityTeleoperator(UnityTeleoperatorConfig())
+
+    # Info ausgeben
+    if args.no_camera:
+        print(f"{BOLD}Kamera: DEAKTIVIERT (--no_camera){RESET}")
+    else:
+        cam_backend = "ROS2Camera (rosbridge)" if args.mode == "twin" else "ReCamera (USB/RTSP)"
+        print(f"{BOLD}Kamera-Backend: {cam_backend}{RESET}")
+        print(f"{BOLD}Kameras: {list(robot_config.cameras.keys())}{RESET}")
+        for name, src in robot_config.cameras.items():
+            print(f"  {name}: {src}")
 
     robot.connect()
     teleop.connect()
@@ -97,6 +133,7 @@ def main():
     )
 
     banner("BEREIT", GREEN)
+    print(f"{BOLD}Mode:{RESET} {args.mode}")
     print(f"{BOLD}Tasten:{RESET}")
     print(f"  {GREEN}s{RESET} = Episode STARTEN")
     print(f"  {YELLOW}e{RESET} = Episode BEENDEN + speichern")

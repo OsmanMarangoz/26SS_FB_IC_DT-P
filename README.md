@@ -9,7 +9,7 @@ git clone https://github.com/Unity-Technologies/URDF-Importer
 For the .venv and lerobot please:
 
 # 1. Create a fresh virtual environment
-python -m venv .venv
+python3 -m venv --system-site-packages .venv
 
 # 2. Activate it (Mac/Linux)
 source .venv/bin/activate

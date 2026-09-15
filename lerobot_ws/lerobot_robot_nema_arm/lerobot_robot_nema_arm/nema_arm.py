@@ -9,6 +9,10 @@ Bestehende Pipeline bleibt KOMPLETT UNVERÄNDERT:
                                              /joint_states (200 Hz, 7 joints)
                                                   ↓
                                         NemaArm.get_observation() ← LeRobot liest hier
+
+Kamera-Backend wird über config.mode gewählt:
+    twin  → ROS2Camera (sensor_msgs/Image via rosbridge)
+    real  → ReCamera   (USB/RTSP physische Kameras)
 """
 
 import threading
@@ -42,19 +46,36 @@ class NemaArm(Robot):
         self._received_first_js = False
 
         # Kameras initialisieren (nur wenn use_camera=True)
-        # Jede Kamera ist ein Unity-Render, das via rosbridge als
-        # sensor_msgs/Image auf einem ROS2-Topic ankommt. Beliebig viele
-        # möglich — eine ROS2Camera pro Eintrag in config.cameras.
+        # Backend hängt von config.mode ab:
+        #   twin → ROS2Camera (pro Eintrag in config.cameras = ROS2 Topics)
+        #   real → ReCamera   (pro Eintrag in config.cameras = ReCamera kwargs)
         if config.use_camera:
-            self.cameras = {
-                name: ROS2Camera(ROS2CameraConfig(
-                    image_topic=topic,
-                    width=config.cam_width,
-                    height=config.cam_height,
-                    fps=config.cam_fps,
-                ))
-                for name, topic in config.cameras.items()
-            }
+            if config.mode == "twin":
+                self.cameras = {
+                    name: ROS2Camera(ROS2CameraConfig(
+                        image_topic=topic,
+                        width=config.cam_width,
+                        height=config.cam_height,
+                        fps=config.cam_fps,
+                    ))
+                    for name, topic in config.cameras.items()
+                }
+            elif config.mode == "real":
+                from .recamera import ReCamera, ReCameraConfig
+                self.cameras = {
+                    name: ReCamera(ReCameraConfig(
+                        width=config.cam_width,
+                        height=config.cam_height,
+                        fps=config.cam_fps,
+                        **cam_kwargs,
+                    ))
+                    for name, cam_kwargs in config.cameras.items()
+                }
+            else:
+                raise ValueError(
+                    f"[NemaArm] Ungültiger mode='{config.mode}'. "
+                    f"Erlaubt: 'twin', 'real'."
+                )
         else:
             self.cameras = {}
 
@@ -129,6 +150,7 @@ class NemaArm(Robot):
         )
         self._ros_thread.start()
 
+        print(f"[NemaArm] Mode: {self.config.mode}")
         print(f"[NemaArm] Warte auf '{self.config.joint_states_topic}'...")
         deadline = time.time() + self.config.connection_timeout_s
         while not self._received_first_js:
@@ -147,7 +169,8 @@ class NemaArm(Robot):
         # Kamera verbinden
         for cam_name, cam in self.cameras.items():
             cam.connect()
-            print(f"[NemaArm] Kamera '{cam_name}' verbunden.")
+            print(f"[NemaArm] Kamera '{cam_name}' verbunden "
+                  f"(backend: {'ROS2Camera' if self.config.mode == 'twin' else 'ReCamera'}).")
 
     def disconnect(self) -> None:
         for cam_name, cam in self.cameras.items():
@@ -195,7 +218,7 @@ class NemaArm(Robot):
         """
         Liest aktuelle Gelenkpositionen aus /joint_states.
         7 Joints: 4 Arm + 3 Finger.
-        Optional: Kamera-Frame von reCamera.
+        Optional: Kamera-Frame von ROS2Camera (twin) oder ReCamera (real).
         """
         if not self.is_connected:
             raise ConnectionError("[NemaArm] Nicht verbunden. connect() aufrufen.")

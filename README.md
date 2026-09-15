@@ -18,4 +18,9 @@ source .venv/bin/activate
 # 3. Install the packages from your recipe
 pip install -r requirements.txt
 
-then install the lerebot stuff in here.
+pip install -e /home/robopi2/lerobot_ws/lerobot
+pip intsall -e /home/robopi2/lerobot_ws/lerobot_robot_nema_arm
+
+verfiy lerobot install:
+
+python3 -c "from lerobot_robot_nema_arm import NemaArm, NemaArmConfig; print('yo it works')"

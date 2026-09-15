@@ -24,6 +24,8 @@ setup(
         'console_scripts': [
             # Weg B (aktiv): Jacobian / Damped Least Squares
             'joy_to_tcp_jac_node = xbox_servo_teleop.joy_to_tcp_jac_node:main',
+            # Korrigierte 4-DoF Variante fuer 4x4 Jacobian / DLS
+            'joy_to_tcp_jac_4dof_node = xbox_servo_teleop.joy_to_tcp_jac_4dof_correct:main',
             # Alt (Position-IK, behalten als Fallback):
             'joy_to_tcp_ik_node = xbox_servo_teleop.joy_to_tcp_ik_node:main',
         ],

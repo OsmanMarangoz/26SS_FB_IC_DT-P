@@ -56,6 +56,7 @@ class RobotMiddlewareNode(Node):
         self.target_joints = [0.0, 0.0, 0.0, 0.0]
         self.joint_names = ['joint_1', 'joint_2', 'joint_3', 'joint_4']
         self.gripper_open = True
+        self.active = False
 
         timer_period = 1.0 / self.publish_rate
         self.timer = self.create_timer(timer_period, self.publish_joint_states)
@@ -76,6 +77,7 @@ class RobotMiddlewareNode(Node):
         oz = pose.orientation.z
         ow = pose.orientation.w
         self.gripper_open = msg.gripper_state
+        self.active = True
 
         self.get_logger().info(
             f'RobotCommand von "{msg.base_id}": '
@@ -147,6 +149,9 @@ class RobotMiddlewareNode(Node):
         return math.asin(sinp)
 
     def publish_joint_states(self):
+        if not self.active:
+            return
+
         dt = 1.0 / self.publish_rate
         for i in range(4):
             diff = self.target_joints[i] - self.current_joints[i]

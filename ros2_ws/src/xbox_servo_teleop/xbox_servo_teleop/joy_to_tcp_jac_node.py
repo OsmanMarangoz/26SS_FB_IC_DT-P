@@ -96,6 +96,9 @@ class JoyToTcpJac(Node):
         self.q_target = None        # interner Zielzustand (rad), wird integriert
         self.initialized = False
         self.current_v = np.zeros(3)  # current TCP velocity for smoothing
+        self.gripper_pos = 0.0      # current gripper position
+        self.gripper_target = 0.0   # target gripper position for smooth movement
+        self.last_log_time = 0.0
 
         # URDF-abgeleitete Kinematik-Infos pro Gelenk
         self.joint_axis = {}        # name -> np.array(3) lokale Achse
@@ -234,13 +237,23 @@ class JoyToTcpJac(Node):
         # Greifer + System (Flanken)
         if self._pressed(BTN_A):
             self._send_cmd('grip_open')
+            self.gripper_target = 0.4
         if self._pressed(BTN_B):
             self._send_cmd('grip_close')
+            self.gripper_target = 0.0
         if self._pressed(BTN_START):
             self._send_cmd('home')
         if self._pressed(BTN_BACK):
             self._send_cmd('reset')
         self.prev_buttons = list(self.buttons)
+
+        # Smooth gripper interpolation
+        dt = 1.0 / UPDATE_RATE_HZ
+        gripper_speed = 0.5  # rad/s (adjust for faster/slower)
+        if self.gripper_pos < self.gripper_target:
+            self.gripper_pos = min(self.gripper_target, self.gripper_pos + gripper_speed * dt)
+        elif self.gripper_pos > self.gripper_target:
+            self.gripper_pos = max(self.gripper_target, self.gripper_pos - gripper_speed * dt)
 
         # Internen Zielzustand initialisieren aus aktuellen Gelenkwinkeln
         if not self.initialized:
@@ -253,58 +266,67 @@ class JoyToTcpJac(Node):
 
         # Deadman
         if len(self.buttons) <= BTN_LB or self.buttons[BTN_LB] != 1:
-            return
-
-        # Stick -> gewuenschte TCP-Geschwindigkeit (world frame)
-        ly = self._raw_axis(AXIS_LEFTY)
-        lx = self._raw_axis(AXIS_LEFTX)
-        rz = self._raw_axis(AXIS_RIGHTY)
-
-        # Proportional speed and allow multi-axis (diagonal) movement
-        target_v = np.array([ly, lx, rz]) * LINEAR_SPEED   # m/s
+            target_v = np.zeros(3)
+        else:
+            # Stick -> gewuenschte TCP-Geschwindigkeit (world frame)
+            ly = self._raw_axis(AXIS_LEFTY)
+            lx = self._raw_axis(AXIS_LEFTX)
+            rz = self._raw_axis(AXIS_RIGHTY)
+    
+            # Proportional speed and allow multi-axis (diagonal) movement
+            target_v = np.array([ly, lx, rz]) * LINEAR_SPEED   # m/s
 
         # Simple low-pass filter for smoothing
         alpha = 0.15
         self.current_v = alpha * target_v + (1.0 - alpha) * self.current_v
 
+        q_new = self.q_target.copy()
+
         if np.allclose(self.current_v, 0.0, atol=1e-5):
             self.current_v = np.zeros(3)
-            return
+        else:
+            v = self.current_v
 
-        v = self.current_v
-
-        J = self._build_jacobian()
-        if J is None:
-            return
-
-        # Damped Least Squares: q_dot = J^T (J J^T + lambda^2 I)^-1 v
-        n = J.shape[1]
-        JJt = J @ J.T
-        damp = (DLS_LAMBDA ** 2) * np.eye(3)
-        try:
-            q_dot = J.T @ np.linalg.solve(JJt + damp, v)
-        except np.linalg.LinAlgError:
-            return
-
-        dt = 1.0 / UPDATE_RATE_HZ
-        dq = q_dot * dt
-
-        # Sicherheits-Clamp pro Tick
-        np.clip(dq, -MAX_JOINT_STEP, MAX_JOINT_STEP, out=dq)
-
-        q_new = self.q_target + dq
-
-        # Gelenkgrenzen einhalten
-        for i, jname in enumerate(ARM_JOINTS):
-            lo, hi = self.joint_limits[jname]
-            q_new[i] = max(lo, min(hi, q_new[i]))
-
-        self.q_target = q_new
+            J = self._build_jacobian()
+            if J is None:
+                now = self.get_clock().now().nanoseconds / 1e9
+                if now - self.last_log_time > 1.0:
+                    self.get_logger().warn("Jacobian is None (missing TF?). Can't move.")
+                    self.last_log_time = now
+            else:
+                # Damped Least Squares: q_dot = J^T (J J^T + lambda^2 I)^-1 v
+                n = J.shape[1]
+                JJt = J @ J.T
+                damp = (DLS_LAMBDA ** 2) * np.eye(3)
+                try:
+                    q_dot = J.T @ np.linalg.solve(JJt + damp, v)
+                    dt = 1.0 / UPDATE_RATE_HZ
+                    dq = q_dot * dt
+            
+                    # Sicherheits-Clamp pro Tick
+                    np.clip(dq, -MAX_JOINT_STEP, MAX_JOINT_STEP, out=dq)
+            
+                    q_new = self.q_target + dq
+            
+                    # Gelenkgrenzen einhalten
+                    for i, jname in enumerate(ARM_JOINTS):
+                        lo, hi = self.joint_limits[jname]
+                        q_new[i] = max(lo, min(hi, q_new[i]))
+            
+                    self.q_target = q_new
+                    
+                    now = self.get_clock().now().nanoseconds / 1e9
+                    if now - self.last_log_time > 1.0:
+                        self.get_logger().info(f"Moving: v={v.round(3)}, q_new={q_new.round(3)}")
+                        self.last_log_time = now
+                except np.linalg.LinAlgError:
+                    pass
 
         out = JointState()
         out.header.stamp = self.get_clock().now().to_msg()
-        out.name = list(ARM_JOINTS)
-        out.position = [float(q) for q in q_new]
+        # Append gripper fingers so Unity can visualize the gripper
+        out.name = list(ARM_JOINTS) + ['joint_greifer_finger1', 'joint_greifer_finger2', 'joint_greifer_finger3']
+        out.position = [float(q) for q in q_new] + [self.gripper_pos, self.gripper_pos, self.gripper_pos]
         self.target_pub.publish(out)
 
     def _send_cmd(self, text):

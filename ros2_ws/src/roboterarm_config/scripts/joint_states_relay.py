@@ -21,7 +21,7 @@ from sensor_msgs.msg import JointState
 
 SUB_QOS = QoSProfile(
     reliability=ReliabilityPolicy.RELIABLE,
-    durability=DurabilityPolicy.TRANSIENT_LOCAL,
+    durability=DurabilityPolicy.VOLATILE,
     history=HistoryPolicy.KEEP_LAST,
     depth=10,
 )
@@ -41,10 +41,13 @@ class JointStatesRelay(Node):
         self._sub = self.create_subscription(
             JointState, '/joint_states', self._cb, SUB_QOS)
         self.get_logger().info(
-            'joint_states_relay ready: /joint_states (TRANSIENT_LOCAL) '
+            'joint_states_relay ready: /joint_states (VOLATILE) '
             '→ /joint_states_rsp (VOLATILE)')
 
     def _cb(self, msg: JointState):
+        # Filter out robot_middleware_node's fake joints ('joint_1', etc)
+        if not msg.name or msg.name[0] == 'joint_1':
+            return
         self._pub.publish(msg)
 
 

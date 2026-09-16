@@ -17,8 +17,7 @@ KRITISCHE FIXES gegenüber vorherigen Versionen:
 Steuerung (Kran-Stil für Pick-and-Place):
   LB (halten)     = Deadman
   Linker Stick    = TCP X/Y (Tisch-Ebene, World-Frame!)
-  LT / RT         = TCP Z hoch/runter (analog) ODER
-  D-Pad hoch/ab   = TCP Z hoch/runter (digital)
+  D-Pad hoch/ab   = TCP Z hoch/runter
   Rechter Stick Y = Greifer-Pitch (neigen)
   A / B           = Greifer auf / zu
   Start / Back    = home / reset
@@ -40,19 +39,20 @@ import tf2_ros
 from scipy.spatial.transform import Rotation as R
 
 # game_controller_node Achsen-Indizes
-AXIS_LEFTX  = 0  # Left stick horizontal (table Y)
-AXIS_LEFTY  = 1  # Left stick vertical (table X)
-AXIS_LT     = 2  # Left Trigger (optional for Z)
-AXIS_RIGHTY = 3  # Right stick vertical (Pitch)
-AXIS_RT     = 5  # Right Trigger (optional for Z)
-AXIS_DPAD_Y = 7  # D-Pad up/down (Z height)
+AXIS_LEFTX  = 0  # Links/Rechts auf dem Tisch
+AXIS_LEFTY  = 1  # Vor/Zurück auf dem Tisch
+AXIS_RIGHTX = 2  # (Brauchen wir für Pick and Place eigentlich nicht)
+AXIS_RIGHTY = 3  # Greifer Pitch (Neigung)
 
 # game_controller_node Button-Indizes
-BTN_A     = 0
-BTN_B     = 1
-BTN_BACK  = 4
-BTN_START = 6
-BTN_LB    = 9
+BTN_A         = 0
+BTN_B         = 1
+BTN_BACK      = 4
+BTN_START     = 6
+BTN_LB        = 9   # Deadman Switch (Hold) oder Toggle via Back
+BTN_RB        = 10  # Precision Mode (30% speed)
+BTN_DPAD_UP   = 11  # Z-Achse hoch
+BTN_DPAD_DOWN = 12  # Z-Achse runter
 
 # Konfiguration
 TCP_LINK   = "tcp_link"
@@ -72,8 +72,9 @@ JOINT_LIMITS_FALLBACK = {
 UPDATE_RATE_HZ = 50.0           # Control frequency
 
 # Geschwindigkeiten
-LINEAR_SPEED  = 0.15            # m/s TCP translation speed
-PITCH_SPEED   = 0.4             # rad/s gripper pitch rotation speed
+LINEAR_SPEED  = 0.15            # m/s TCP translation speed (normal mode)
+PITCH_SPEED   = 0.4             # rad/s gripper pitch rotation speed (normal mode)
+PRECISION_MULTIPLIER = 0.3      # Speed reduction in precision mode (30%)
 DEADZONE      = 0.08            # Stick deadzone
 
 # DLS parameters (einfacher für 4×4!)
@@ -89,7 +90,6 @@ MAX_JOINT_STEP = 0.10           # rad: safety clamp per tick
 
 # Control mode
 USE_TOOL_FRAME = False          # False = world-frame (best for pick-and-place!)
-USE_TRIGGERS_FOR_Z = True       # True = LT/RT for Z (analog), False = D-Pad (digital)
 
 
 def rot_from_quat(x, y, z, w):
@@ -149,6 +149,9 @@ class JoyToTcpJac4DoF(Node):
         self.last_log_time = 0.0
         self.last_manip = 1.0
 
+        # Toggle Deadman Mode (für lange Sessions)
+        self.deadman_enabled = False
+
         # URDF-derived kinematic info
         self.joint_axis = {}
         self.joint_child = {}
@@ -173,18 +176,18 @@ class JoyToTcpJac4DoF(Node):
         self.timer = self.create_timer(1.0 / UPDATE_RATE_HZ, self.control_loop)
 
         mode_str = "World-Frame (Pick-and-Place)" if not USE_TOOL_FRAME else "Tool-Frame"
-        z_ctrl_str = "LT/RT (analog)" if USE_TRIGGERS_FOR_Z else "D-Pad (digital)"
 
         self.get_logger().info(
             f'joy_to_tcp_jac_4dof (CORRECT 4×4 Jacobian) | Mode: {mode_str}\n'
             '  Task-Space: [X, Y, Z, Pitch] → 4 DoF (NO null-space!)\n'
-            '  Controll mapping:\n'
-            '  LB halten       = Deadman\n'
+            '  Control mapping:\n'
+            '  LB halten       = Deadman (oder Back drücken für Toggle)\n'
+            '  RB halten       = Precision Mode (30% speed)\n'
             '  Linker Stick    = TCP X/Y (Tisch-Ebene)\n'
-            f'  {z_ctrl_str:16s} = TCP Z (Höhe)\n'
+            '  D-Pad (digital) = TCP Z (Höhe)\n'
             '  Rechter Stick Y = Greifer-Pitch (neigen)\n'
             '  A / B           = Greifer auf / zu\n'
-            '  Start / Back    = home / reset\n')
+            '  Start / Back    = home / toggle deadman\n')
 
     # ── Callbacks ───────────────────────────────────────────────────
     def js_cb(self, msg):
@@ -320,6 +323,12 @@ class JoyToTcpJac4DoF(Node):
         if not self.urdf_ready:
             return
 
+        # Toggle Deadman mit Back-Button
+        if self._pressed(BTN_BACK):
+            self.deadman_enabled = not self.deadman_enabled
+            status = "ENABLED (dauerhaft an)" if self.deadman_enabled else "DISABLED (LB halten nötig)"
+            self.get_logger().info(f'🔒 Deadman Toggle: {status}')
+
         # Gripper buttons
         if self._pressed(BTN_A):
             self._send_cmd('grip_open')
@@ -329,8 +338,7 @@ class JoyToTcpJac4DoF(Node):
             self.gripper_target = 0.0
         if self._pressed(BTN_START):
             self._send_cmd('home')
-        if self._pressed(BTN_BACK):
-            self._send_cmd('reset')
+
         self.prev_buttons = list(self.buttons)
 
         # Smooth gripper
@@ -351,42 +359,39 @@ class JoyToTcpJac4DoF(Node):
             return
 
         # ── Read joystick ────────────────────────────────────────────
-        # Deadman switch
-        if len(self.buttons) <= BTN_LB or self.buttons[BTN_LB] != 1:
+        # Deadman switch (Index 9) - Hold oder Toggle
+        deadman_active = self.deadman_enabled or (
+            len(self.buttons) > BTN_LB and self.buttons[BTN_LB] == 1
+        )
+
+        if not deadman_active:
             target_v_linear = np.zeros(3)
             target_v_pitch = 0.0
         else:
-            # 🎮 KRAN-MAPPING: Left stick = table X/Y, Triggers/D-Pad = Z, Right stick = Pitch
+            # Precision Mode (RB halten = 30% speed)
+            speed_mult = 1.0
+            if len(self.buttons) > BTN_RB and self.buttons[BTN_RB] == 1:
+                speed_mult = PRECISION_MULTIPLIER
+
+            # 1. Translation X / Y (Linker Stick)
             ly = self._raw_axis(AXIS_LEFTY)   # Table X (forward/backward)
             lx = self._raw_axis(AXIS_LEFTX)   # Table Y (left/right)
 
-            # Z-control: either analog triggers or digital D-Pad
-            if USE_TRIGGERS_FOR_Z:
-                # Triggers: typically start at 1.0 (unpressed) and go to -1.0 (fully pressed)
-                # Convert to [0, 1] range
-                lt_raw = self.axes[AXIS_LT] if AXIS_LT < len(self.axes) else 1.0
-                rt_raw = self.axes[AXIS_RT] if AXIS_RT < len(self.axes) else 1.0
+            # 2. Translation Z (D-Pad Buttons)
+            # Wenn UP gedrückt ist (1) und DOWN nicht (0) -> z_val = 1
+            # Wenn DOWN gedrückt ist (1) und UP nicht (0) -> z_val = -1
+            # Wenn nichts gedrückt ist -> z_val = 0
+            z_val = 0.0
+            if len(self.buttons) > BTN_DPAD_DOWN:
+                z_val = float(self.buttons[BTN_DPAD_UP] - self.buttons[BTN_DPAD_DOWN])
 
-                z_down = (1.0 - lt_raw) / 2.0  # LT pressed = go down
-                z_up = (1.0 - rt_raw) / 2.0    # RT pressed = go up
-
-                # Apply deadzone
-                z_down = z_down if z_down > DEADZONE else 0.0
-                z_up = z_up if z_up > DEADZONE else 0.0
-
-                z_velocity = (z_up - z_down)
-            else:
-                # D-Pad: digital input, returns -1.0, 0.0, or 1.0
-                dpad_y = self.axes[AXIS_DPAD_Y] if AXIS_DPAD_Y < len(self.axes) else 0.0
-                z_velocity = dpad_y  # +1.0 = up, -1.0 = down
-
-            # Pitch control on right stick Y-axis ONLY (separated from Z!)
+            # 3. Pitch auf dem rechten Stick (Y-Achse)
             ry = self._raw_axis(AXIS_RIGHTY)  # Right stick vertical = pitch
 
             # ✅ World-frame control (table-centric for pick-and-place)
             if USE_TOOL_FRAME:
                 # Tool-frame mode (less common for pick-and-place)
-                v_tool_frame = np.array([ly, lx, z_velocity]) * LINEAR_SPEED
+                v_tool_frame = np.array([ly, lx, z_val]) * LINEAR_SPEED * speed_mult
                 tcp_pose = self._tf_pose(TCP_LINK)
                 if tcp_pose is not None:
                     R_tcp, _ = tcp_pose
@@ -395,11 +400,11 @@ class JoyToTcpJac4DoF(Node):
                     target_v_linear = np.zeros(3)
             else:
                 # World-frame control (recommended!)
-                # ly = X (forward/back), lx = Y (left/right), z_velocity = Z (up/down)
-                target_v_linear = np.array([ly, lx, z_velocity]) * LINEAR_SPEED
+                # ly = X (forward/back), lx = Y (left/right), z_val = Z (up/down)
+                target_v_linear = np.array([ly, lx, z_val]) * LINEAR_SPEED * speed_mult
 
             # ✅ Pitch control (completely independent of translation!)
-            target_v_pitch = ry * PITCH_SPEED  # rad/s
+            target_v_pitch = ry * PITCH_SPEED * speed_mult  # rad/s
 
         # ── Acceleration-limited smoothing ───────────────────────────
         # Linear

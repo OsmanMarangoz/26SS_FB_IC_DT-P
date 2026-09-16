@@ -25,8 +25,8 @@ def generate_launch_description():
         ),
         Node(
             package='xbox_servo_teleop',
-            executable='joy_to_tcp_jac_node',
-            name='joy_to_tcp_jac',
+            executable='joy_to_tcp_jac_4dof_node',
+            name='joy_to_tcp_jac_4dof',
             output='screen',
         ),
     ])

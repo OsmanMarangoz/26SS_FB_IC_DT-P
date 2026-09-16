@@ -14,13 +14,16 @@ KRITISCHE FIXES gegenüber vorherigen Versionen:
   3. Pitch wird explizit gelockt wenn nur X/Y/Z bewegt wird
   4. DLS funktioniert sauber (4×4 ist square → gut konditioniert)
 
-Steuerung:
+Steuerung (Kran-Stil für Pick-and-Place):
   LB (halten)     = Deadman
-  Linker Stick    = TCP X/Y (Tool-Frame!)
-  Rechter Stick Y = TCP Z (Tool-Frame!)
-  Rechter Stick X = Greifer-Pitch (hoch/runter neigen)
+  Linker Stick    = TCP X/Y (Tisch-Ebene, World-Frame!)
+  LT / RT         = TCP Z hoch/runter (analog) ODER
+  D-Pad hoch/ab   = TCP Z hoch/runter (digital)
+  Rechter Stick Y = Greifer-Pitch (neigen)
   A / B           = Greifer auf / zu
   Start / Back    = home / reset
+
+Z-Achse und Pitch sind getrennt → keine ungewollte Neigung beim Herunterfahren!
 """
 
 import xml.etree.ElementTree as ET
@@ -37,10 +40,12 @@ import tf2_ros
 from scipy.spatial.transform import Rotation as R
 
 # game_controller_node Achsen-Indizes
-AXIS_LEFTX  = 0
-AXIS_LEFTY  = 1
-AXIS_RIGHTX = 2
-AXIS_RIGHTY = 3
+AXIS_LEFTX  = 0  # Left stick horizontal (table Y)
+AXIS_LEFTY  = 1  # Left stick vertical (table X)
+AXIS_LT     = 2  # Left Trigger (optional for Z)
+AXIS_RIGHTY = 3  # Right stick vertical (Pitch)
+AXIS_RT     = 5  # Right Trigger (optional for Z)
+AXIS_DPAD_Y = 7  # D-Pad up/down (Z height)
 
 # game_controller_node Button-Indizes
 BTN_A     = 0
@@ -83,7 +88,8 @@ MAX_PITCH_ACCEL  = 2.0          # rad/s²
 MAX_JOINT_STEP = 0.10           # rad: safety clamp per tick
 
 # Control mode
-USE_TOOL_FRAME = True           # True = intuitive tool-frame control
+USE_TOOL_FRAME = False          # False = world-frame (best for pick-and-place!)
+USE_TRIGGERS_FOR_Z = True       # True = LT/RT for Z (analog), False = D-Pad (digital)
 
 
 def rot_from_quat(x, y, z, w):
@@ -166,17 +172,19 @@ class JoyToTcpJac4DoF(Node):
 
         self.timer = self.create_timer(1.0 / UPDATE_RATE_HZ, self.control_loop)
 
-        mode_str = "Tool-Frame" if USE_TOOL_FRAME else "World-Frame"
+        mode_str = "World-Frame (Pick-and-Place)" if not USE_TOOL_FRAME else "Tool-Frame"
+        z_ctrl_str = "LT/RT (analog)" if USE_TRIGGERS_FOR_Z else "D-Pad (digital)"
 
         self.get_logger().info(
-            f'✅ joy_to_tcp_jac_4dof (CORRECT 4×4 Jacobian) | Mode: {mode_str}\n'
+            f'joy_to_tcp_jac_4dof (CORRECT 4×4 Jacobian) | Mode: {mode_str}\n'
             '  Task-Space: [X, Y, Z, Pitch] → 4 DoF (NO null-space!)\n'
+            '  Controll mapping:\n'
             '  LB halten       = Deadman\n'
-            '  Linker Stick    = TCP X/Y (tool frame)\n'
-            '  Rechter Stick Y = TCP Z\n'
-            '  Rechter Stick X = Greifer-Pitch (up/down)\n'
+            '  Linker Stick    = TCP X/Y (Tisch-Ebene)\n'
+            f'  {z_ctrl_str:16s} = TCP Z (Höhe)\n'
+            '  Rechter Stick Y = Greifer-Pitch (neigen)\n'
             '  A / B           = Greifer auf / zu\n'
-            '  Start / Back    = home / reset')
+            '  Start / Back    = home / reset\n')
 
     # ── Callbacks ───────────────────────────────────────────────────
     def js_cb(self, msg):
@@ -194,7 +202,7 @@ class JoyToTcpJac4DoF(Node):
         try:
             self._parse_urdf(msg.data)
             self.urdf_ready = True
-            self.get_logger().info('✅ URDF parsed -- 4-DoF Kinematik bereit.')
+            self.get_logger().info('URDF parsed -- 4-DoF Kinematik bereit.')
         except Exception as e:
             self.get_logger().error(f'URDF parsing failed: {e}')
 
@@ -348,17 +356,37 @@ class JoyToTcpJac4DoF(Node):
             target_v_linear = np.zeros(3)
             target_v_pitch = 0.0
         else:
-            ly = self._raw_axis(AXIS_LEFTY)   # Forward/backward
-            lx = self._raw_axis(AXIS_LEFTX)   # Left/right
-            ry = self._raw_axis(AXIS_RIGHTY)  # Up/down
-            rx = self._raw_axis(AXIS_RIGHTX)  # Pitch control
+            # 🎮 KRAN-MAPPING: Left stick = table X/Y, Triggers/D-Pad = Z, Right stick = Pitch
+            ly = self._raw_axis(AXIS_LEFTY)   # Table X (forward/backward)
+            lx = self._raw_axis(AXIS_LEFTX)   # Table Y (left/right)
 
-            # ✅ Tool-frame or world-frame velocity
+            # Z-control: either analog triggers or digital D-Pad
+            if USE_TRIGGERS_FOR_Z:
+                # Triggers: typically start at 1.0 (unpressed) and go to -1.0 (fully pressed)
+                # Convert to [0, 1] range
+                lt_raw = self.axes[AXIS_LT] if AXIS_LT < len(self.axes) else 1.0
+                rt_raw = self.axes[AXIS_RT] if AXIS_RT < len(self.axes) else 1.0
+
+                z_down = (1.0 - lt_raw) / 2.0  # LT pressed = go down
+                z_up = (1.0 - rt_raw) / 2.0    # RT pressed = go up
+
+                # Apply deadzone
+                z_down = z_down if z_down > DEADZONE else 0.0
+                z_up = z_up if z_up > DEADZONE else 0.0
+
+                z_velocity = (z_up - z_down)
+            else:
+                # D-Pad: digital input, returns -1.0, 0.0, or 1.0
+                dpad_y = self.axes[AXIS_DPAD_Y] if AXIS_DPAD_Y < len(self.axes) else 0.0
+                z_velocity = dpad_y  # +1.0 = up, -1.0 = down
+
+            # Pitch control on right stick Y-axis ONLY (separated from Z!)
+            ry = self._raw_axis(AXIS_RIGHTY)  # Right stick vertical = pitch
+
+            # ✅ World-frame control (table-centric for pick-and-place)
             if USE_TOOL_FRAME:
-                # Velocity in tool frame (intuitive!)
-                v_tool_frame = np.array([ly, lx, ry]) * LINEAR_SPEED
-
-                # Transform to world frame
+                # Tool-frame mode (less common for pick-and-place)
+                v_tool_frame = np.array([ly, lx, z_velocity]) * LINEAR_SPEED
                 tcp_pose = self._tf_pose(TCP_LINK)
                 if tcp_pose is not None:
                     R_tcp, _ = tcp_pose
@@ -366,11 +394,12 @@ class JoyToTcpJac4DoF(Node):
                 else:
                     target_v_linear = np.zeros(3)
             else:
-                # World-frame control
-                target_v_linear = np.array([ly, lx, ry]) * LINEAR_SPEED
+                # World-frame control (recommended!)
+                # ly = X (forward/back), lx = Y (left/right), z_velocity = Z (up/down)
+                target_v_linear = np.array([ly, lx, z_velocity]) * LINEAR_SPEED
 
-            # ✅ Pitch control (independent of position)
-            target_v_pitch = rx * PITCH_SPEED  # rad/s
+            # ✅ Pitch control (completely independent of translation!)
+            target_v_pitch = ry * PITCH_SPEED  # rad/s
 
         # ── Acceleration-limited smoothing ───────────────────────────
         # Linear

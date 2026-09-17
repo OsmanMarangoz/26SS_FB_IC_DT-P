@@ -198,10 +198,12 @@ class JoyToJoint4DoF(Node):
         target_v = np.zeros(4)
         
         if not deadman_active:
-            # Continuously sync internal target to real-time Unity state
-            cur = dict(zip(self.latest_joint_state.name, self.latest_joint_state.position))
-            if all(j in cur for j in ARM_JOINTS):
-                self.q_target = np.array([cur[j] for j in ARM_JOINTS])
+            # Explicit Sync via Y button to completely bypass any network/buffer lag issues
+            if len(self.buttons) > 3 and self._pressed(3):  # BTN_Y is usually index 3
+                cur = dict(zip(self.latest_joint_state.name, self.latest_joint_state.position))
+                if all(j in cur for j in ARM_JOINTS):
+                    self.q_target = np.array([cur[j] for j in ARM_JOINTS])
+                    self.get_logger().info('Manual sync to /joint_states completed.')
             return  # IMPORTANT: Do not publish when idle!
         else:
             speed_mult = PRECISION_MULTIPLIER if (len(self.buttons) > BTN_RB and self.buttons[BTN_RB] == 1) else 1.0

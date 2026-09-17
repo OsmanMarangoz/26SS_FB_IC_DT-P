@@ -103,6 +103,11 @@ class JoyToJoint4DoF(Node):
             '  Start           = home\n')
 
     def js_cb(self, msg):
+        # CRITICAL FILTER: Only accept messages that contain our joint names.
+        # Another middleware node publishes /joint_states using 'joint_1', 'joint_2', etc.
+        # We must ignore those to avoid overwriting valid Unity feedback.
+        if not msg.name or ARM_JOINTS[0] not in msg.name:
+            return
         self.latest_joint_state = msg
 
     def joy_cb(self, msg):

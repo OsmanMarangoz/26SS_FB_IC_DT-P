@@ -59,14 +59,6 @@ def generate_launch_description():
         output="screen",
     )
 
-    # 3. TCP target bridge: /robot_cmd -> IK -> interpolated /joint_states.
-    #    This is the path used when the Unity TCP ball is released.
-    middleware_node = Node(
-        package="robot_middleware",
-        executable="robot_middleware_node",
-        name="robot_middleware_node",
-        output="screen",
-    )
 
     # 4. robot_state_publisher — reads from relay topic (VOLATILE, compatible)
     rsp_node = Node(
@@ -88,7 +80,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         relay_node,
-        middleware_node,
         rsp_node,
         world_tf_node,
         # Give the ROS publishers/subscriber time to register before Unity connects.

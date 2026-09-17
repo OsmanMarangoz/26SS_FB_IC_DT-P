@@ -191,21 +191,20 @@ class JoyToJoint4DoF(Node):
         
         target_v = np.zeros(4)
         
-        if deadman_active:
+        if not deadman_active:
+            # We are NOT driving the robot. Continuously sync our internal target
+            # to the actual robot state so we start from here when LB is pressed.
+            cur = dict(zip(self.latest_joint_state.name, self.latest_joint_state.position))
+            if all(j in cur for j in ARM_JOINTS):
+                self.q_target = np.array([cur[j] for j in ARM_JOINTS])
+            return # IMPORTANT: Do not publish when idle, otherwise we create an infinite echo loop with Unity!
+        else:
             speed_mult = PRECISION_MULTIPLIER if (len(self.buttons) > BTN_RB and self.buttons[BTN_RB] == 1) else 1.0
             
             # Map Inputs directly to Joint Velocities (Sehr intuitiv!)
-            
-            # Linker Stick L/R -> Basis Yaw (invertiert)
             target_v[0] = -self._raw_axis(AXIS_LEFTX) * JOINT_SPEED * speed_mult
-            
-            # Linker Stick U/D -> Arm 1 Pitch (unterstes Gelenk)
             target_v[1] = self._raw_axis(AXIS_LEFTY) * JOINT_SPEED * speed_mult
-            
-            # Rechter Stick U/D -> Arm 2 Pitch (mittleres Gelenk)
             target_v[2] = self._raw_axis(AXIS_RIGHTY) * JOINT_SPEED * speed_mult
-            
-            # Rechter Stick L/R -> Greifer Pitch
             target_v[3] = self._raw_axis(AXIS_RIGHTX) * JOINT_SPEED * speed_mult
 
         # Integrate and apply limits

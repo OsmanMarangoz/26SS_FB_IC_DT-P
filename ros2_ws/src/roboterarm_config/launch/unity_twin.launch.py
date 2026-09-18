@@ -8,8 +8,7 @@ publishes /joint_states, and sends TCP targets on /robot_cmd.
 
 Starts:
   1. rosbridge_server       — WebSocket bridge to Unity (port 9090)
-    2. robot_middleware       — /robot_cmd -> IK -> interpolated /joint_states
-    3. robot_state_publisher  — /robot_description + /tf from /joint_states
+    2. robot_state_publisher  — /robot_description + /tf from /joint_states
                                Reads URDF directly — no moveit_configs_utils.
 
 The world->Basis TF is already in the URDF as joint_world_basis (fixed),
@@ -78,7 +77,29 @@ def generate_launch_description():
         arguments=["0", "0", "0", "0", "0", "0", "world", "Basis"],
     )
 
+    
+    # 6. TCP Image Receiver (Bypasses rosbridge completely)
+    # Camera 1 (Top)
+    image_tcp_node_1 = Node(
+        package="roboterarm_config",
+        executable="image_tcp_node",
+        name="unity_camera_tcp_receiver_1",
+        output="screen",
+        parameters=[{"port": 5000, "topic": "/unity/camera_top/image_raw"}]
+    )
+
+    # Camera 2 (Front/Side)
+    image_tcp_node_2 = Node(
+        package="roboterarm_config",
+        executable="image_tcp_node",
+        name="unity_camera_tcp_receiver_2",
+        output="screen",
+        parameters=[{"port": 5001, "topic": "/unity/camera_side/image_raw"}]
+    )
+
     return LaunchDescription([
+        image_tcp_node_1,
+        image_tcp_node_2,
         relay_node,
         rsp_node,
         world_tf_node,

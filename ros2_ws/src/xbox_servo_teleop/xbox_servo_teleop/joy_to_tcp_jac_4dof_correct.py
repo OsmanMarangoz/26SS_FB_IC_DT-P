@@ -54,7 +54,7 @@ JOINT_LIMITS_FALLBACK = {
     'joint_arm3_greifer': (-1.57, 1.57),
 }
 
-UPDATE_RATE_HZ = 10.0
+UPDATE_RATE_HZ = 20.0
 JOINT_SPEED = 0.8  # rad/s base speed
 PRECISION_MULTIPLIER = 0.3
 DEADZONE = 0.1

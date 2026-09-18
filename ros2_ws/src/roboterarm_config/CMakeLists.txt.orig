@@ -18,14 +18,9 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(PROGRAMS scripts/joint_states_relay.py
+install(PROGRAMS scripts/joint_states_relay.py scripts/image_tcp_node.py
   DESTINATION lib/${PROJECT_NAME}
   RENAME joint_states_relay
-)
-
-install(PROGRAMS scripts/image_tcp_node.py
-  DESTINATION lib/${PROJECT_NAME}
-  RENAME image_tcp_node
 )
 
 install(DIRECTORY config DESTINATION share/${PROJECT_NAME})

@@ -97,7 +97,10 @@ class NemaArm(Robot):
 
     @property
     def action_features(self) -> dict:
-        return {f"{j}.pos": float for j in self.config.arm_joints}
+        features = {f"{j}.pos": float for j in self.config.arm_joints}
+        for j in self.config.finger_joints:
+            features[f"{j}.pos"] = float
+        return features
 
     # ════════════════════════════════════════════════════════════════════
     #  Verbindung
@@ -134,6 +137,12 @@ class NemaArm(Robot):
         self._traj_pub = self._node.create_publisher(
             JointTrajectory,
             self.config.planned_trajectory_topic,
+            10,
+        )
+
+        self._servo_pub = self._node.create_publisher(
+            JointState,
+            self.config.servo_target_topic,
             10,
         )
 
@@ -241,26 +250,39 @@ class NemaArm(Robot):
 
     def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
         """
-        Sendet Ziel-Gelenkpositionen an stm32_serial_node via /planned_trajectory.
+        Sendet Ziel-Gelenkpositionen an stm32_serial_node via /planned_trajectory
+        oder an Unity Twin via /servo_joint_target.
         """
         if not self.is_connected:
             raise ConnectionError("[NemaArm] Nicht verbunden.")
 
-        from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
-        from builtin_interfaces.msg import Duration
+        if self.config.mode == "twin":
+            from sensor_msgs.msg import JointState
+            msg = JointState()
+            msg.header.stamp = self._node.get_clock().now().to_msg()
+            all_joints = list(self.config.arm_joints) + list(self.config.finger_joints)
+            msg.name = all_joints
+            msg.position = [
+                float(action.get(f"{j}.pos", 0.0)) for j in all_joints
+            ]
+            self._servo_pub.publish(msg)
+        else:
+            from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+            from builtin_interfaces.msg import Duration
 
-        traj = JointTrajectory()
-        traj.joint_names = list(self.config.arm_joints)
+            traj = JointTrajectory()
+            traj.joint_names = list(self.config.arm_joints)
 
-        point = JointTrajectoryPoint()
-        point.positions = [
-            float(action.get(f"{j}.pos", 0.0)) for j in self.config.arm_joints
-        ]
-        duration_ns = self.config.action_duration_ms * 1_000_000
-        point.time_from_start = Duration(sec=0, nanosec=duration_ns)
-        traj.points.append(point)
+            point = JointTrajectoryPoint()
+            point.positions = [
+                float(action.get(f"{j}.pos", 0.0)) for j in self.config.arm_joints
+            ]
+            duration_ns = self.config.action_duration_ms * 1_000_000
+            point.time_from_start = Duration(sec=0, nanosec=duration_ns)
+            traj.points.append(point)
 
-        self._traj_pub.publish(traj)
+            self._traj_pub.publish(traj)
+        
         return action
 
     def send_command(self, cmd: str) -> None:

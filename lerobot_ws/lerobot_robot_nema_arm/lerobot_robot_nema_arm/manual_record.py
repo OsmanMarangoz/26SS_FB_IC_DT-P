@@ -203,6 +203,10 @@ def main():
 
     if episode_count > 0 and not args.no_push:
         banner("LADE ZU HUGGINGFACE HOCH...", CYAN)
+        if hasattr(dataset, "consolidate"):
+            dataset.consolidate()
+        if hasattr(dataset, "finalize"):
+            dataset.finalize()
         dataset.push_to_hub()
         banner(f"✅ HOCHGELADEN: {args.repo_id}", GREEN)
     else:

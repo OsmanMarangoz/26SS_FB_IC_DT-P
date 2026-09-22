@@ -31,6 +31,7 @@ class NemaArmConfig(RobotConfig):
     joint_states_topic: str = "/joint_states"
     planned_trajectory_topic: str = "/planned_trajectory"
     stm32_cmd_topic: str = "/stm32_cmd"
+    servo_target_topic: str = "/servo_joint_target"
 
     # ── Arm Joints (Motor 1-4) ────────────────────────────────────────────
     arm_joints: list = field(default_factory=lambda: [

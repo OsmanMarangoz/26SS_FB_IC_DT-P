@@ -1,5 +1,5 @@
 """
-teleop_unity.py — LeRobot Teleoperator (liest die kommandierten Gelenkwinkel).
+teleop_unity.py — LeRobot Teleoperator.
 
 Funktioniert mit ZWEI Quellen, je nach source_topic:
 
@@ -12,7 +12,7 @@ Funktioniert mit ZWEI Quellen, je nach source_topic:
       → source_type="trajectory" setzen und planned_trajectory_topic nutzen
 
 Der Teleoperator liest passiv mit und gibt die Zielwinkel als get_action()
-an LeRobot weiter. Eure Steuer-Pipeline wird NICHT berührt.
+an LeRobot weiter.
 """
 
 import threading
@@ -41,6 +41,12 @@ class UnityTeleoperatorConfig(TeleoperatorConfig):
         "joint_arm3_greifer",
     ])
 
+    finger_joints: list = field(default_factory=lambda: [
+        "joint_greifer_finger1",
+        "joint_greifer_finger2",
+        "joint_greifer_finger3",
+    ])
+
     connection_timeout_s: float = 30.0
 
 
@@ -63,7 +69,8 @@ class UnityTeleoperator(Teleoperator):
 
     @property
     def action_features(self) -> dict:
-        return {f"{j}.pos": float for j in self.config.arm_joints}
+        all_joints = list(self.config.arm_joints) + list(self.config.finger_joints)
+        return {f"{j}.pos": float for j in all_joints}
 
     @property
     def feedback_features(self) -> dict:
@@ -86,54 +93,67 @@ class UnityTeleoperator(Teleoperator):
     # ── Verbindung ────────────────────────────────────────────────────────
 
     def connect(self) -> None:
+        if self.is_connected:
+            return
+
         import rclpy
-        from rclpy.executors import SingleThreadedExecutor
+        from rclpy.node import Node
+        from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
         if not rclpy.ok():
-            rclpy.init()
+            rclpy.init(args=None)
 
-        self._node = rclpy.create_node("lerobot_unity_teleop")
+        self._node = Node("unity_teleop_node")
+        
+        # Publisher ist VOLATILE, wir müssen als Subscriber auch VOLATILE sein
+        qos = QoSProfile(
+            depth=10,
+            reliability=ReliabilityPolicy.RELIABLE,
+            durability=DurabilityPolicy.VOLATILE
+        )
 
         if self.config.source_type == "jointstate":
             from sensor_msgs.msg import JointState
-            topic = self.config.servo_target_topic
-            self._node.create_subscription(JointState, topic, self._callback, 10)
+            self._node.create_subscription(
+                JointState,
+                self.config.servo_target_topic,
+                self._callback,
+                qos
+            )
         else:
             from trajectory_msgs.msg import JointTrajectory
-            topic = self.config.planned_trajectory_topic
-            self._node.create_subscription(JointTrajectory, topic, self._callback, 10)
+            self._node.create_subscription(
+                JointTrajectory,
+                self.config.planned_trajectory_topic,
+                self._callback,
+                qos
+            )
 
-        self._executor = SingleThreadedExecutor()
+        self._executor = rclpy.executors.SingleThreadedExecutor()
         self._executor.add_node(self._node)
-        self._ros_thread = threading.Thread(
-            target=self._executor.spin, daemon=True, name="unity_teleop_spin"
-        )
+        self._ros_thread = threading.Thread(target=self._executor.spin, daemon=True)
         self._ros_thread.start()
 
-        print(f"[Teleop] Warte auf '{topic}' (source_type={self.config.source_type})...")
-        print("[Teleop] Bewege den Arm (Xbox oder Unity) um die erste Nachricht zu empfangen...")
-
-        deadline = time.time() + self.config.connection_timeout_s
+        print(f"[UnityTeleop] Warte auf '{self.config.source_type}' Nachricht...")
+        start_t = time.time()
         while not self._received_first:
-            if time.time() > deadline:
-                raise TimeoutError(
-                    f"[Teleop] Keine Nachrichten auf '{topic}' "
-                    f"nach {self.config.connection_timeout_s}s.\n"
-                    "Läuft die Steuer-Node (Xbox/Unity)? Wurde der Arm bewegt?"
-                )
-            time.sleep(0.05)
-
-        print("[Teleop] Verbunden. Kommandos werden empfangen.")
+            time.sleep(0.1)
+            if time.time() - start_t > self.config.connection_timeout_s:
+                raise TimeoutError("[UnityTeleop] Timeout beim Warten auf ROS 2 Teleop-Nachricht.")
+        
+        print("[UnityTeleop] Verbunden.")
 
     def disconnect(self) -> None:
-        if self._executor:
-            self._executor.shutdown(timeout_sec=2.0)
-            self._executor = None
-        if self._node:
-            self._node.destroy_node()
-            self._node = None
+        if not self.is_connected:
+            return
+        import rclpy
+        self._executor.shutdown()
+        self._node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
+        self._ros_thread.join()
+        self._node = None
         self._received_first = False
-        print("[Teleop] Getrennt.")
 
     # ── ROS2 Callback ─────────────────────────────────────────────────────
 
@@ -148,8 +168,10 @@ class UnityTeleoperator(Teleoperator):
         with self._lock:
             msg = self._latest_msg
 
+        all_joints = list(self.config.arm_joints) + list(self.config.finger_joints)
+
         if msg is None:
-            return {f"{j}.pos": 0.0 for j in self.config.arm_joints}
+            return {f"{j}.pos": 0.0 for j in all_joints}
 
         if self.config.source_type == "jointstate":
             # JointState: .name + .position
@@ -158,12 +180,12 @@ class UnityTeleoperator(Teleoperator):
         else:
             # JointTrajectory: letzter Waypoint
             if not msg.points:
-                return {f"{j}.pos": 0.0 for j in self.config.arm_joints}
+                return {f"{j}.pos": 0.0 for j in all_joints}
             names = list(msg.joint_names)
             positions = msg.points[-1].positions
 
         action = {}
-        for joint_name in self.config.arm_joints:
+        for joint_name in all_joints:
             if joint_name in names:
                 idx = names.index(joint_name)
                 action[f"{joint_name}.pos"] = float(positions[idx])

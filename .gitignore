@@ -22,7 +22,7 @@ env/
 **/__pycache__/
 **/*.egg-info/
 **/*.pyc
-
+lerobot_ws/lerobot_robot_nema_arm/lerobot_robot_nema_arm/lerobot/
 # Exclude the analysis repo completely
 DigitalTwin-LabRobot_ReposForAnalysis/
 

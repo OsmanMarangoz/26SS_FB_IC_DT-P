@@ -1,8 +1,15 @@
 # 26SS_FB_IC_DT-P
 
+This international student research and development project is a collaboration between Karlsruhe University of Applied Sciences (HKA); the German University of Technology in Oman (GUtech); and the Universite de Sfax.
+
 This project uses LeRobot to train a custom robotic arm for pick-and-place. Unity provides the simulation environment, while a real robot is used for deployment. Using an ACT model, the arm learns to pick up a Lego brick and place it into a bin.
 
-[![LeRobot imitation learning - Pick and place in Unity](https://img.youtube.com/vi/Q3-prXXEQCo/0.jpg)](https://youtu.be/Q3-prXXEQCo)
+
+<p align="center">
+	<a href="https://youtu.be/Q3-prXXEQCo">
+		<img src="https://img.youtube.com/vi/Q3-prXXEQCo/0.jpg" alt="LeRobot imitation learning - Pick and place in Unity">
+	</a>
+</p>
 
 
 ## Installation
@@ -17,15 +24,17 @@ This project uses LeRobot to train a custom robotic arm for pick-and-place. Unit
 
 	```bash
 	source .venv/bin/activate
-	# Windows: .venv\Scripts\activate
+    pip install -r requirements.txt
 	```
 
 3. **Install the project dependencies**
-
+    
 	```bash
-	pip install -r requirements.txt
-	pip install -e /home/robopi2/lerobot_ws/lerobot
-	pip install -e /home/robopi2/lerobot_ws/lerobot_robot_nema_arm
+    cd lerobot_ws
+    git clone https://github.com/huggingface/lerobot.git
+    
+	pip install -e /lerobot
+	pip install -e /lerobot_robot_nema_arm
 	```
 
 4. **Verify the LeRobot installation**

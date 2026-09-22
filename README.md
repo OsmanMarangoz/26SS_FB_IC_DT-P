@@ -1,10 +1,9 @@
 # 26SS_FB_IC_DT-P
-if you fresh intall the project u might need to add this pacakge and import the robot new.
-and the remove it it is not needed for running or stuff.
-in manifest.json and packages-lock.json add your local path for the udrf-importer package.
-the package can be cloned here:
 
-git clone https://github.com/Unity-Technologies/URDF-Importer
+This project uses LeRobot to train a custom robotic arm for pick-and-place. Unity provides the simulation environment, while a real robot is used for deployment. Using an ACT model, the arm learns to pick up a Lego brick and place it into a bin.
+
+[![Watch the video](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=Q3-prXXEQCo)
+
 
 For the .venv and lerobot please:
 

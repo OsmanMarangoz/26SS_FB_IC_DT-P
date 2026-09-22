@@ -8,6 +8,7 @@
 !.gitignore
 !README.md
 !/requirements.txt
+!/UnityScripts/
 
 # Explicitly ignore virtual environments
 .venv/

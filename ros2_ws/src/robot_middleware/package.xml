@@ -4,7 +4,7 @@
   <name>robot_middleware</name>
   <version>0.0.1</version>
   <description>Robot middleware between Unity and physical robot</description>
-  <maintainer email="user@todo.todo">robopi2</maintainer>
+  <maintainer email="maos1011@h-ka.de">OsmanMarangoz</maintainer>
   <license>Apache-2.0</license>
 
   <depend>rclpy</depend>

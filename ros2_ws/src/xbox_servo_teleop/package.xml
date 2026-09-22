@@ -4,7 +4,7 @@
   <name>xbox_servo_teleop</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="robopi2@todo.todo">robopi2</maintainer>
+  <maintainer email="maos1011@h-ka.de">OsmanMarangoz</maintainer>
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>

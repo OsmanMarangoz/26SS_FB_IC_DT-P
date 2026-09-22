@@ -16,8 +16,8 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='robopi2',
-    maintainer_email='robopi2@todo.todo',
+    maintainer='OsmanMarangoz',
+    maintainer_email='maos1011@h-ka.de',
     description='Xbox TCP teleoperation for Roboterarm_mit_Objs',
     license='MIT',
     entry_points={

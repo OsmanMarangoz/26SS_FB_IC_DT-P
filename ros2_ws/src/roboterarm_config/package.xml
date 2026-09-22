@@ -7,6 +7,7 @@
      An automatically generated package with all the configuration and launch files for using the Roboterarm_mit_Objs with the MoveIt Motion Planning Framework
   </description>
   <maintainer email="raed1012@h-ka.de">Eduard</maintainer>
+  <maintainer email="maos1011@h-ka.de">OsmanMarangoz</maintainer>
 
   <license>BSD-3-Clause</license>
 

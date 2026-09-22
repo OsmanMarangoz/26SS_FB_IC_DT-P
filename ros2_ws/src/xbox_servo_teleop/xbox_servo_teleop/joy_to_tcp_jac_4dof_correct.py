@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-joy_to_tcp_jac_4dof_correct.py -> REFACTORED TO: joy_to_joint_4dof
+joy_to_tcp_jac_4dof_correct.py
 
-Intuitive Joint-Space Steuerung für 4-DoF Arm (Keine störenden Ausgleichsbewegungen mehr!)
+Intuitive Joint-Space Steuerung für 4-DoF Arm
 
 Steuerung (Gelenk-basiert):
   LB (halten)     = Deadman

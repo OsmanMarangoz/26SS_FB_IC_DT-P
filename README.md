@@ -13,6 +13,7 @@ This project uses LeRobot to train a custom robotic arm for pick-and-place. Unit
 
 
 ## Installation
+It is imprtant to note that the unity project is not on git. if needed you can message maos1011@h-ka.de.
 
 1. **Create a virtual environment**
 
@@ -42,3 +43,18 @@ This project uses LeRobot to train a custom robotic arm for pick-and-place. Unit
 	```bash
 	python3 -c "from lerobot_robot_nema_arm import NemaArm, NemaArmConfig; print('LeRobot installation works')"
 	```
+
+## How to launch
+
+1. **start up unity. and enter play mode.**
+
+2. **ros2 launch files**
+
+In first terminal:
+    ```bash
+    ros2 launch roboterarm_config unity_twin.launch.py
+    ```
+In second terminal:
+    ```bash
+    ros2 launch xbox_servo_teleop servo_teleop.launch.py
+    ```

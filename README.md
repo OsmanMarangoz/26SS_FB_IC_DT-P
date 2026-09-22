@@ -46,18 +46,18 @@ It is imprtant to note that the unity project is not on git. if needed you can m
 
 ## How to launch
 
-1. **start up unity. and enter play mode.**
+1. Start Unity and enter Play mode.
 
-2. **ros2 launch files**
+2. Open two terminals and run the following commands:
 
-In first terminal:
+   **Terminal 1:**
 
-	```bash
-    ros2 launch roboterarm_config unity_twin.launch.py
-    ```
+   ```bash
+   ros2 launch roboterarm_config unity_twin.launch.py
+   ```
 
-In second terminal:
+   **Terminal 2:**
 
-	```bash
-    ros2 launch xbox_servo_teleop servo_teleop.launch.py
-    ```
+   ```bash
+   ros2 launch xbox_servo_teleop servo_teleop.launch.py
+   ```

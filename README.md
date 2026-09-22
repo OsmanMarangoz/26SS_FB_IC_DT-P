@@ -40,7 +40,7 @@ It is imprtant to note that the unity project is not on git. if needed you can m
 
 4. **Verify the LeRobot installation**
 
-	```bash
+    ```bash
 	python3 -c "from lerobot_robot_nema_arm import NemaArm, NemaArmConfig; print('LeRobot installation works')"
 	```
 
@@ -51,11 +51,13 @@ It is imprtant to note that the unity project is not on git. if needed you can m
 2. **ros2 launch files**
 
 In first terminal:
+
 	```bash
     ros2 launch roboterarm_config unity_twin.launch.py
     ```
 
 In second terminal:
+
 	```bash
     ros2 launch xbox_servo_teleop servo_teleop.launch.py
     ```

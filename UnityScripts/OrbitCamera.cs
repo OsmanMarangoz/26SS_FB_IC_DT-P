@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class OrbitCamera : MonoBehaviour
 {
@@ -131,7 +131,10 @@ public class OrbitCamera : MonoBehaviour
 
     public void ResetCamera()
     {
-        currentX = 0f; currentY = 20f; distance = 1f; offset = Vector3.zero;
+        currentX = 90f; 
+        currentY = 20f; 
+        distance = sideViewDistance; 
+        offset = Vector3.zero;
         isTransitioning = false;
     }
 }

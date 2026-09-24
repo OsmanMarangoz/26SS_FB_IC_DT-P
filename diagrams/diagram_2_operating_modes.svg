@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 780" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arrB" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <marker id="arrG" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+    <marker id="arrO" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ea580c"/>
+    </marker>
+    <marker id="arrR" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#dc2626"/>
+    </marker>
+    <marker id="arrP" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrD" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <filter id="sh" x="-3%" y="-3%" width="106%" height="106%">
+      <feDropShadow dx="1.5" dy="1.5" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="gradA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#eff6ff"/>
+      <stop offset="100%" stop-color="#f0fdf4"/>
+    </linearGradient>
+    <linearGradient id="gradB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#eff6ff"/>
+      <stop offset="50%" stop-color="#f0fdf4"/>
+      <stop offset="100%" stop-color="#fef2f2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="780" fill="#f8fafc" rx="12"/>
+
+  <!-- Title -->
+  <text x="700" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1e293b">Operating Modes — Closed-Loop Data Flow Comparison</text>
+  <text x="700" y="56" text-anchor="middle" font-size="12" fill="#64748b">How commands become actions and observations cycle back through the system</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- MODE A: Digital Twin -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <rect x="25" y="72" width="665" height="690" rx="14" fill="url(#gradA)" stroke="#93c5fd" stroke-width="2" filter="url(#sh)"/>
+  <text x="45" y="100" font-size="16" font-weight="bold" fill="#1e40af">Mode A — Digital Twin</text>
+  <text x="45" y="118" font-size="11" fill="#3b82f6">unity_twin.launch.py · No MoveIt · No STM32 · Unity = Hardware</text>
+
+  <!-- Step 1: Xbox -->
+  <rect x="55" y="140" width="180" height="60" rx="10" fill="white" stroke="#6b7280" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="65" y="156" font-size="9" font-weight="bold" fill="#9ca3af">①</text>
+  <text x="145" y="162" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">🎮 Xbox Controller</text>
+  <text x="145" y="180" text-anchor="middle" font-size="10" fill="#6b7280">game_controller_node</text>
+  <text x="145" y="192" text-anchor="middle" font-size="9" fill="#9ca3af">SDL2 · /joy (Joy)</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="235" y1="170" x2="265" y2="170" stroke="#475569" stroke-width="2" marker-end="url(#arrD)"/>
+  <text x="250" y="163" text-anchor="middle" font-size="8" fill="#6b7280">/joy</text>
+
+  <!-- Step 2: joy_to_tcp -->
+  <rect x="268" y="140" width="190" height="60" rx="10" fill="white" stroke="#2563eb" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="278" y="156" font-size="9" font-weight="bold" fill="#bfdbfe">②</text>
+  <text x="363" y="162" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a5f">joy_to_tcp_jac_4dof</text>
+  <text x="363" y="180" text-anchor="middle" font-size="10" fill="#2563eb">Joint-space velocity control</text>
+  <text x="363" y="192" text-anchor="middle" font-size="9" fill="#64748b">SUB /joint_states, /robot_description</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="458" y1="170" x2="488" y2="170" stroke="#2563eb" stroke-width="2" marker-end="url(#arrB)"/>
+  <text x="473" y="163" text-anchor="middle" font-size="8" fill="#2563eb" font-weight="bold">/servo_</text>
+  <text x="473" y="173" text-anchor="middle" font-size="7" fill="#2563eb">joint_target</text>
+
+  <!-- Step 3: rosbridge -->
+  <rect x="490" y="140" width="140" height="60" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="500" y="156" font-size="9" font-weight="bold" fill="#93c5fd">③</text>
+  <text x="560" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">rosbridge</text>
+  <text x="560" y="183" text-anchor="middle" font-size="10" fill="#3b82f6">WS :9090</text>
+  <text x="560" y="195" text-anchor="middle" font-size="9" fill="#64748b">ROS2 ↔ Unity</text>
+
+  <!-- Arrow 3→4 (curves down to Unity) -->
+  <path d="M 560 200 L 560 230 L 400 230 L 400 250" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrB)"/>
+  <text x="480" y="225" text-anchor="middle" font-size="8" fill="#2563eb">/servo_joint_target (WS JSON)</text>
+
+  <!-- Step 4: Unity RobotStateReceiver -->
+  <rect x="290" y="253" width="220" height="60" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="300" y="269" font-size="9" font-weight="bold" fill="#bfdbfe">④</text>
+  <text x="400" y="275" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a5f">RobotStateReceiver.cs</text>
+  <text x="400" y="293" text-anchor="middle" font-size="10" fill="#2563eb">Applies joint angles to 3D model</text>
+  <text x="400" y="305" text-anchor="middle" font-size="9" fill="#64748b">Maps ROS radians → Unity Quaternions</text>
+
+  <!-- Arrow 4→5 -->
+  <path d="M 400 313 L 400 340" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrG)"/>
+  <text x="440" y="330" font-size="8" fill="#16a34a">reads posRad</text>
+
+  <!-- Step 5: JointStatePublisher -->
+  <rect x="290" y="343" width="220" height="60" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="300" y="359" font-size="9" font-weight="bold" fill="#86efac">⑤</text>
+  <text x="400" y="365" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">JointStatePublisher.cs</text>
+  <text x="400" y="383" text-anchor="middle" font-size="10" fill="#16a34a">PUB /joint_states @ 50 Hz</text>
+  <text x="400" y="395" text-anchor="middle" font-size="9" fill="#64748b">7 joints via rosbridge WS</text>
+
+  <!-- Arrow 5→6 rosbridge -->
+  <path d="M 510 373 L 560 373 L 560 430" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrG)"/>
+  <text x="545" y="415" text-anchor="middle" font-size="7" fill="#16a34a">WS</text>
+
+  <!-- Step 6: Back into ROS2 -->
+  <rect x="440" y="433" width="200" height="50" rx="10" fill="white" stroke="#16a34a" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="450" y="449" font-size="9" font-weight="bold" fill="#86efac">⑥</text>
+  <text x="540" y="454" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">/joint_states</text>
+  <text x="540" y="471" text-anchor="middle" font-size="9" fill="#16a34a">Available on ROS2 DDS graph</text>
+
+  <!-- Arrow 6→7 to joint relay + RSP -->
+  <path d="M 540 483 L 540 510 L 350 510 L 350 530" stroke="#7c3aed" stroke-width="1.5" fill="none" marker-end="url(#arrP)"/>
+  <text x="450" y="505" font-size="8" fill="#7c3aed">→ relay → RSP → /tf</text>
+
+  <!-- Arrow 6→8 to LeRobot -->
+  <path d="M 540 483 L 540 510 L 190 510 L 190 540" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrG)"/>
+
+  <!-- Step 7: LeRobot NemaArm (observation) -->
+  <rect x="55" y="543" width="280" height="70" rx="10" fill="#fefce8" stroke="#facc15" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="65" y="559" font-size="9" font-weight="bold" fill="#fde047">⑦</text>
+  <text x="195" y="565" text-anchor="middle" font-size="13" font-weight="bold" fill="#854d0e">LeRobot NemaArm</text>
+  <text x="195" y="583" text-anchor="middle" font-size="10" fill="#a16207">get_observation() → {joint_*.pos, cam_top, cam_side}</text>
+  <text x="195" y="598" text-anchor="middle" font-size="9" fill="#78350f">send_action() → PUB /servo_joint_target (twin mode)</text>
+
+  <!-- Camera feed arrow -->
+  <rect x="55" y="625" width="280" height="40" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="1"/>
+  <text x="195" y="643" text-anchor="middle" font-size="10" fill="#ea580c">📷 ROS2Camera SUB /unity/camera_*/image_raw</text>
+  <text x="195" y="657" text-anchor="middle" font-size="9" fill="#9a3412">image_tcp_node (:5000, :5001) ← TCP ← Unity</text>
+
+  <!-- Closed loop arrow from LeRobot back to step 2 (via /servo_joint_target) -->
+  <path d="M 195 598 L 195 685 L 45 685 L 45 170 L 55 170" stroke="#dc2626" stroke-width="2.5" fill="none"
+        marker-end="url(#arrR)" stroke-dasharray="8,4"/>
+  <text x="43" y="440" text-anchor="middle" font-size="9" font-weight="bold" fill="#dc2626" transform="rotate(-90, 43, 440)">CLOSED LOOP: action → /servo_joint_target → Unity → /joint_states → observation</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- MODE B: Full Hardware -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <rect x="710" y="72" width="670" height="690" rx="14" fill="url(#gradB)" stroke="#86efac" stroke-width="2" filter="url(#sh)"/>
+  <text x="730" y="100" font-size="16" font-weight="bold" fill="#166534">Mode B — Full Hardware</text>
+  <text x="730" y="118" font-size="11" fill="#22c55e">unity_simulation.launch.py · MoveIt + STM32 · Real Motors</text>
+
+  <!-- Step 1: Unity UI -->
+  <rect x="740" y="140" width="190" height="60" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="750" y="156" font-size="9" font-weight="bold" fill="#93c5fd">①</text>
+  <text x="835" y="162" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a5f">Unity UI</text>
+  <text x="835" y="180" text-anchor="middle" font-size="10" fill="#2563eb">RobotAPIController.cs</text>
+  <text x="835" y="192" text-anchor="middle" font-size="9" fill="#64748b">PUB /robot_cmd (Pose + Gripper)</text>
+
+  <!-- Arrow 1→2 -->
+  <path d="M 930 170 L 960 170" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrB)"/>
+  <text x="945" y="163" text-anchor="middle" font-size="7" fill="#2563eb">WS</text>
+
+  <!-- Step 2: rosbridge -->
+  <rect x="963" y="140" width="120" height="60" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="973" y="156" font-size="9" font-weight="bold" fill="#93c5fd">②</text>
+  <text x="1023" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">rosbridge</text>
+  <text x="1023" y="183" text-anchor="middle" font-size="10" fill="#3b82f6">WS :9090</text>
+
+  <!-- Arrow 2→3 -->
+  <path d="M 1083 170 L 1113 170" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrB)"/>
+  <text x="1098" y="163" font-size="7" fill="#2563eb">/robot_cmd</text>
+
+  <!-- Step 3: unity_moveit_bridge -->
+  <rect x="1116" y="140" width="240" height="60" rx="10" fill="white" stroke="#2563eb" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1126" y="156" font-size="9" font-weight="bold" fill="#bfdbfe">③</text>
+  <text x="1236" y="162" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a5f">unity_moveit_bridge</text>
+  <text x="1236" y="180" text-anchor="middle" font-size="10" fill="#2563eb">Translates RobotCommand → MoveGroup</text>
+  <text x="1236" y="192" text-anchor="middle" font-size="9" fill="#64748b">Special cmds → /stm32_cmd</text>
+
+  <!-- Arrow 3→4 (to MoveIt) -->
+  <path d="M 1236 200 L 1236 230" stroke="#7c3aed" stroke-width="2" fill="none" marker-end="url(#arrP)"/>
+  <text x="1260" y="220" font-size="7" fill="#7c3aed">Action</text>
+
+  <!-- Step 4: MoveIt -->
+  <rect x="1116" y="233" width="240" height="60" rx="10" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1126" y="249" font-size="9" font-weight="bold" fill="#c4b5fd">④</text>
+  <text x="1236" y="255" text-anchor="middle" font-size="13" font-weight="bold" fill="#581c87">MoveIt 2 (OMPL)</text>
+  <text x="1236" y="273" text-anchor="middle" font-size="10" fill="#7c3aed">Motion Planning + IK</text>
+  <text x="1236" y="285" text-anchor="middle" font-size="9" fill="#64748b">plan_only=True → /planned_trajectory</text>
+
+  <!-- Arrow 4→5 -->
+  <path d="M 1236 293 L 1236 323" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrB)"/>
+  <text x="1270" y="312" font-size="7" fill="#2563eb">/planned_trajectory</text>
+
+  <!-- Step 5: stm32_serial_node -->
+  <rect x="1056" y="326" width="300" height="65" rx="10" fill="white" stroke="#dc2626" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1066" y="342" font-size="9" font-weight="bold" fill="#fca5a5">⑤</text>
+  <text x="1206" y="348" text-anchor="middle" font-size="13" font-weight="bold" fill="#7f1d1d">stm32_serial_node</text>
+  <text x="1206" y="366" text-anchor="middle" font-size="10" fill="#dc2626">Interpolates trajectory → UART binary frames</text>
+  <text x="1206" y="380" text-anchor="middle" font-size="9" fill="#64748b">PUB /joint_states (200 Hz) · SUB /planned_trajectory, /stm32_cmd</text>
+
+  <!-- Arrow 5→6 UART -->
+  <path d="M 1206 391 L 1206 420" stroke="#dc2626" stroke-width="2.5" fill="none" marker-end="url(#arrR)"/>
+  <text x="1230" y="410" font-size="8" fill="#dc2626" font-weight="bold">USB VCP</text>
+
+  <!-- Step 6: STM32 -->
+  <rect x="1106" y="423" width="200" height="65" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2" filter="url(#sh)"/>
+  <text x="1116" y="439" font-size="9" font-weight="bold" fill="#fca5a5">⑥</text>
+  <text x="1206" y="445" text-anchor="middle" font-size="13" font-weight="bold" fill="#7f1d1d">STM32F446RE</text>
+  <text x="1206" y="463" text-anchor="middle" font-size="10" fill="#dc2626">5× TMC2209 Steppers</text>
+  <text x="1206" y="478" text-anchor="middle" font-size="9" fill="#991b1b">19B TX frames ↔ 23B RX @ 200 Hz</text>
+
+  <!-- Arrow 6→7 (feedback: steps → /joint_states) -->
+  <path d="M 1106 458 L 900 458 L 900 420" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrG)"/>
+  <text x="1003" y="450" text-anchor="middle" font-size="8" fill="#16a34a" font-weight="bold">Motor positions (steps)</text>
+
+  <!-- Step 7: /joint_states feedback -->
+  <rect x="780" y="375" width="200" height="45" rx="10" fill="white" stroke="#16a34a" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="790" y="391" font-size="9" font-weight="bold" fill="#86efac">⑦</text>
+  <text x="880" y="396" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">/joint_states</text>
+  <text x="880" y="411" text-anchor="middle" font-size="9" fill="#16a34a">steps → rad · 7 joints @ 200 Hz</text>
+
+  <!-- Arrow 7→ Unity (visual sync via rosbridge) -->
+  <path d="M 780 398 L 750 398 L 750 350 L 835 350 L 835 310 L 835 285" stroke="#16a34a" stroke-width="1.5" fill="none"
+        marker-end="url(#arrG)" stroke-dasharray="5,3"/>
+  <text x="793" y="288" font-size="8" fill="#16a34a">→ WS → Unity (visual sync)</text>
+
+  <!-- Arrow 7→ LeRobot -->
+  <path d="M 880 420 L 880 510" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrG)"/>
+
+  <!-- Step 8: LeRobot NemaArm -->
+  <rect x="740" y="513" width="290" height="70" rx="10" fill="#fefce8" stroke="#facc15" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="750" y="529" font-size="9" font-weight="bold" fill="#fde047">⑧</text>
+  <text x="885" y="535" text-anchor="middle" font-size="13" font-weight="bold" fill="#854d0e">LeRobot NemaArm</text>
+  <text x="885" y="553" text-anchor="middle" font-size="10" fill="#a16207">get_observation() → {joint_*.pos, cam_top, cam_side}</text>
+  <text x="885" y="568" text-anchor="middle" font-size="9" fill="#78350f">send_action() → PUB /planned_trajectory (real mode)</text>
+
+  <!-- Camera block -->
+  <rect x="740" y="598" width="290" height="40" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="1"/>
+  <text x="885" y="616" text-anchor="middle" font-size="10" fill="#ea580c">📷 ReCamera (USB /dev/video0 or RTSP)</text>
+  <text x="885" y="630" text-anchor="middle" font-size="9" fill="#9a3412">Physical cameras (Fischertechnik / Seeed reCamera)</text>
+
+  <!-- Closed loop arrow from LeRobot back to STM32 -->
+  <path d="M 885 568 L 885 680 L 1360 680 L 1360 350 L 1356 350 L 1356 350"
+        stroke="#dc2626" stroke-width="2.5" fill="none" marker-end="url(#arrR)" stroke-dasharray="8,4"/>
+  <text x="1362" y="520" text-anchor="middle" font-size="9" font-weight="bold" fill="#dc2626"
+        transform="rotate(90, 1362, 520)">CLOSED LOOP: action → /planned_trajectory → STM32 → /joint_states → observation</text>
+
+  <!-- Visual sync block for Unity in Mode B -->
+  <rect x="740" y="240" width="190" height="55" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1" filter="url(#sh)"/>
+  <text x="835" y="260" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a5f">Unity 3D Twin</text>
+  <text x="835" y="278" text-anchor="middle" font-size="9" fill="#3b82f6">Visual-only sync via /joint_states</text>
+  <text x="835" y="290" text-anchor="middle" font-size="8" fill="#64748b">RobotStateReceiver ← rosbridge</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- Key Differences Box -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <rect x="740" y="650" width="630" height="100" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="760" y="672" font-size="12" font-weight="bold" fill="#334155">Key Architectural Differences</text>
+
+  <text x="770" y="695" font-size="10" fill="#1e40af" font-weight="bold">Mode A (Twin):</text>
+  <text x="895" y="695" font-size="10" fill="#475569">Unity ≡ Hardware · /servo_joint_target direct drive · No MoveIt · No STM32 · No UART</text>
+
+  <text x="770" y="715" font-size="10" fill="#166534" font-weight="bold">Mode B (Real):</text>
+  <text x="895" y="715" font-size="10" fill="#475569">Unity = UI only · /robot_cmd → MoveIt OMPL → /planned_trajectory → STM32 UART → Motors</text>
+
+  <text x="770" y="735" font-size="10" fill="#854d0e" font-weight="bold">LeRobot:</text>
+  <text x="895" y="735" font-size="10" fill="#475569">Identical observation API in both modes · NemaArmConfig.mode selects camera + action backend</text>
+
+  <!-- Footer -->
+  <text x="700" y="770" text-anchor="middle" font-size="10" fill="#94a3b8">26SS_FB_IC_DT-P · HKA × GUtech × Univ. Sfax</text>
+</svg>

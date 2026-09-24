@@ -61,3 +61,11 @@ It is imprtant to note that the unity project is not on git. if needed you can m
    ```bash
    ros2 launch xbox_servo_teleop servo_teleop.launch.py
    ```
+
+## Diagrams
+
+![Communication architecture](diagrams/diagram_1_communication_architecture.svg)
+
+![Operating modes](diagrams/diagram_2_operating_modes.svg)
+
+![ROS 2 topic graph](diagrams/diagram_3_ros2_topic_graph.svg)

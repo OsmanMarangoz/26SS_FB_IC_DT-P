@@ -5,6 +5,7 @@
 # Keep only the folders/files we actually want in git
 !/ros2_ws/
 !/lerobot_ws/
+!/diagrams/
 !.gitignore
 !README.md
 !/requirements.txt

@@ -1,27 +1,18 @@
 """
-recamera.py — Kamera-Wrapper mit Auto-Erkennung (latenz-optimiert).
+recamera.py — High-performance, low-latency USB camera driver for LeRobot.
 
-Erkennt automatisch:
-  - Fischertechnik USB-Kamera (/dev/video0)  → OpenCV
-  - reCamera 2002 (RTSP)                      → ffmpeg
-
-Beide liefern Frames als (H, W, 3) uint8 numpy arrays über dieselbe
-LeRobot Camera-Schnittstelle: connect(), disconnect(), read(), async_read()
-
-LATENZ — bitte lesen:
-  Der größte Hebel ist NICHT dieser Code, sondern die Kamera-Konfiguration:
-    1. reCamera direkt auf width x height @ fps streamen lassen (z.B. 640x480@30),
-       damit der Pi KEIN 1080p dekodieren muss. Das spart CPU und Latenz.
-    2. Falls einstellbar: kurzes GOP (Keyframe-Intervall ~= fps) und KEINE
-       B-Frames (Baseline-Profil). B-Frames erzwingen Reordering = Latenz.
-    3. Per Ethernet statt WLAN anbinden — WLAN-Jitter ist für Datasets giftig.
-  Dieser Code minimiert zusätzlich jede Pufferung auf der Pi-Seite.
+Optimized for dual USB camera setups:
+  - Threaded continuous frame grabbing (zero lag, eliminates V4L2 queue buildup)
+  - Non-blocking async_read()
+  - Automatic BGR -> RGB color conversion (LeRobot & PyTorch convention)
+  - Automatic resolution validation and resizing fallback
+  - MJPG FourCC encoding by default to prevent USB 2.0 bus bandwidth saturation
+    when operating multiple cameras simultaneously.
 """
 
-from __future__ import annotations  # bytes | None Annotation auch auf Py3.9
+from __future__ import annotations
 
 import os
-import subprocess
 import threading
 import time
 from dataclasses import dataclass
@@ -29,208 +20,173 @@ from dataclasses import dataclass
 import numpy as np
 
 
-# ════════════════════════════════════════════════════════════════════════
-#  Auto-Erkennung
-# ════════════════════════════════════════════════════════════════════════
-
-def detect_camera_type(usb_device: str = "/dev/video0") -> str:
-    """'usb' wenn die Fischertechnik USB-Kamera da ist, sonst 'rtsp'."""
-    if os.path.exists(usb_device):
-        return "usb"
-    return "rtsp"
-
-
-# ════════════════════════════════════════════════════════════════════════
-#  Config
-# ════════════════════════════════════════════════════════════════════════
-
 @dataclass
 class ReCameraConfig:
-    """
-    camera_type:
-        "auto" → automatisch (USB bevorzugt, sonst RTSP)
-        "usb"  → Fischertechnik USB erzwingen
-        "rtsp" → reCamera erzwingen
-    """
-    camera_type: str = "auto"
-
-    # USB (Fischertechnik)
+    """Configuration for physical USB camera."""
+    # Device identification
     usb_device: str = "/dev/video0"
     usb_index: int = 0
 
-    # RTSP (reCamera)
-    rtsp_url: str = "rtsp://admin:admin@192.168.188.193:554/live"
-    # "udp" = niedrigste Latenz (kann bei Paketverlust Artefakte geben)
-    # "tcp" = robuster / keine Artefakte, etwas mehr Latenz
-    rtsp_transport: str = "udp"
+    # Format & compression
+    # "MJPG" is strongly recommended for dual USB cameras on Linux to avoid
+    # USB 2.0 bus bandwidth limits. "YUYV" can be used for uncompressed streams.
+    fourcc: str = "MJPG"
 
-    # Gemeinsam — IDEAL: identisch zur Stream-Auflösung der reCamera einstellen!
+    # Frame properties
     width: int = 640
     height: int = 480
     fps: int = 30
 
+    # Startup & timeouts
+    warmup_s: float = 1.0
+    connection_timeout_s: float = 10.0
 
-# ════════════════════════════════════════════════════════════════════════
-#  Kamera-Wrapper
-# ════════════════════════════════════════════════════════════════════════
+    # Backward compatibility parameter (ignored, always USB)
+    camera_type: str = "usb"
+
 
 class ReCamera:
+    """
+    LeRobot-compatible Camera driver for USB webcams.
+    Implements: connect(), disconnect(), read(), async_read().
+    Returns frames as (H, W, 3) uint8 RGB numpy arrays.
+    """
+
     def __init__(self, config: ReCameraConfig):
         self.config = config
         self.width = config.width
         self.height = config.height
         self.fps = config.fps
 
-        if config.camera_type == "auto":
-            self.camera_type = detect_camera_type(config.usb_device)
-        else:
-            self.camera_type = config.camera_type
-
-        # USB state
         self._cap = None
-
-        # RTSP state
-        self._proc = None
         self._thread = None
+        self._running = False
         self._latest_frame = None
         self._lock = threading.Lock()
-        self._running = False
 
-    # ── Verbindung ─────────────────────────────────────────────────────
+    # ── Connection ────────────────────────────────────────────────────────
 
     def connect(self) -> None:
-        if self.camera_type == "usb":
-            self._connect_usb()
-        else:
-            self._connect_rtsp()
-
-    def disconnect(self) -> None:
-        if self.camera_type == "usb":
-            self._disconnect_usb()
-        else:
-            self._disconnect_rtsp()
-
-    # ── USB (Fischertechnik) ───────────────────────────────────────────
-
-    def _connect_usb(self) -> None:
         import cv2
 
-        print(f"[Camera] USB-Kamera erkannt: {self.config.usb_device}")
-        # CAP_V4L2 explizit → zuverlässigere Property-Kontrolle unter Linux
+        print(
+            f"[USBCamera] Connecting to '{self.config.usb_device}' "
+            f"(index={self.config.usb_index}, {self.width}x{self.height}@{self.fps}fps, {self.config.fourcc})..."
+        )
+
+        # 1. Try V4L2 backend with device index
         self._cap = cv2.VideoCapture(self.config.usb_index, cv2.CAP_V4L2)
 
-        self._cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"YUYV"))
+        # Fallback to default backend if V4L2 fails
+        if not self._cap.isOpened():
+            print(f"[USBCamera] CAP_V4L2 open failed, trying default backend on index {self.config.usb_index}...")
+            self._cap = cv2.VideoCapture(self.config.usb_index)
+
+        # Fallback to device path if still not opened
+        if not self._cap.isOpened() and os.path.exists(self.config.usb_device):
+            print(f"[USBCamera] Trying device path '{self.config.usb_device}'...")
+            self._cap = cv2.VideoCapture(self.config.usb_device, cv2.CAP_V4L2)
+
+        if not self._cap.isOpened():
+            raise RuntimeError(
+                f"[USBCamera] Failed to open USB camera on index {self.config.usb_index} "
+                f"or device '{self.config.usb_device}'. Check if device is connected and permissions allow access."
+            )
+
+        # Configure FourCC compression
+        if self.config.fourcc:
+            fourcc_code = cv2.VideoWriter_fourcc(*self.config.fourcc)
+            self._cap.set(cv2.CAP_PROP_FOURCC, fourcc_code)
+
         self._cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         self._cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
         self._cap.set(cv2.CAP_PROP_FPS, self.fps)
-        # Nur 1 Frame puffern → immer das aktuellste Bild (driver-abhängig)
+        # Minimize driver buffer to reduce latency
         self._cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
-        time.sleep(2.0)  # Warmup
+        # Warmup time for auto-exposure and sensor startup
+        if self.config.warmup_s > 0:
+            time.sleep(self.config.warmup_s)
 
-        ok, frame = self._cap.read()
+        # Test read
+        ok = False
+        frame = None
+        for _ in range(5):
+            ok, frame = self._cap.read()
+            if ok and frame is not None:
+                break
+            time.sleep(0.1)
+
         if not ok or frame is None:
             self._cap.release()
             raise RuntimeError(
-                f"[Camera] USB-Kamera {self.config.usb_device} liefert keine Frames"
+                f"[USBCamera] Camera '{self.config.usb_device}' (idx {self.config.usb_index}) opened but returned no frames."
             )
 
-        print(f"[Camera] USB verbunden: {frame.shape[1]}x{frame.shape[0]}@{self.fps}fps")
-
-    def _disconnect_usb(self) -> None:
-        if self._cap:
-            self._cap.release()
-            self._cap = None
-        print("[Camera] USB getrennt.")
-
-    # ── RTSP (reCamera) ────────────────────────────────────────────────
-
-    def _connect_rtsp(self) -> None:
-        frame_bytes = self.width * self.height * 3
-        print(f"[Camera] RTSP (reCamera): {self.config.rtsp_url} "
-              f"[{self.config.rtsp_transport}]")
-
-        cmd = [
-            "ffmpeg",
-            "-rtsp_transport", self.config.rtsp_transport,
-            "-fflags", "nobuffer+discardcorrupt",  # keine Eingangspufferung
-            "-flags", "low_delay",                 # Decoder ohne Reorder-Wartezeit
-            "-probesize", "32",                    # nicht erst lange "analysieren"
-            "-analyzeduration", "0",               #   → spart Startup-Latenz
-            "-i", self.config.rtsp_url,
-            "-an",                                 # Audio (reCamera-Mic) wegwerfen
-            "-vsync", "0",                         # keine fps-Angleichung/Pufferung
-            "-vf", f"scale={self.width}:{self.height}",
-            "-f", "rawvideo",
-            "-pix_fmt", "bgr24",                   # BGR — passt zur OpenCV/USB-Seite
-            "pipe:1",
-        ]
-        # bufsize=0 → unbuffered; wir lesen die Pipe selbst exakt aus
-        self._proc = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, bufsize=0
-        )
+        # Start background grabber thread
         self._running = True
         self._thread = threading.Thread(
-            target=self._rtsp_reader, args=(frame_bytes,), daemon=True
+            target=self._reader_loop, daemon=True, name=f"usb_cam_{self.config.usb_index}"
         )
         self._thread.start()
 
-        print("[Camera] Warte auf ersten RTSP-Frame...")
-        deadline = time.time() + 10.0
+        # Wait for first processed RGB frame
+        deadline = time.time() + self.config.connection_timeout_s
         while self._latest_frame is None:
             if time.time() > deadline:
-                self._proc.kill()
-                raise TimeoutError("[Camera] Kein RTSP-Frame nach 10s")
-            time.sleep(0.05)
+                self.disconnect()
+                raise TimeoutError(
+                    f"[USBCamera] Timeout waiting for first frame from '{self.config.usb_device}'"
+                )
+            time.sleep(0.01)
 
-        print(f"[Camera] RTSP verbunden: {self.width}x{self.height}")
+        actual_h, actual_w = self._latest_frame.shape[:2]
+        print(
+            f"[USBCamera] Connected successfully: {actual_w}x{actual_h} RGB "
+            f"('{self.config.usb_device}', index={self.config.usb_index})"
+        )
 
-    def _read_exactly(self, n: int) -> bytes | None:
-        """Genau n Bytes lesen (raw read bei bufsize=0 kann partiell liefern)."""
-        buf = bytearray()
-        stdout = self._proc.stdout
-        while len(buf) < n:
-            chunk = stdout.read(n - len(buf))
-            if not chunk:          # EOF / ffmpeg beendet
-                return None
-            buf.extend(chunk)
-        return bytes(buf)
-
-    def _rtsp_reader(self, frame_bytes: int) -> None:
-        """Hintergrund-Thread: hält immer NUR das neueste Frame vor."""
-        while self._running:
-            raw = self._read_exactly(frame_bytes)
-            if raw is None:
-                break
-            # .copy() → eigenes, beschreibbares Array (frombuffer ist read-only)
-            frame = np.frombuffer(raw, dtype=np.uint8).reshape(
-                (self.height, self.width, 3)
-            ).copy()
-            with self._lock:
-                self._latest_frame = frame  # alte Referenz wird verworfen
-
-    def _disconnect_rtsp(self) -> None:
+    def disconnect(self) -> None:
         self._running = False
-        if self._proc:
-            self._proc.kill()
-            self._proc = None
-        if self._thread:
-            self._thread.join(timeout=2.0)
+        if self._thread and self._thread.is_alive():
+            self._thread.join(timeout=1.5)
             self._thread = None
+        if self._cap:
+            self._cap.release()
+            self._cap = None
         self._latest_frame = None
-        print("[Camera] RTSP getrennt.")
+        print(f"[USBCamera] Disconnected ('{self.config.usb_device}', index={self.config.usb_index}).")
 
-    # ── Frame lesen (einheitlich) ──────────────────────────────────────
+    # ── Reader Thread ─────────────────────────────────────────────────────
 
-    def async_read(self, timeout_ms: int = 200) -> np.ndarray:
-        if self.camera_type == "usb":
+    def _reader_loop(self) -> None:
+        """Background thread: continuously grabs latest frame and converts to RGB."""
+        import cv2
+
+        while self._running:
+            if not self._cap or not self._cap.isOpened():
+                time.sleep(0.01)
+                continue
+
             ok, frame = self._cap.read()
             if not ok or frame is None:
-                raise TimeoutError("[Camera] USB-Frame konnte nicht gelesen werden")
-            return frame
+                time.sleep(0.005)
+                continue
 
-        # RTSP: das vom Reader-Thread vorgehaltene neueste Frame zurückgeben.
-        # Kein zusätzliches copy() — der Reader ersetzt die Referenz, mutiert nie.
+            # Ensure resolution matches requested target exactly
+            if (frame.shape[1], frame.shape[0]) != (self.width, self.height):
+                frame = cv2.resize(frame, (self.width, self.height))
+
+            # Convert BGR (OpenCV) to RGB (LeRobot standard)
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            with self._lock:
+                self._latest_frame = frame_rgb
+
+    # ── Frame Access (LeRobot API) ────────────────────────────────────────
+
+    def async_read(self, timeout_ms: int = 200) -> np.ndarray:
+        """Return the freshest RGB frame immediately without blocking hardware."""
         deadline = time.time() + timeout_ms / 1000.0
         while True:
             with self._lock:
@@ -238,9 +194,16 @@ class ReCamera:
                     return self._latest_frame
             if time.time() > deadline:
                 raise TimeoutError(
-                    f"[Camera] RTSP async_read timeout nach {timeout_ms}ms"
+                    f"[USBCamera] async_read timeout after {timeout_ms}ms "
+                    f"('{self.config.usb_device}', index={self.config.usb_index})"
                 )
             time.sleep(0.001)
 
     def read(self) -> np.ndarray:
+        """Blocking read with generous timeout."""
         return self.async_read(timeout_ms=5000)
+
+
+# Backward compatibility alias
+USBCamera = ReCamera
+USBCameraConfig = ReCameraConfig

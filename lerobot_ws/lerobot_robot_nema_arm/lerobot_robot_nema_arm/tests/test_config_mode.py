@@ -12,8 +12,9 @@ import os
 # modules directly without triggering the __init__.py chain
 # (which would pull in lerobot).
 _pkg_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if _pkg_dir not in sys.path:
-    sys.path.insert(0, _pkg_dir)
+_repo_dir = os.path.dirname(_pkg_dir)
+if _repo_dir not in sys.path:
+    sys.path.insert(0, _repo_dir)
 
 import pytest
 
@@ -41,9 +42,9 @@ _lerobot_mock.robots.Robot = _FakeRobot
 sys.modules["lerobot"] = _lerobot_mock
 sys.modules["lerobot.robots"] = _lerobot_mock.robots
 
-# Now import our modules
-from config_nema_arm import NemaArmConfig
-from nema_arm import NemaArm
+# Now import our modules as package
+from lerobot_robot_nema_arm.config_nema_arm import NemaArmConfig
+from lerobot_robot_nema_arm.nema_arm import NemaArm
 
 
 def test_twin_mode_uses_unity_topics():
@@ -91,11 +92,14 @@ def test_twin_mode_camera_count():
 
 
 def test_real_mode_camera_count():
-    """Real mode with default config → exactly 1 camera (cam_top only)."""
+    """Real mode with default config → exactly 2 cameras (cam_top and cam_side)."""
     config = NemaArmConfig(mode="real")
     robot = NemaArm(config)
-    assert len(robot.cameras) == 1
+    assert len(robot.cameras) == 2
     assert "cam_top" in robot.cameras
+    assert "cam_side" in robot.cameras
+    assert robot.observation_features["cam_top"] == (480, 640, 3)
+    assert robot.observation_features["cam_side"] == (480, 640, 3)
 
 
 def test_invalid_mode_raises():

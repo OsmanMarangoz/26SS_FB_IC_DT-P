@@ -56,11 +56,19 @@ class NemaArmConfig(RobotConfig):
         "cam_side": "/unity/camera_side/image_raw",
     })
 
-    # ── Real-Mode Kameras (physische USB/RTSP Kameras via ReCamera) ───────
-    # name → ReCameraConfig-Kwargs. Jeder Eintrag wird als ReCamera
-    # instanziiert. Beliebig erweiterbar (z.B. cam_side hinzufügen).
+    # ── Real-Mode Kameras (2x physische USB-Kameras via ReCamera) ─────────
+    # cam_top und cam_side mit getrennten USB-Indizes und MJPG Kompression.
     real_cameras: dict = field(default_factory=lambda: {
-        "cam_top": {"camera_type": "auto"},
+        "cam_top": {
+            "usb_device": "/dev/video0",
+            "usb_index": 0,
+            "fourcc": "MJPG",
+        },
+        "cam_side": {
+            "usb_device": "/dev/video2",
+            "usb_index": 2,
+            "fourcc": "MJPG",
+        },
     })
 
     # ── Backward-compat: altes 'cameras' dict ────────────────────────────

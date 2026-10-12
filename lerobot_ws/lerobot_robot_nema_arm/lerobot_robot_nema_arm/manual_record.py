@@ -94,6 +94,9 @@ def main():
     )
     parser.add_argument("--no_camera", action="store_true", help="ohne Kamera testen")
     parser.add_argument("--no_push", action="store_true", help="nicht zu HuggingFace hochladen")
+    parser.add_argument("--cam_top_idx", type=int, default=None, help="USB Index für cam_top (Default: 0)")
+    parser.add_argument("--cam_side_idx", type=int, default=None, help="USB Index für cam_side (Default: 2)")
+    parser.add_argument("--cam_fourcc", type=str, default=None, help="FourCC Code für USB Kameras (Default: MJPG)")
     args = parser.parse_args()
 
     # ── Robot + Teleop verbinden ────────────────────────────────────────────
@@ -103,6 +106,20 @@ def main():
         mode=args.mode,
         use_camera=not args.no_camera,
     )
+
+    # In real mode, allow CLI overrides for camera device indices / compression
+    if args.mode == "real" and not args.no_camera:
+        if args.cam_top_idx is not None and "cam_top" in robot_config.cameras:
+            robot_config.cameras["cam_top"]["usb_index"] = args.cam_top_idx
+            robot_config.cameras["cam_top"]["usb_device"] = f"/dev/video{args.cam_top_idx}"
+        if args.cam_side_idx is not None and "cam_side" in robot_config.cameras:
+            robot_config.cameras["cam_side"]["usb_index"] = args.cam_side_idx
+            robot_config.cameras["cam_side"]["usb_device"] = f"/dev/video{args.cam_side_idx}"
+        if args.cam_fourcc is not None:
+            for cam in robot_config.cameras.values():
+                if isinstance(cam, dict):
+                    cam["fourcc"] = args.cam_fourcc
+
     robot = NemaArm(robot_config)
     teleop = UnityTeleoperator(UnityTeleoperatorConfig())
 
@@ -110,7 +127,7 @@ def main():
     if args.no_camera:
         print(f"{BOLD}Kamera: DEAKTIVIERT (--no_camera){RESET}")
     else:
-        cam_backend = "ROS2Camera (rosbridge)" if args.mode == "twin" else "ReCamera (USB/RTSP)"
+        cam_backend = "ROS2Camera (rosbridge)" if args.mode == "twin" else "ReCamera (Dual USB)"
         print(f"{BOLD}Kamera-Backend: {cam_backend}{RESET}")
         print(f"{BOLD}Kameras: {list(robot_config.cameras.keys())}{RESET}")
         for name, src in robot_config.cameras.items():

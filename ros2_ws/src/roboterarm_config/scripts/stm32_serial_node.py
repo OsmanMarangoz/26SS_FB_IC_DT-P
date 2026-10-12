@@ -24,6 +24,7 @@ import math
 
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, DurabilityPolicy, HistoryPolicy
 from sensor_msgs.msg import JointState
 from trajectory_msgs.msg import JointTrajectory
 from std_msgs.msg import String
@@ -140,8 +141,15 @@ class STM32SerialNode(Node):
         self.traj_joint_names = []
         self.traj_lock = threading.Lock()
 
+        # Servo teleop state (Xbox joy_to_tcp_jac_4dof -> /servo_joint_target)
+        self.servo_target_steps = None
+        self.servo_last_time = 0.0
+        self.servo_lock = threading.Lock()
+        self.last_streamed_steps = None
+
         # ── Publishers ──────────────────────────────────────────────────
-        self.joint_state_pub = self.create_publisher(JointState, '/joint_states', 10)
+        qos_js = QoSProfile(depth=10, durability=DurabilityPolicy.TRANSIENT_LOCAL, history=HistoryPolicy.KEEP_LAST)
+        self.joint_state_pub = self.create_publisher(JointState, '/joint_states', qos_js)
 
         # ── Subscribers ─────────────────────────────────────────────────
         self.create_subscription(
@@ -151,6 +159,11 @@ class STM32SerialNode(Node):
         self.create_subscription(
             String, '/stm32_cmd',
             self.cmd_callback, 10)
+
+        qos_servo = QoSProfile(depth=10, durability=DurabilityPolicy.VOLATILE, history=HistoryPolicy.KEEP_LAST)
+        self.create_subscription(
+            JointState, '/servo_joint_target',
+            self.servo_callback, qos_servo)
 
         # ── Serial connection ───────────────────────────────────────────
         self.connect_serial()
@@ -482,6 +495,25 @@ class STM32SerialNode(Node):
         else:
             self.get_logger().warn(f'Unknown command: {cmd}')
 
+    def servo_callback(self, msg: JointState):
+        """Handle incoming /servo_joint_target from Xbox teleop or policy."""
+        if not self.received_first_feedback:
+            return
+
+        positions = dict(zip(msg.name, msg.position))
+        steps = [0, 0, 0, 0]
+        has_arm = False
+        for jname in self.arm_joints:
+            if jname in positions:
+                idx = self.joint_config[jname]['motor_index']
+                steps[idx] = self.rad_to_steps(jname, positions[jname])
+                has_arm = True
+
+        if has_arm:
+            with self.servo_lock:
+                self.servo_target_steps = steps
+                self.servo_last_time = time.monotonic()
+
     # ════════════════════════════════════════════════════════════════════
     #  Main loop timer (~50ms)
     # ════════════════════════════════════════════════════════════════════
@@ -497,7 +529,7 @@ class STM32SerialNode(Node):
         if not self.received_first_feedback:
             return
 
-        # 1. Interpolate trajectory and stream target steps
+        # 1. Interpolate trajectory and stream target steps (MoveIt has priority)
         target = self.interpolate_trajectory()
         if target is not None:
             steps = [0, 0, 0, 0]
@@ -506,6 +538,7 @@ class STM32SerialNode(Node):
                     idx = self.joint_config[jname]['motor_index']
                     steps[idx] = self.rad_to_steps(jname, target[jname])
             self.send_frame(CMD_STREAM_POS, *steps)
+            self.last_streamed_steps = list(steps)
 
             # Debug logging (throttled)
             self.debug_log_counter += 1
@@ -525,6 +558,17 @@ class STM32SerialNode(Node):
                             f'target={target_steps} steps | '
                             f'STM32_pos={fb_steps} steps ({fb_rad:+.4f}rad / {math.degrees(fb_rad):+.1f}°) | '
                             f'delta={delta}')
+        else:
+            # 2. Xbox Teleop Servo stream (when no MoveIt trajectory is active)
+            with self.servo_lock:
+                if self.servo_target_steps is not None and (time.monotonic() - self.servo_last_time < 0.5):
+                    if self.servo_target_steps != self.last_streamed_steps:
+                        self.send_frame(CMD_STREAM_POS, *self.servo_target_steps)
+                        self.last_streamed_steps = list(self.servo_target_steps)
+
+                        self.debug_log_counter += 1
+                        if self.debug_log_counter % self.debug_log_interval == 1:
+                            self.get_logger().info(f'[SERVO STREAM] Sent steps to STM32: {self.servo_target_steps}')
 
 
 def main(args=None):
